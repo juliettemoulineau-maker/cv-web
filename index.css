@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+    --primary-red: hsl(354, 85%, 56%); /* Sleek premium crimson red */
+    --bg-color: #0f0f13;
+    --text-color: #f1f1f6;
+    --font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    color: var(--primary-red);
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    margin: 0;
+    text-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+}
