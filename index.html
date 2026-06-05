@@ -3,368 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juliette Moulineau — Portfolio & CV</title>
+    <title>Juliette Moulineau — Portfolio</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar with vertical giant text -->
-        <aside class="sidebar">
-            <h1 class="giant-name">JULIETTE MOULINEAU</h1>
-        </aside>
-
-        <!-- Main content area -->
-        <main class="main-content">
-            <!-- Bio Card -->
-            <section class="card bio-card">
-                <div class="bio-left-spacer">
-                    <!-- Elegant Empty Brutalist Spacer -->
+    <!-- Main Wrapper -->
+    <div class="layout-wrapper">
+        
+        <!-- Header / Info Section -->
+        <header class="main-header">
+            <div class="header-logo">JM</div>
+            <div class="contact-info-grid">
+                <div class="info-item">
+                    <span class="info-label">Téléphone</span>
+                    <a href="tel:0683633006" class="info-value">06 83 63 30 06</a>
                 </div>
-                <div class="bio-right-content">
-                    <h2 class="section-title text-stroke">BIO</h2>
-                    <p class="bio-text">
-                        Je suis quelqu'un de très sociable, qui s'adapte vite et qui aime relever des défis. 
-                        Mon objectif est d'apprendre sur le terrain tout en contribuant activement à vos projets.
-                    </p>
+                <div class="info-item">
+                    <span class="info-label">E-mail</span>
+                    <a href="mailto:juliette.moulineau@gmail.com" class="info-value">juliette.moulineau@gmail.com</a>
                 </div>
-            </section>
+                <div class="info-item">
+                    <span class="info-label">Localisation</span>
+                    <span class="info-value">Royan — Bordeaux</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Permis</span>
+                    <span class="info-value">Titulaire du permis B</span>
+                </div>
+                <div class="info-item linkedin-header-item">
+                    <a href="https://www.linkedin.com/in/juliette-moulineau" target="_blank" rel="noopener noreferrer" class="linkedin-pill">
+                        LinkedIn ↗
+                    </a>
+                </div>
+            </div>
+        </header>
 
-            <!-- Grid Card for Info, Exp, Skills, Formations, Interests -->
-            <section class="card grid-card">
-                <!-- Left Column: Info, Skills, Interests -->
-                <div class="grid-column col-left">
-                    <!-- Informations Section -->
-                    <div class="inner-section">
-                        <h2 class="section-title text-stroke">INFORMATIONS</h2>
-                        <ul class="info-list">
-                            <li><span class="info-label">Téléphone</span> <span class="info-dash">—</span> <a href="tel:0683633006" class="info-link">06 83 63 30 06</a></li>
-                            <li><span class="info-label">E-mail</span> <span class="info-dash">—</span> <a href="mailto:juliette.moulineau@gmail.com" class="info-link">juliette.moulineau@gmail.com</a></li>
-                            <li><span class="info-label">Localisation</span> <span class="info-dash">—</span> Royan - Bordeaux</li>
-                            <li><span class="info-label">Permis</span> <span class="info-dash">—</span> Titulaire du permis B</li>
-                        </ul>
-                    </div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-text-container">
+                <h1 class="hero-title">
+                    <span class="firstname">JULIETTE</span>
+                    <span class="lastname">MOULINEAU</span>
+                </h1>
+                <p class="hero-subtitle">Product Manager & Spécialiste Communication</p>
+            </div>
+            <div class="hero-actions">
+                <a href="mailto:juliette.moulineau@gmail.com" class="cta-button">
+                    <span>CONTACTEZ-MOI</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
 
-                    <hr class="section-divider">
-
-                    <!-- Compétences Section -->
-                    <div class="inner-section">
-                        <h2 class="section-title text-stroke">COMPÉTENCES</h2>
-                        <div class="skills-toggle-container">
-                            <button class="skill-toggle-btn active" data-type="pro">Professionnelles</button>
-                            <button class="skill-toggle-btn" data-type="perso">Personnelles</button>
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            
+            <!-- Left Panel: Formations & Compétences -->
+            <div class="side-panel">
+                <!-- Formations -->
+                <section class="content-section" id="formations">
+                    <h2 class="section-title">FORMATIONS</h2>
+                    <div class="formations-grid">
+                        <div class="formation-card">
+                            <span class="formation-years">2025 — 2027</span>
+                            <h3 class="formation-title">Mastère Product Manager</h3>
+                            <p class="formation-institution">Campus Ynov, Bordeaux</p>
                         </div>
-                        
-                        <!-- Skills Display -->
-                        <div class="skills-content-wrapper">
-                            <div class="skills-panel active" id="skills-pro">
-                                <ul class="skills-list">
-                                    <li>Gestion de projet</li>
-                                    <li>Marketing digital</li>
-                                    <li>Stratégie de communication</li>
-                                    <li>Analyse de données</li>
-                                    <li>Product Management</li>
-                                    <li>Création de contenu</li>
+                        <div class="formation-card">
+                            <span class="formation-years">2022 — 2025</span>
+                            <h3 class="formation-title">Bachelor Responsable d'établissement marchand</h3>
+                            <p class="formation-institution">NEXT-U, Bordeaux</p>
+                            <span class="formation-badge">Diplôme obtenu</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Compétences & Certifications -->
+                <section class="content-section" id="competences">
+                    <h2 class="section-title">COMPÉTENCES</h2>
+                    
+                    <div class="skills-wrapper">
+                        <div class="skills-block">
+                            <h3 class="skills-sub-title">Professionnelles</h3>
+                            <ul class="skills-tag-list">
+                                <li>Gestion de projet</li>
+                                <li>Marketing digital</li>
+                                <li>Stratégie de comm.</li>
+                                <li>Product Management</li>
+                                <li>Analyse de données</li>
+                            </ul>
+                        </div>
+
+                        <div class="skills-block">
+                            <h3 class="skills-sub-title">Personnelles</h3>
+                            <ul class="skills-tag-list">
+                                <li>Adaptabilité</li>
+                                <li>Travail en équipe</li>
+                                <li>Créativité</li>
+                                <li>Aisance relationnelle</li>
+                            </ul>
+                        </div>
+
+                        <div class="skills-block">
+                            <h3 class="skills-sub-title">Langues</h3>
+                            <div class="languages-flex">
+                                <div class="lang-tag">Français <span class="lang-level">Natif</span></div>
+                                <div class="lang-tag">Anglais <span class="lang-level">B2</span></div>
+                                <div class="lang-tag">Espagnol <span class="lang-level">B1</span></div>
+                            </div>
+                        </div>
+
+                        <div class="certification-voltaire-card">
+                            <div class="voltaire-badge">Voltaire</div>
+                            <div class="voltaire-details">
+                                <h4>Certification Voltaire</h4>
+                                <p>Score : 674 — Niveau Professionnel</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Panel: Expériences -->
+            <div class="primary-panel">
+                <section class="content-section" id="experiences">
+                    <h2 class="section-title">EXPÉRIENCES</h2>
+                    
+                    <div class="timeline-container">
+                        <!-- Exp 1 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">Oct. 2024 — Août 2025 • Alternance</span>
+                                <h3 class="experience-role">Chargée de communication</h3>
+                                <h4 class="experience-company">ASA Médical, Royan</h4>
+                                <p class="experience-desc">Conception et déploiement de la stratégie de communication globale.</p>
+                                <ul class="experience-details-list">
+                                    <li>Gestion des réseaux sociaux et création de contenus multimédias.</li>
+                                    <li>Conception de supports marketing et relations presse.</li>
                                 </ul>
                             </div>
-                            <div class="skills-panel" id="skills-perso">
-                                <ul class="skills-list">
-                                    <li>Adaptabilité</li>
-                                    <li>Travail en équipe</li>
-                                    <li>Résolution de problèmes</li>
-                                    <li>Aisance relationnelle</li>
-                                    <li>Créativité</li>
-                                    <li>Rigueur</li>
+                        </div>
+
+                        <!-- Exp 2 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">Étés 2022, 2023, 2024 • CDD</span>
+                                <h3 class="experience-role">Pontonnier</h3>
+                                <h4 class="experience-company">Sea Sail & Cruise, Royan</h4>
+                                <p class="experience-desc">Gestion de l'accueil et de la logistique portuaire.</p>
+                                <ul class="experience-details-list">
+                                    <li>Assistance aux manœuvres d'amarrage et sécurité des plaisanciers.</li>
+                                    <li>Communication VHF et gestion administrative de premier niveau.</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- Languages -->
-                        <div class="languages-container">
-                            <div class="lang-pill">Français <span class="lang-level">Natif</span></div>
-                            <div class="lang-pill">Anglais <span class="lang-level">B2</span></div>
-                            <div class="lang-pill">Espagnol <span class="lang-level">B1</span></div>
-                        </div>
-
-                        <!-- Voltaire Certification -->
-                        <div class="voltaire-container">
-                            <div class="voltaire-logo">
-                                <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="45" stroke="#FF6300" stroke-width="8"/>
-                                    <path d="M35 30 L50 70 L65 30" stroke="#FF6300" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <div class="voltaire-text">
-                                <span class="voltaire-title">Certification Voltaire</span>
-                                <span class="voltaire-details">Orthographe Score : 674 — Niveau : Professionnel</span>
+                        <!-- Exp 3 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">Mars 2024 — Avril 2024 • Stage</span>
+                                <h3 class="experience-role">Conseillère de vente</h3>
+                                <h4 class="experience-company">Avril Cosmétique, Bordeaux</h4>
+                                <p class="experience-desc">Vente conseil et dynamisation de l'espace commercial.</p>
+                                <ul class="experience-details-list">
+                                    <li>Conseil client personnalisé et valorisation des produits bio.</li>
+                                    <li>Merchandising visuel et gestion des stocks.</li>
+                                </ul>
                             </div>
                         </div>
-                    </div>
 
-                    <hr class="section-divider">
+                        <!-- Exp 4 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">Mars 2023 — Juin 2023 • Stage</span>
+                                <h3 class="experience-role">Stagiaire en marketing</h3>
+                                <h4 class="experience-company">S.A.S LIGHT VFX, Royan</h4>
+                                <p class="experience-desc">Études de marché et acquisition de prospects.</p>
+                                <ul class="experience-details-list">
+                                    <li>Veille concurrentielle et optimisation SEO du site web.</li>
+                                    <li>Préparation de campagnes promotionnelles digitales.</li>
+                                </ul>
+                            </div>
+                        </div>
 
-                    <!-- Centres d'Intérêts Section -->
-                    <div class="inner-section">
-                        <h2 class="section-title text-stroke">CENTRES D'INTÉRÊTS</h2>
-                        <div class="interests-grid">
-                            <!-- Nautisme -->
-                            <div class="interest-item">
-                                <div class="interest-icon-circle">
-                                    <!-- Yacht Icon -->
-                                    <svg viewBox="0 0 100 100" class="interest-svg">
-                                        <path d="M15,65 L85,65 C85,65 80,75 50,75 C20,75 15,65 15,65 Z" fill="#000" />
-                                        <path d="M50,20 L50,60" stroke="#FF6300" stroke-width="4" stroke-linecap="round" />
-                                        <path d="M52,25 L75,48 L52,55 Z" fill="#FF6300" />
-                                        <path d="M48,22 L25,50 L48,50 Z" fill="#000" />
-                                    </svg>
-                                </div>
-                                <span class="interest-label">Nautisme</span>
-                            </div>
-                            <!-- Mode -->
-                            <div class="interest-item">
-                                <div class="interest-icon-circle">
-                                    <!-- Bow Ribbon Icon -->
-                                    <svg viewBox="0 0 100 100" class="interest-svg">
-                                        <!-- Left bow -->
-                                        <path d="M50,50 C30,30 20,40 25,55 C30,70 45,55 50,50 Z" fill="#FF6300" />
-                                        <!-- Right bow -->
-                                        <path d="M50,50 C70,30 80,40 75,55 C70,70 55,55 50,50 Z" fill="#FF6300" />
-                                        <!-- Ribbons hanging -->
-                                        <path d="M48,50 L35,78 L45,75 Z" fill="#000" />
-                                        <path d="M52,50 L65,78 L55,75 Z" fill="#000" />
-                                        <!-- Center knot -->
-                                        <circle cx="50" cy="50" r="8" fill="#000" stroke="#FF6300" stroke-width="2" />
-                                    </svg>
-                                </div>
-                                <span class="interest-label">Mode</span>
-                            </div>
-                            <!-- Musique -->
-                            <div class="interest-item">
-                                <div class="interest-icon-circle">
-                                    <!-- Saxophone/Mic/Notes Icon -->
-                                    <svg viewBox="0 0 100 100" class="interest-svg">
-                                        <!-- Mic handle -->
-                                        <rect x="45" y="45" width="10" height="30" rx="5" fill="#000" transform="rotate(-30 50 60)" />
-                                        <!-- Mic head -->
-                                        <circle cx="38" cy="40" r="12" fill="#FF6300" stroke="#000" stroke-width="3" />
-                                        <!-- Music notes -->
-                                        <path d="M65,30 L80,25 L80,45" stroke="#000" stroke-width="4" stroke-linecap="round" fill="none" />
-                                        <circle cx="65" cy="35" r="6" fill="#000" />
-                                        <circle cx="80" cy="45" r="6" fill="#FF6300" />
-                                    </svg>
-                                </div>
-                                <span class="interest-label">Musique</span>
+                        <!-- Exp 5 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">Hivers 2021, 2022 • CDD</span>
+                                <h3 class="experience-role">Ouvrier ostréicole</h3>
+                                <h4 class="experience-company">S.A.S Miet, Mornac-sur-seudre</h4>
+                                <p class="experience-desc">Manutention et conditionnement pour les fêtes de fin d'année.</p>
+                                <ul class="experience-details-list">
+                                    <li>Triage qualitatif des huîtres et préparation logistique.</li>
+                                    <li>Gestion du rythme et réactivité au sein de l'équipe de production.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Footer Link -->
-                    <div class="linkedin-footer">
-                        <a href="https://www.linkedin.com/in/juliette-moulineau" target="_blank" rel="noopener noreferrer" class="linkedin-btn">
-                            <span class="linkedin-icon">in</span>
-                            <span class="linkedin-text">Juliette Moulineau</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Vertical divider between columns -->
-                <div class="column-divider"></div>
-
-                <!-- Right Column: Experiences, Formations -->
-                <div class="grid-column col-right">
-                    <!-- Expériences Section -->
-                    <div class="inner-section">
-                        <h2 class="section-title text-stroke">EXPÉRIENCES</h2>
-                        <div class="experience-timeline">
-                            <!-- Exp 1 -->
-                            <div class="exp-item">
-                                <div class="exp-header">
-                                    <div class="exp-meta">
-                                        <h3 class="exp-role">Chargée de communication</h3>
-                                        <span class="exp-company-place">ASA Médical, Royan</span>
-                                        <span class="exp-date-type">Octobre 2024 à Août 2025 — Alternance</span>
-                                    </div>
-                                    <button class="exp-toggle-btn" aria-label="Développer les détails">
-                                        <span class="toggle-icon">+</span>
-                                    </button>
-                                </div>
-                                <div class="exp-details">
-                                    <div class="exp-details-inner">
-                                        <p>Conception et déploiement de la stratégie de communication globale de l'entreprise.</p>
-                                        <ul>
-                                            <li>Gestion des réseaux sociaux (LinkedIn, Instagram) et création de contenu graphique et vidéo.</li>
-                                            <li>Rédaction de communiqués de presse et de supports marketing (brochures, flyers).</li>
-                                            <li>Organisation d'événements professionnels et coordination avec les prestataires externes.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Exp 2 -->
-                            <div class="exp-item">
-                                <div class="exp-header">
-                                    <div class="exp-meta">
-                                        <h3 class="exp-role">Pontonnier</h3>
-                                        <span class="exp-company-place">Sea Sail & Cruise, Royan</span>
-                                        <span class="exp-date-type">Étés 2024, 2023, 2022 — CDD</span>
-                                    </div>
-                                    <button class="exp-toggle-btn" aria-label="Développer les détails">
-                                        <span class="toggle-icon">+</span>
-                                    </button>
-                                </div>
-                                <div class="exp-details">
-                                    <div class="exp-details-inner">
-                                        <p>Accueil des équipages, assistance aux manœuvres d'amarrage et entretien du port.</p>
-                                        <ul>
-                                            <li>Gestion opérationnelle des arrivées/départs des navires et placement au ponton.</li>
-                                            <li>Assistance technique aux plaisanciers et communication VHF.</li>
-                                            <li>Sens des responsabilités élevé et gestion des imprévus en milieu maritime.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Exp 3 -->
-                            <div class="exp-item">
-                                <div class="exp-header">
-                                    <div class="exp-meta">
-                                        <h3 class="exp-role">Conseillère de vente</h3>
-                                        <span class="exp-company-place">Avril Cosmétique, Bordeaux</span>
-                                        <span class="exp-date-type">Mars 2024 à Avril 2024 — Stage</span>
-                                    </div>
-                                    <button class="exp-toggle-btn" aria-label="Développer les détails">
-                                        <span class="toggle-icon">+</span>
-                                    </button>
-                                </div>
-                                <div class="exp-details">
-                                    <div class="exp-details-inner">
-                                        <p>Vente conseil, encaissement et merchandising en boutique de cosmétiques bio.</p>
-                                        <ul>
-                                            <li>Accueil personnalisé de la clientèle et identification des besoins.</li>
-                                            <li>Mise en valeur des produits et réassort régulier selon la charte visuelle.</li>
-                                            <li>Participation au développement du chiffre d'affaires de la boutique.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Exp 4 -->
-                            <div class="exp-item">
-                                <div class="exp-header">
-                                    <div class="exp-meta">
-                                        <h3 class="exp-role">Stagiaire en marketing</h3>
-                                        <span class="exp-company-place">S.A.S LIGHT VFX, Royan</span>
-                                        <span class="exp-date-type">Mars 2023 à Juin 2023 — Stage</span>
-                                    </div>
-                                    <button class="exp-toggle-btn" aria-label="Développer les détails">
-                                        <span class="toggle-icon">+</span>
-                                    </button>
-                                </div>
-                                <div class="exp-details">
-                                    <div class="exp-details-inner">
-                                        <p>Analyse de marché et contribution aux campagnes d'acquisition digitale pour le studio d'effets visuels.</p>
-                                        <ul>
-                                            <li>Étude de la concurrence internationale et ciblage de prospects.</li>
-                                            <li>Optimisation du site internet pour le référencement naturel (SEO).</li>
-                                            <li>Aide à la planification de campagnes publicitaires sur les réseaux sociaux.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Exp 5 -->
-                            <div class="exp-item">
-                                <div class="exp-header">
-                                    <div class="exp-meta">
-                                        <h3 class="exp-role">Ouvrier ostréicole</h3>
-                                        <span class="exp-company-place">S.A.S Miet, Mornac-sur-seudre</span>
-                                        <span class="exp-date-type">Hivers 2022, 2021 — CDD</span>
-                                    </div>
-                                    <button class="exp-toggle-btn" aria-label="Développer les détails">
-                                        <span class="toggle-icon">+</span>
-                                    </button>
-                                </div>
-                                <div class="exp-details">
-                                    <div class="exp-details-inner">
-                                        <p>Préparation et triage des huîtres pour les expéditions lors des périodes de forte activité (fêtes de fin d'année).</p>
-                                        <ul>
-                                            <li>Triage rigoureux par calibres et mise en bourriches selon les normes de qualité.</li>
-                                            <li>Manutention et logistique dans un environnement dynamique.</li>
-                                            <li>Esprit d'équipe, endurance physique et rapidité d'exécution.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr class="section-divider">
-
-                    <!-- Formations Section -->
-                    <div class="inner-section">
-                        <h2 class="section-title text-stroke">FORMATIONS</h2>
-                        <div class="formations-list">
-                            <!-- Formation 1 -->
-                            <div class="formation-item">
-                                <h3 class="formation-degree">Mastère Product Manager</h3>
-                                <span class="formation-school">Campus Ynov, Bordeaux</span>
-                                <span class="formation-date">Septembre 2025 à Juin 2027</span>
-                            </div>
-                            <!-- Formation 2 -->
-                            <div class="formation-item">
-                                <h3 class="formation-degree">Bachelor Responsable d'établissement marchand</h3>
-                                <span class="formation-school">NEXT-U, Bordeaux</span>
-                                <span class="formation-date">Septembre 2022 à Juin 2025 — <strong class="highlight-text">(Diplôme obtenu)</strong></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
+
+        <!-- Centres d'Intérêt Section (Footer Graphic Blocks) -->
+        <section class="interests-section">
+            <h2 class="section-title text-center">CENTRES D'INTÉRÊT</h2>
+            <div class="interests-grid-modern">
+                <div class="interest-block">
+                    <span class="interest-bg-text">01</span>
+                    <h3 class="interest-name">NAUTISME</h3>
+                </div>
+                <div class="interest-block">
+                    <span class="interest-bg-text">02</span>
+                    <h3 class="interest-name">MODE</h3>
+                </div>
+                <div class="interest-block">
+                    <span class="interest-bg-text">03</span>
+                    <h3 class="interest-name">MUSIQUE</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <p>© 2026 Juliette Moulineau — Tous droits réservés.</p>
+            <a href="https://www.linkedin.com/in/juliette-moulineau" target="_blank" rel="noopener noreferrer" class="footer-linkedin-link">
+                LinkedIn ↗
+            </a>
+        </footer>
     </div>
 
-    <!-- Script for Interactivity -->
+    <!-- Scroll animation triggers -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Expandable Experience Accordions
-            const expItems = document.querySelectorAll('.exp-item');
-            expItems.forEach(item => {
-                const header = item.querySelector('.exp-header');
-                const btn = item.querySelector('.exp-toggle-btn');
-                const icon = btn.querySelector('.toggle-icon');
-                
-                header.addEventListener('click', () => {
-                    const isOpen = item.classList.contains('expanded');
-                    
-                    // Close others
-                    expItems.forEach(otherItem => {
-                        otherItem.classList.remove('expanded');
-                        otherItem.querySelector('.toggle-icon').textContent = '+';
-                    });
-                    
-                    if (!isOpen) {
-                        item.classList.add('expanded');
-                        icon.textContent = '−';
+            const items = document.querySelectorAll('.timeline-item, .formation-card, .interest-block');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
                     }
                 });
+            }, {
+                threshold: 0.1
             });
-
-            // Skills Filter Tab
-            const skillToggleBtns = document.querySelectorAll('.skill-toggle-btn');
-            const skillsPanels = document.querySelectorAll('.skills-panel');
-
-            skillToggleBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    skillToggleBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    const type = btn.getAttribute('data-type');
-                    skillsPanels.forEach(panel => {
-                        panel.classList.remove('active');
-                        if (panel.id === `skills-${type}`) {
-                            panel.classList.add('active');
-                        }
-                    });
-                });
+            
+            items.forEach(item => {
+                observer.observe(item);
             });
         });
     </script>
