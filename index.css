@@ -113,10 +113,10 @@ a.info-value:hover {
 }
 
 .linkedin-pill:hover {
-    background-color: #e05800;
+    background-color: var(--black);
     color: var(--white);
     transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(255, 99, 0, 0.45);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 /* Hero Section */
@@ -198,7 +198,7 @@ a.info-value:hover {
     background-color: var(--black);
     color: var(--white);
     transform: translateY(-4px);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
 }
 
 .cta-button:hover svg {
