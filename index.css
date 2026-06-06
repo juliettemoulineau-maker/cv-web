@@ -33,8 +33,8 @@ body {
 /* Main Header */
 .main-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding-bottom: 3rem;
     border-bottom: 2px solid var(--orange);
     margin-bottom: 4rem;
