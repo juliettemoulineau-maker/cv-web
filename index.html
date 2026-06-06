@@ -20,18 +20,17 @@
             <div class="header-logo">
                 <img src="logo.png" alt="Juliette Moulineau Logo" class="logo-img" width="80" height="80" loading="eager" fetchpriority="high">
             </div>
-            <nav class="header-nav">
-                <a href="#formations" class="nav-link">Formations</a>
-                <a href="#competences" class="nav-link">Compétences</a>
-                <a href="#experiences" class="nav-link">Expériences</a>
-            </nav>
+            <div class="header-contact-info">
+                <a href="tel:0683633006" class="contact-link">06 83 63 30 06</a>
+                <span class="contact-separator">◆</span>
+                <a href="mailto:juliette.moulineau@gmail.com" class="contact-link">juliette.moulineau@gmail.com</a>
+                <span class="contact-separator">◆</span>
+                <span class="contact-text">Royan / Bordeaux</span>
+            </div>
 
             <div class="header-actions">
                 <a href="https://www.linkedin.com/in/juliette-moulineau/" target="_blank" rel="noopener noreferrer" class="linkedin-pill">
                     LinkedIn ↗
-                </a>
-                <a href="mailto:juliette.moulineau@gmail.com" class="cta-button header-cta">
-                    <span>Contactez-moi</span>
                 </a>
                 <button id="theme-toggle" class="theme-toggle-modern" aria-label="Basculer le thème" title="Changer le thème">
                     <svg class="toggle-icon sun-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -55,15 +54,6 @@
                     <span class="subtitle-separator">◆</span>
                     <span>Gestion de projet</span>
                 </p>
-                <div class="hero-contact-info" style="margin-top: 1.5rem; font-size: 0.95rem; font-weight: 500; color: var(--text-desc-light); display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center;">
-                    <a href="tel:0683633006" style="color: inherit; text-decoration: none;">06 83 63 30 06</a>
-                    <span>—</span>
-                    <a href="mailto:juliette.moulineau@gmail.com" style="color: inherit; text-decoration: none;">juliette.moulineau@gmail.com</a>
-                    <span>—</span>
-                    <span>Royan / Bordeaux</span>
-                    <span>—</span>
-                    <span>Permis B</span>
-                </div>
             </div>
             <div class="hero-actions">
                 <a href="mailto:juliette.moulineau@gmail.com" class="cta-button">
@@ -307,11 +297,12 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
+                    } else {
+                        entry.target.classList.remove('visible');
                     }
                 });
             }, {
-                threshold: 0.25
+                threshold: 0.15
             });
             
             items.forEach(item => {
@@ -331,7 +322,10 @@
                                     bar.style.width = level + '%';
                                 }, index * 200);
                             });
-                            langObserver.unobserve(entry.target);
+                        } else {
+                            bars.forEach(bar => {
+                                bar.style.width = '0%';
+                            });
                         }
                     });
                 }, {
