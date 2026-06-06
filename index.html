@@ -292,7 +292,15 @@
 
     <!-- Scroll animation triggers -->
     <script>
+        // Disable automatic scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Force scroll to top on load
+            window.scrollTo(0, 0);
+            
             // Theme Toggle Logic
             const themeToggleBtn = document.getElementById('theme-toggle');
             

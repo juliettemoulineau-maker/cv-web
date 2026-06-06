@@ -5,7 +5,7 @@ html {
 }
 
 :root {
-    --orange: #FF6300;
+    --orange-signature: #FF6300;
     --white: #FFFFFF;
     --black: #000000;
     --font: 'Outfit', sans-serif;
@@ -27,7 +27,6 @@ html {
 }
 
 .dark-theme {
-    --orange: #FF6300;
     --bg-color: #121212;
     --text-color: #E0E0E0;
     --card-bg: #1E1E1E;
@@ -70,7 +69,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding-bottom: 3rem;
-    border-bottom: 2px solid var(--orange);
+    border-bottom: 2px solid var(--orange-signature);
     margin-bottom: 4rem;
     flex-wrap: wrap;
     gap: 2rem;
@@ -137,13 +136,13 @@ div.contact-badge {
 
 .badge-permit {
     background-color: var(--badge-bg);
-    color: var(--orange);
+    color: var(--orange-signature);
     border-color: transparent;
     font-weight: 800;
 }
 
 .badge-permit svg {
-    stroke: var(--orange);
+    stroke: var(--orange-signature);
 }
 
 .header-actions {
@@ -154,7 +153,7 @@ div.contact-badge {
 
 /* LinkedIn Header Pill */
 .linkedin-pill {
-    background-color: var(--orange);
+    background-color: var(--orange-signature);
     color: var(--white);
     text-decoration: none;
     font-weight: 700;
@@ -209,7 +208,7 @@ div.contact-badge {
 
 .hero-bio {
     max-width: 380px;
-    border-left: 2px solid var(--orange);
+    border-left: 2px solid var(--orange-signature);
     padding-left: 1.5rem;
 }
 
@@ -242,7 +241,7 @@ div.contact-badge {
 }
 
 .hero-title .lastname {
-    color: var(--orange);
+    color: var(--orange-signature);
     position: relative;
 }
 
@@ -258,7 +257,7 @@ div.contact-badge {
 }
 
 .subtitle-separator {
-    color: var(--orange);
+    color: var(--orange-signature);
     margin: 0 0.6rem;
     font-weight: 900;
 }
@@ -272,7 +271,7 @@ div.contact-badge {
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    background-color: var(--orange);
+    background-color: var(--orange-signature);
     color: var(--white);
     padding: 0.7rem 1.6rem;
     text-decoration: none;
@@ -337,7 +336,7 @@ div.contact-badge {
     font-weight: 900;
     color: var(--text-color);
     letter-spacing: 0.05em;
-    border-bottom: 4px solid var(--orange);
+    border-bottom: 4px solid var(--orange-signature);
     padding-bottom: 0.8rem;
     margin-bottom: 3rem;
     display: inline-block;
@@ -373,14 +372,14 @@ div.contact-badge {
 }
 
 .formation-card.visible:hover {
-    border-color: var(--orange);
+    border-color: var(--orange-signature);
     transform: translateZ(0) scale(1.01);
 }
 
 .formation-years {
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--orange);
+    color: var(--orange-signature);
     display: block;
     margin-bottom: 0.5rem;
 }
@@ -405,7 +404,7 @@ div.contact-badge {
 
 .formation-badge-inline {
     background-color: var(--badge-bg);
-    color: var(--orange);
+    color: var(--orange-signature);
     font-size: 0.75rem;
     font-weight: 800;
     padding: 0.3rem 0.9rem;
@@ -429,7 +428,7 @@ div.contact-badge {
 .skills-sub-title {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--orange);
+    color: var(--orange-signature);
     text-transform: uppercase;
 }
 
@@ -457,8 +456,8 @@ div.contact-badge {
 }
 
 .skills-tag-list li:hover {
-    background-color: var(--orange);
-    border-color: var(--orange);
+    background-color: var(--orange-signature);
+    border-color: var(--orange-signature);
     color: var(--white);
     transform: scale(1.08);
 }
@@ -491,7 +490,7 @@ div.contact-badge {
 }
 
 .lang-bar-level {
-    color: var(--orange);
+    color: var(--orange-signature);
     font-size: 0.85rem;
     font-weight: 700;
     pointer-events: none;
@@ -508,7 +507,7 @@ div.contact-badge {
 .lang-bar-fill {
     width: 0;
     height: 100%;
-    background-color: var(--orange);
+    background-color: var(--orange-signature);
     border-radius: 50px;
     transition: width 1s ease-out;
 }
@@ -518,7 +517,7 @@ div.contact-badge {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    border: 2px solid var(--orange);
+    border: 2px solid var(--orange-signature);
     padding: 1.5rem;
     background-color: var(--card-bg);
     transition: background-color 0.3s ease, transform var(--dur) var(--ease);
@@ -529,7 +528,7 @@ div.contact-badge {
 }
 
 .voltaire-badge {
-    background-color: var(--orange);
+    background-color: var(--orange-signature);
     color: var(--white);
     font-weight: 900;
     padding: 0.8rem;
@@ -557,7 +556,7 @@ div.contact-badge {
     display: flex;
     flex-direction: column;
     position: relative;
-    border-left: 2px solid var(--orange);
+    border-left: 2px solid var(--orange-signature);
     padding-left: 2.5rem;
     gap: 4rem;
 }
@@ -584,13 +583,13 @@ div.contact-badge {
     width: 10px;
     height: 10px;
     background-color: var(--card-bg);
-    border: 2px solid var(--orange);
+    border: 2px solid var(--orange-signature);
     transition: background-color var(--dur) var(--ease),
                 transform var(--dur) var(--ease);
 }
 
 .timeline-item:hover .timeline-dot {
-    background-color: var(--orange);
+    background-color: var(--orange-signature);
     transform: scale(1.6);
 }
 
@@ -602,7 +601,7 @@ div.contact-badge {
 .timeline-date {
     display: inline-block;
     background-color: var(--badge-bg);
-    color: var(--orange);
+    color: var(--orange-signature);
     padding: 0.3rem 0.8rem;
     font-weight: 700;
     font-size: 0.85rem;
@@ -623,7 +622,7 @@ div.contact-badge {
 .experience-company {
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--orange);
+    color: var(--orange-signature);
     margin-bottom: 1rem;
     pointer-events: none;
 }
@@ -653,13 +652,13 @@ div.contact-badge {
     content: "→";
     position: absolute;
     left: 0;
-    color: var(--orange);
+    color: var(--orange-signature);
     font-weight: 900;
 }
 
 /* Dynamic Hover Effect on Timeline Items */
 .timeline-item:hover .experience-role {
-    color: var(--orange);
+    color: var(--orange-signature);
 }
 
 .timeline-item:hover .timeline-content {
@@ -711,8 +710,8 @@ div.contact-badge {
 }
 
 .interest-block.visible:hover {
-    background-color: var(--orange);
-    border-color: var(--orange);
+    background-color: var(--orange-signature);
+    border-color: var(--orange-signature);
     transform: translateY(-8px);
 }
 
@@ -740,8 +739,8 @@ div.contact-badge {
 }
 
 .interest-block:hover {
-    background-color: var(--orange);
-    border-color: var(--orange);
+    background-color: var(--orange-signature);
+    border-color: var(--orange-signature);
     transform: translateY(-8px);
 }
 
@@ -760,14 +759,14 @@ div.contact-badge {
     justify-content: space-between;
     align-items: center;
     padding-top: 2rem;
-    border-top: 2px solid var(--orange);
+    border-top: 2px solid var(--orange-signature);
     margin-top: 4rem;
     font-size: 0.95rem;
     font-weight: 600;
 }
 
 .footer-linkedin-link {
-    color: var(--orange);
+    color: var(--orange-signature);
     text-decoration: none;
     font-weight: 800;
     transition: color var(--dur) var(--ease);
@@ -795,7 +794,7 @@ div.contact-badge {
 }
 
 .theme-toggle-modern:hover {
-    border-color: var(--orange);
+    border-color: var(--orange-signature);
 }
 
 .toggle-thumb {
@@ -814,7 +813,7 @@ div.contact-badge {
 }
 
 .theme-toggle-modern:hover .toggle-thumb {
-    background-color: var(--orange);
+    background-color: var(--orange-signature);
 }
 
 .toggle-icon {
