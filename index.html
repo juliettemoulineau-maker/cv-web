@@ -127,19 +127,19 @@
                                 <div class="lang-bar-item">
                                     <div class="lang-bar-label">
                                         <span class="lang-bar-name">Anglais</span>
-                                        <span class="lang-bar-level">B2</span>
+                                        <span class="lang-bar-level">A2</span>
                                     </div>
                                     <div class="lang-bar-track">
-                                        <div class="lang-bar-fill" data-level="70"></div>
+                                        <div class="lang-bar-fill" data-level="40"></div>
                                     </div>
                                 </div>
                                 <div class="lang-bar-item">
                                     <div class="lang-bar-label">
                                         <span class="lang-bar-name">Espagnol</span>
-                                        <span class="lang-bar-level">B1</span>
+                                        <span class="lang-bar-level">A2</span>
                                     </div>
                                     <div class="lang-bar-track">
-                                        <div class="lang-bar-fill" data-level="55"></div>
+                                        <div class="lang-bar-fill" data-level="35"></div>
                                     </div>
                                 </div>
                             </div>
@@ -287,20 +287,23 @@
                 observer.observe(item);
             });
 
-            // Language progress bars — scroll-triggered animation
+            // Language progress bars — scroll-triggered animation (replays on every scroll)
             const languesSection = document.getElementById('langues-section');
             if (languesSection) {
                 const langObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
+                        const bars = entry.target.querySelectorAll('.lang-bar-fill');
                         if (entry.isIntersecting) {
-                            const bars = entry.target.querySelectorAll('.lang-bar-fill');
                             bars.forEach((bar, index) => {
                                 const level = bar.getAttribute('data-level');
                                 setTimeout(() => {
                                     bar.style.width = level + '%';
                                 }, index * 200);
                             });
-                            langObserver.unobserve(entry.target);
+                        } else {
+                            bars.forEach(bar => {
+                                bar.style.width = '0';
+                            });
                         }
                     });
                 }, {
