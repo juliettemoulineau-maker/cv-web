@@ -189,7 +189,9 @@ div.contact-badge {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 6rem;
+    margin: 0 auto 6rem auto;
+    max-width: 1200px;
+    width: 100%;
     position: relative;
 }
 
@@ -313,7 +315,9 @@ div.contact-badge {
     grid-template-columns: 1fr 1.4fr;
     gap: clamp(2rem, 5vw, 6rem);
     align-items: start;
-    margin-bottom: 8rem;
+    margin: 0 auto 8rem auto;
+    max-width: 1200px;
+    width: 100%;
 }
 
 .side-panel {
