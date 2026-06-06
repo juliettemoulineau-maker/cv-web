@@ -118,11 +118,17 @@ body {
 }
 
 a.contact-badge:hover {
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    border-color: var(--text-color);
+    background-color: #000000;
+    color: #FFFFFF;
+    border-color: #000000;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dark-theme a.contact-badge:hover {
+    background-color: var(--orange);
+    color: #000000;
+    border-color: var(--orange);
 }
 
 div.contact-badge {
@@ -166,9 +172,14 @@ div.contact-badge {
 }
 
 .linkedin-pill:hover {
-    background-color: var(--text-color);
-    color: var(--bg-color);
+    background-color: #000000;
+    color: #FFFFFF;
     transform: translateY(-2px);
+}
+
+.dark-theme .linkedin-pill:hover {
+    background-color: var(--orange);
+    color: #000000;
 }
 
 /* Hero Section */
@@ -253,9 +264,14 @@ div.contact-badge {
 }
 
 .cta-button:hover {
-    background-color: var(--text-color);
-    color: var(--bg-color);
+    background-color: #000000;
+    color: #FFFFFF;
     transform: translateY(-3px);
+}
+
+.dark-theme .cta-button:hover {
+    background-color: var(--orange);
+    color: #000000;
 }
 
 .cta-button:hover svg {
