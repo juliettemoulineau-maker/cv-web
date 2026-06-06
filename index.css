@@ -48,9 +48,9 @@ body {
     justify-content: center;
 }
 
-.logo-img, dotlottie-wc {
-    width: 65px !important;
-    height: 65px !important;
+.logo-img {
+    width: 65px;
+    height: 65px;
     image-rendering: -webkit-optimize-contrast;
 }
 
