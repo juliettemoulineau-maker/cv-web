@@ -52,6 +52,7 @@ body {
     width: 65px;
     height: 65px;
     image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 .contact-info-grid {
