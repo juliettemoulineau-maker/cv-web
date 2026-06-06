@@ -93,18 +93,12 @@ body {
 
 .header-contact-modern {
     display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
-}
-
-.contact-col {
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 0.8rem;
-}
-
-.contact-col-secondary {
-    padding-top: 1.2rem;
+    flex: 1;
+    padding: 0 1rem;
 }
 
 .contact-badge {
@@ -799,9 +793,6 @@ div.contact-badge {
         justify-content: center;
         padding-top: 1rem;
     }
-    .contact-col-secondary {
-        padding-top: 0;
-    }
     
     .main-grid {
         grid-template-columns: 1fr;
@@ -827,13 +818,7 @@ div.contact-badge {
     }
     
     .header-contact-modern {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem;
-    }
-    
-    .contact-col {
-        align-items: center;
+        gap: 0.6rem;
     }
 
     .header-actions {
