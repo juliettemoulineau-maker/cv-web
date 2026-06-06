@@ -41,16 +41,16 @@ body {
 }
 
 .header-logo {
-    width: 65px;
-    height: 65px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .logo-img {
-    width: 65px;
-    height: 65px;
+    width: 80px !important;
+    height: 80px !important;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
 }
