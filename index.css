@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap');
 
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     --orange: #FF6300;
     --white: #FFFFFF;
     --black: #000000;
     --font: 'Outfit', sans-serif;
-    --transition: all 0.3s ease;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Base Reset */
@@ -96,7 +100,7 @@ a.info-value:hover {
 }
 
 .linkedin-pill {
-    background-color: var(--black);
+    background-color: var(--orange);
     color: var(--white);
     text-decoration: none;
     font-weight: 700;
@@ -105,11 +109,14 @@ a.info-value:hover {
     border-radius: 50px;
     transition: var(--transition);
     cursor: pointer;
+    will-change: transform, background-color, box-shadow;
 }
 
 .linkedin-pill:hover {
-    background-color: var(--orange);
-    transform: translateY(-2px);
+    background-color: #e05800;
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(255, 99, 0, 0.45);
 }
 
 /* Hero Section */
@@ -180,16 +187,18 @@ a.info-value:hover {
     border-radius: 50px;
     transition: var(--transition);
     cursor: pointer;
+    will-change: transform, background-color, box-shadow;
 }
 
 .cta-button svg {
-    transition: transform 0.3s ease;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cta-button:hover {
     background-color: var(--black);
+    color: var(--white);
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
 }
 
 .cta-button:hover svg {
@@ -240,10 +249,11 @@ a.info-value:hover {
     padding: 2rem;
     background-color: var(--white);
     border: 2px solid var(--black);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     transform: translateY(30px);
     cursor: pointer;
+    will-change: transform, background-color, box-shadow;
 }
 
 .formation-card.visible {
@@ -329,17 +339,16 @@ a.info-value:hover {
     font-size: 0.82rem;
     border-radius: 50px;
     transition: var(--transition);
-}
-
-.skills-tag-list li {
     cursor: pointer;
+    will-change: transform, background-color, box-shadow;
 }
 
 .skills-tag-list li:hover {
     background-color: var(--orange);
     border-color: var(--orange);
     color: var(--white);
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(255, 99, 0, 0.28);
 }
 
 /* Languages — Animated Progress Bars */
@@ -404,6 +413,7 @@ a.info-value:hover {
     padding: 1.5rem;
     background-color: var(--white);
     transition: var(--transition);
+    will-change: transform, background-color, box-shadow;
 }
 
 .certification-voltaire-card:hover {
@@ -446,8 +456,9 @@ a.info-value:hover {
     position: relative;
     opacity: 0;
     transform: translateX(30px);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    will-change: transform, opacity, background-color;
 }
 
 .timeline-item.visible {
@@ -570,6 +581,7 @@ a.info-value:hover {
     opacity: 0;
     transform: translateY(30px);
     cursor: pointer;
+    will-change: transform, background-color, box-shadow;
 }
 
 .interest-block.visible {
