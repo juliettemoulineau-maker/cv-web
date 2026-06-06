@@ -351,7 +351,7 @@ a.info-value:hover {
                 color var(--dur) var(--ease),
                 transform var(--dur) var(--ease);
     cursor: pointer;
-    pointer-events: auto;
+    pointer-events: auto !important;
 }
 
 .skills-tag-list li:hover {
@@ -472,11 +472,13 @@ a.info-value:hover {
     transition: opacity var(--dur) var(--ease),
                 transform var(--dur) var(--ease);
     cursor: pointer;
+    pointer-events: none;
 }
 
 .timeline-item.visible {
     opacity: 1;
     transform: translateX(0);
+    pointer-events: auto !important;
 }
 
 .timeline-dot {
@@ -602,11 +604,19 @@ a.info-value:hover {
     opacity: 0;
     transform: translateY(30px);
     cursor: pointer;
+    pointer-events: none;
 }
 
 .interest-block.visible {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto !important;
+}
+
+.interest-block.visible:hover {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    transform: translateY(-8px);
 }
 
 .interest-bg-text {
