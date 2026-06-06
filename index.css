@@ -90,42 +90,28 @@ body {
     image-rendering: crisp-edges;
 }
 
-.contact-info-grid {
-    display: grid;
-    grid-template-columns: repeat(4, auto) auto;
-    gap: clamp(1rem, 2.2vw, 3rem);
+.header-nav {
+    display: flex;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
     align-items: center;
 }
 
-.info-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.info-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    margin-bottom: 0.2rem;
-    font-weight: 500;
-}
-
-.info-value {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-color);
+.nav-link {
     text-decoration: none;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 1.05rem;
     transition: color var(--dur) var(--ease);
 }
 
-a.info-value {
-    cursor: pointer;
+.nav-link:hover {
+    color: var(--orange);
 }
 
-a.info-value:hover {
-    color: var(--orange);
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
 }
 
 /* LinkedIn Header Pill */
@@ -214,9 +200,9 @@ a.info-value:hover {
     gap: 0.8rem;
     background-color: var(--orange);
     color: var(--white);
-    padding: 0.8rem 1.8rem;
+    padding: 0.7rem 1.6rem;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 900;
     letter-spacing: 0.05em;
     border-radius: 50px;
@@ -524,8 +510,8 @@ a.info-value:hover {
 }
 
 .timeline-content {
-    background-color: var(--card-bg);
-    transition: background-color 0.3s ease, transform var(--dur) var(--ease);
+    background-color: transparent;
+    transition: transform var(--dur) var(--ease);
 }
 
 .timeline-date {
@@ -706,38 +692,65 @@ a.info-value:hover {
     text-decoration: underline;
 }
 
-/* Theme Toggle Button */
-.theme-toggle-btn {
-    background: none;
-    border: none;
-    color: var(--text-color);
+/* Modern Theme Toggle Button */
+.theme-toggle-modern {
+    background: var(--card-bg);
+    border: 2px solid var(--text-color);
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, color 0.3s ease, transform var(--dur) var(--ease);
+    position: relative;
+    width: 60px;
+    height: 32px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    padding: 0;
 }
 
-.theme-toggle-btn:hover {
-    background-color: var(--badge-bg);
-    transform: scale(1.1);
-    color: var(--orange);
+.theme-toggle-modern:hover {
+    border-color: var(--orange);
 }
+
+.toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--text-color);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+.dark-theme .toggle-thumb {
+    transform: translateX(28px);
+}
+
+.theme-toggle-modern:hover .toggle-thumb {
+    background-color: var(--orange);
+}
+
+.toggle-icon {
+    position: absolute;
+    pointer-events: none;
+    color: var(--bg-color);
+    width: 14px;
+    height: 14px;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+.sun-icon { left: 7px; top: 7px; }
+.moon-icon { right: 7px; top: 7px; color: var(--text-color); }
+.dark-theme .moon-icon { color: var(--bg-color); }
+.dark-theme .sun-icon { color: var(--text-color); }
 
 /* ==========================================================================
    RESPONSIVE DESIGN
    ========================================================================== */
 
 @media (max-width: 1200px) {
-    .contact-info-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-    
-    .linkedin-header-item {
-        grid-column: span 2;
+    .header-nav {
+        display: none; /* Cache les liens de navigation sur petit écran si besoin, ou on adapte */
     }
     
     .main-grid {
@@ -759,22 +772,13 @@ a.info-value:hover {
 @media (max-width: 768px) {
     .main-header {
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem;
         align-items: center;
     }
     
-    .contact-info-grid {
-        grid-template-columns: 1fr;
-        width: 100%;
-        text-align: center;
-    }
-
-    .info-item {
-        align-items: center;
-    }
-    
-    .linkedin-header-item {
-        grid-column: span 1;
+    .header-actions {
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     .hero-title {
