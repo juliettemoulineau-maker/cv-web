@@ -323,25 +323,51 @@ a.info-value:hover {
     transform: scale(1.05);
 }
 
-/* Languages */
+/* Languages — Animated Progress Bars */
 .languages-flex {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.2rem;
 }
 
-.lang-tag {
+.lang-bar-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.lang-bar-label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding: 0.5rem 0;
+}
+
+.lang-bar-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--black);
+}
+
+.lang-bar-level {
+    color: var(--orange);
+    font-size: 0.85rem;
     font-weight: 700;
 }
 
-.lang-level {
-    color: var(--orange);
-    font-size: 0.9rem;
+.lang-bar-track {
+    width: 100%;
+    height: 8px;
+    background-color: #eee;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.lang-bar-fill {
+    width: 0;
+    height: 100%;
+    background-color: var(--orange);
+    border-radius: 50px;
+    transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Voltaire Certification */

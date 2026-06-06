@@ -114,10 +114,34 @@
 
                         <div class="skills-block">
                             <h3 class="skills-sub-title">Langues</h3>
-                            <div class="languages-flex">
-                                <div class="lang-tag">Français <span class="lang-level">Natif</span></div>
-                                <div class="lang-tag">Anglais <span class="lang-level">B2</span></div>
-                                <div class="lang-tag">Espagnol <span class="lang-level">B1</span></div>
+                            <div class="languages-flex" id="langues-section">
+                                <div class="lang-bar-item">
+                                    <div class="lang-bar-label">
+                                        <span class="lang-bar-name">Français</span>
+                                        <span class="lang-bar-level">Natif</span>
+                                    </div>
+                                    <div class="lang-bar-track">
+                                        <div class="lang-bar-fill" data-level="100"></div>
+                                    </div>
+                                </div>
+                                <div class="lang-bar-item">
+                                    <div class="lang-bar-label">
+                                        <span class="lang-bar-name">Anglais</span>
+                                        <span class="lang-bar-level">B2</span>
+                                    </div>
+                                    <div class="lang-bar-track">
+                                        <div class="lang-bar-fill" data-level="70"></div>
+                                    </div>
+                                </div>
+                                <div class="lang-bar-item">
+                                    <div class="lang-bar-label">
+                                        <span class="lang-bar-name">Espagnol</span>
+                                        <span class="lang-bar-level">B1</span>
+                                    </div>
+                                    <div class="lang-bar-track">
+                                        <div class="lang-bar-fill" data-level="55"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -262,6 +286,28 @@
             items.forEach(item => {
                 observer.observe(item);
             });
+
+            // Language progress bars — scroll-triggered animation
+            const languesSection = document.getElementById('langues-section');
+            if (languesSection) {
+                const langObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const bars = entry.target.querySelectorAll('.lang-bar-fill');
+                            bars.forEach((bar, index) => {
+                                const level = bar.getAttribute('data-level');
+                                setTimeout(() => {
+                                    bar.style.width = level + '%';
+                                }, index * 200);
+                            });
+                            langObserver.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.3
+                });
+                langObserver.observe(languesSection);
+            }
         });
     </script>
 </body>
