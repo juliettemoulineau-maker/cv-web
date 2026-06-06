@@ -193,8 +193,37 @@ div.contact-badge {
     position: relative;
 }
 
+.hero-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 4rem;
+    width: 100%;
+}
+
 .hero-text-container {
+    flex: 1;
     max-width: 100%;
+}
+
+.hero-bio {
+    max-width: 400px;
+    margin-top: 1.5rem;
+}
+
+.hero-bio p {
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-desc);
+    transition: color var(--dur) var(--ease), transform var(--dur) var(--ease);
+    will-change: color, transform;
+    cursor: default;
+}
+
+.hero-bio p:hover {
+    color: var(--text-color);
+    transform: translateX(4px);
 }
 
 .hero-title {
@@ -823,6 +852,16 @@ div.contact-badge {
     .interest-block {
         height: 180px;
         padding: 2rem;
+    }
+
+    .hero-content-wrapper {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .hero-bio {
+        margin-top: 0;
+        max-width: 100%;
     }
 }
 
