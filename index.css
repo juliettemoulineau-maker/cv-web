@@ -11,6 +11,33 @@ html {
     --font: 'Outfit', sans-serif;
     --ease: cubic-bezier(0.4, 0, 0.2, 1);
     --dur: 0.2s;
+
+    /* Semantic Theme Variables */
+    --bg-color: #FFFFFF;
+    --text-color: #000000;
+    --card-bg: #FFFFFF;
+    --card-border: #000000;
+    
+    --text-muted: #666666;
+    --text-desc: #333333;
+    --text-desc-light: #444444;
+    --voltaire-desc: #555555;
+    --lang-track: #EEEEEE;
+    --badge-bg: rgba(255, 99, 0, 0.09);
+}
+
+.dark-theme {
+    --bg-color: #121212;
+    --text-color: #E0E0E0;
+    --card-bg: #1E1E1E;
+    --card-border: #333333;
+
+    --text-muted: #A0A0A0;
+    --text-desc: #CCCCCC;
+    --text-desc-light: #BBBBBB;
+    --voltaire-desc: #AAAAAA;
+    --lang-track: #333333;
+    --badge-bg: rgba(255, 99, 0, 0.15);
 }
 
 /* Base Reset */
@@ -21,8 +48,9 @@ html {
 }
 
 body {
-    background-color: var(--white);
-    color: var(--black);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
     font-family: var(--font);
     overflow-x: hidden;
     line-height: 1.5;
@@ -79,7 +107,7 @@ body {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 0.2rem;
     font-weight: 500;
 }
@@ -87,7 +115,7 @@ body {
 .info-value {
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--black);
+    color: var(--text-color);
     text-decoration: none;
     transition: color var(--dur) var(--ease);
 }
@@ -120,7 +148,8 @@ a.info-value:hover {
 }
 
 .linkedin-pill:hover {
-    background-color: var(--black);
+    background-color: var(--text-color);
+    color: var(--bg-color);
     transform: translateY(-2px);
 }
 
@@ -149,7 +178,7 @@ a.info-value:hover {
 }
 
 .hero-title .firstname {
-    color: var(--black);
+    color: var(--text-color);
 }
 
 .hero-title .lastname {
@@ -161,7 +190,7 @@ a.info-value:hover {
     font-size: clamp(1rem, 2vw, 1.45rem);
     font-weight: 500;
     margin-top: 1.5rem;
-    color: var(--black);
+    color: var(--text-color);
 }
 
 .hero-subtitle span {
@@ -206,7 +235,8 @@ a.info-value:hover {
 }
 
 .cta-button:hover {
-    background-color: var(--black);
+    background-color: var(--text-color);
+    color: var(--bg-color);
     transform: translateY(-3px);
 }
 
@@ -238,7 +268,7 @@ a.info-value:hover {
 .section-title {
     font-size: 2.2rem;
     font-weight: 900;
-    color: var(--black);
+    color: var(--text-color);
     letter-spacing: 0.05em;
     border-bottom: 4px solid var(--orange);
     padding-bottom: 0.8rem;
@@ -251,28 +281,31 @@ a.info-value:hover {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    contain: layout style;
 }
 
 .formation-card {
     position: relative;
     padding: 2rem;
-    background-color: var(--white);
-    border: 2px solid var(--black);
-    transition: border-color var(--dur) var(--ease),
+    background-color: var(--card-bg);
+    border: 2px solid var(--card-border);
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                opacity 0.4s var(--ease),
                 transform var(--dur) var(--ease);
     opacity: 0;
-    transform: translateY(30px);
     cursor: pointer;
+    pointer-events: none;
 }
 
 .formation-card.visible {
     opacity: 1;
-    transform: translateY(0);
+    pointer-events: auto;
 }
 
-.formation-card:hover {
+.formation-card.visible:hover {
     border-color: var(--orange);
-    transform: scale(1.01);
+    transform: translateZ(0) scale(1.01);
 }
 
 .formation-years {
@@ -291,7 +324,7 @@ a.info-value:hover {
 
 .formation-institution {
     font-size: 1.05rem;
-    color: #444;
+    color: var(--text-desc-light);
 }
 
 .formation-header {
@@ -302,7 +335,7 @@ a.info-value:hover {
 }
 
 .formation-badge-inline {
-    background-color: rgba(255, 99, 0, 0.09);
+    background-color: var(--badge-bg);
     color: var(--orange);
     font-size: 0.75rem;
     font-weight: 800;
@@ -339,19 +372,19 @@ a.info-value:hover {
 }
 
 .skills-tag-list li {
-    background-color: var(--white);
-    border: 2px solid var(--black);
-    color: var(--black);
+    background-color: var(--card-bg);
+    border: 2px solid var(--card-border);
+    color: var(--text-color);
     padding: 0.4rem 0.9rem;
     font-weight: 700;
     font-size: 0.82rem;
     border-radius: 50px;
-    transition: background-color var(--dur) var(--ease),
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
                 border-color var(--dur) var(--ease),
-                color var(--dur) var(--ease),
                 transform var(--dur) var(--ease);
     cursor: pointer;
-    pointer-events: auto !important;
+    pointer-events: auto;
 }
 
 .skills-tag-list li:hover {
@@ -372,11 +405,7 @@ a.info-value:hover {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    cursor: pointer;
-}
-
-.lang-bar-item:hover .lang-bar-fill {
-    opacity: 0.85;
+    cursor: default;
 }
 
 .lang-bar-label {
@@ -388,7 +417,7 @@ a.info-value:hover {
 .lang-bar-name {
     font-weight: 700;
     font-size: 0.95rem;
-    color: var(--black);
+    color: var(--text-color);
     pointer-events: none;
 }
 
@@ -402,7 +431,7 @@ a.info-value:hover {
 .lang-bar-track {
     width: 100%;
     height: 8px;
-    background-color: #eee;
+    background-color: var(--lang-track);
     border-radius: 50px;
     overflow: hidden;
 }
@@ -412,8 +441,7 @@ a.info-value:hover {
     height: 100%;
     background-color: var(--orange);
     border-radius: 50px;
-    transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity var(--dur) var(--ease);
+    transition: width 1s ease-out;
 }
 
 /* Voltaire Certification */
@@ -423,8 +451,8 @@ a.info-value:hover {
     gap: 1.5rem;
     border: 2px solid var(--orange);
     padding: 1.5rem;
-    background-color: var(--white);
-    transition: transform var(--dur) var(--ease);
+    background-color: var(--card-bg);
+    transition: background-color 0.3s ease, transform var(--dur) var(--ease);
 }
 
 .certification-voltaire-card:hover {
@@ -451,7 +479,7 @@ a.info-value:hover {
 
 .voltaire-details p {
     font-size: 0.9rem;
-    color: #555;
+    color: var(--voltaire-desc);
     pointer-events: none;
 }
 
@@ -468,16 +496,13 @@ a.info-value:hover {
 .timeline-item {
     position: relative;
     opacity: 0;
-    transform: translateX(30px);
-    transition: opacity var(--dur) var(--ease),
-                transform var(--dur) var(--ease);
+    transition: opacity 0.4s var(--ease);
     cursor: pointer;
     pointer-events: none;
 }
 
 .timeline-item.visible {
     opacity: 1;
-    transform: translateX(0);
     pointer-events: auto !important;
 }
 
@@ -487,7 +512,7 @@ a.info-value:hover {
     top: 0.4rem;
     width: 10px;
     height: 10px;
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border: 2px solid var(--orange);
     transition: background-color var(--dur) var(--ease),
                 transform var(--dur) var(--ease);
@@ -499,13 +524,13 @@ a.info-value:hover {
 }
 
 .timeline-content {
-    background-color: var(--white);
-    transition: transform var(--dur) var(--ease);
+    background-color: var(--card-bg);
+    transition: background-color 0.3s ease, transform var(--dur) var(--ease);
 }
 
 .timeline-date {
     display: inline-block;
-    background-color: rgba(255, 99, 0, 0.08);
+    background-color: var(--badge-bg);
     color: var(--orange);
     padding: 0.3rem 0.8rem;
     font-weight: 700;
@@ -518,7 +543,7 @@ a.info-value:hover {
 .experience-role {
     font-size: 1.6rem;
     font-weight: 900;
-    color: var(--black);
+    color: var(--text-color);
     line-height: 1.2;
     transition: color var(--dur) var(--ease);
     pointer-events: none;
@@ -534,7 +559,7 @@ a.info-value:hover {
 
 .experience-desc {
     font-weight: 500;
-    color: #333;
+    color: var(--text-desc);
     margin-bottom: 1rem;
     pointer-events: none;
 }
@@ -549,7 +574,7 @@ a.info-value:hover {
 .experience-details-list li {
     position: relative;
     padding-left: 1.5rem;
-    color: #444;
+    color: var(--text-desc-light);
     pointer-events: none;
 }
 
@@ -591,25 +616,24 @@ a.info-value:hover {
 .interest-block {
     position: relative;
     height: 250px;
-    background-color: var(--white);
-    border: 2px solid var(--black);
+    background-color: var(--card-bg);
+    border: 2px solid var(--card-border);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 2.5rem;
     overflow: hidden;
-    transition: background-color var(--dur) var(--ease),
-                border-color var(--dur) var(--ease),
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                opacity 0.4s var(--ease),
                 transform var(--dur) var(--ease);
     opacity: 0;
-    transform: translateY(30px);
     cursor: pointer;
     pointer-events: none;
 }
 
 .interest-block.visible {
     opacity: 1;
-    transform: translateY(0);
     pointer-events: auto !important;
 }
 
@@ -635,7 +659,7 @@ a.info-value:hover {
 .interest-name {
     font-size: 2.2rem;
     font-weight: 900;
-    color: var(--black);
+    color: var(--text-color);
     letter-spacing: 0.05em;
     z-index: 2;
     transition: color var(--dur) var(--ease);
@@ -678,8 +702,28 @@ a.info-value:hover {
 }
 
 .footer-linkedin-link:hover {
-    color: var(--black);
+    color: var(--text-color);
     text-decoration: underline;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease, transform var(--dur) var(--ease);
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--badge-bg);
+    transform: scale(1.1);
+    color: var(--orange);
 }
 
 /* ==========================================================================

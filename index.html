@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    </script>
     <!-- Main Wrapper -->
     <div class="layout-wrapper">
         
@@ -16,6 +21,12 @@
                 <img src="logo.png" alt="Juliette Moulineau Logo" class="logo-img" width="80" height="80" loading="eager" fetchpriority="high">
             </div>
             <div class="contact-info-grid">
+                <div class="info-item" style="display: flex; align-items: center; justify-content: center;">
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Basculer le thème" title="Changer le thème">
+                        <svg id="theme-icon-sun" class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <svg id="theme-icon-moon" class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                </div>
                 <div class="info-item">
                     <span class="info-label">Téléphone</span>
                     <a href="tel:0683633006" class="info-value">06 83 63 30 06</a>
@@ -277,18 +288,43 @@
     <!-- Scroll animation triggers -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Theme Toggle Logic
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const iconSun = document.getElementById('theme-icon-sun');
+            const iconMoon = document.getElementById('theme-icon-moon');
+            
+            // Sync initial icon state
+            if (document.body.classList.contains('dark-theme')) {
+                iconSun.style.display = 'block';
+                iconMoon.style.display = 'none';
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                const isDark = document.body.classList.contains('dark-theme');
+                
+                if (isDark) {
+                    localStorage.setItem('theme', 'dark');
+                    iconSun.style.display = 'block';
+                    iconMoon.style.display = 'none';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    iconSun.style.display = 'none';
+                    iconMoon.style.display = 'block';
+                }
+            });
+
             const items = document.querySelectorAll('.timeline-item, .formation-card, .interest-block');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                    } else {
-                        entry.target.classList.remove('visible');
+                        observer.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.1
+                threshold: 0.25
             });
             
             items.forEach(item => {
@@ -308,10 +344,7 @@
                                     bar.style.width = level + '%';
                                 }, index * 200);
                             });
-                        } else {
-                            bars.forEach(bar => {
-                                bar.style.width = '0';
-                            });
+                            langObserver.unobserve(entry.target);
                         }
                     });
                 }, {
