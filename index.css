@@ -126,9 +126,9 @@ a.contact-badge:hover {
 }
 
 .dark-theme a.contact-badge:hover {
-    background-color: var(--orange);
+    background-color: #FFFFFF;
     color: #000000;
-    border-color: var(--orange);
+    border-color: #FFFFFF;
 }
 
 div.contact-badge {
@@ -178,7 +178,7 @@ div.contact-badge {
 }
 
 .dark-theme .linkedin-pill:hover {
-    background-color: var(--orange);
+    background-color: #FFFFFF;
     color: #000000;
 }
 
@@ -270,7 +270,7 @@ div.contact-badge {
 }
 
 .dark-theme .cta-button:hover {
-    background-color: var(--orange);
+    background-color: #FFFFFF;
     color: #000000;
 }
 
