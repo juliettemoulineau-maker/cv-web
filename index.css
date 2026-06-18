@@ -1218,4 +1218,39 @@ html.js-enabled body.loaded .hero-section {
     }
 }
 
+/* ==========================================================================
+   VIEW TRANSITIONS (PREMIUM RIPPLE REVEAL EFFECT)
+   ========================================================================== */
+
+/* Disable standard transitions on elements while view transition is active to avoid layer animation lag */
+.theme-transitioning,
+.theme-transitioning * {
+    transition: none !important;
+}
+
+/* Custom view transition ripple animation */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 99999;
+    animation: theme-ripple-reveal 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes theme-ripple-reveal {
+    from {
+        clip-path: circle(0px at var(--clip-x, 50%) var(--clip-y, 50%));
+    }
+    to {
+        clip-path: circle(150vmax at var(--clip-x, 50%) var(--clip-y, 50%));
+    }
+}
+
 
