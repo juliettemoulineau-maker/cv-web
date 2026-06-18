@@ -477,8 +477,14 @@
             
             if (!preloader || !countEl || !barFillEl) return;
 
-            let startTime = null;
-            const duration = 5000; // Consistent duration of 5.0s to match the logo's native duration
+            let progress = 0;
+            let pageLoaded = document.readyState === 'complete';
+
+            if (!pageLoaded) {
+                window.addEventListener('load', () => {
+                    pageLoaded = true;
+                });
+            }
 
             if (logoSvg) {
                 try {
@@ -490,20 +496,38 @@
             }
 
             // Start progress immediately since the SVG is inlined in DOM
-            startTime = performance.now();
             requestAnimationFrame(updateProgress);
 
-            function updateProgress(timestamp) {
-                const elapsed = timestamp - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const percent = Math.floor(progress * 100);
+            function updateProgress() {
+                if (!pageLoaded) {
+                    // Page is still loading: progress smoothly up to 90%
+                    if (progress < 0.90) {
+                        progress += 0.0035; // Takes ~4 seconds to reach 90%
+                    } else {
+                        // Asymptotically approach 98% to prevent reaching 100% before window load
+                        progress += (0.98 - progress) * 0.02;
+                    }
+                } else {
+                    // Page is loaded: transition smoothly to 100%
+                    progress += 0.015; // Smooth completion over ~1 second
+                }
 
+                if (progress > 1) {
+                    progress = 1;
+                }
+
+                const percent = Math.floor(progress * 100);
                 countEl.textContent = percent.toString().padStart(2, '0');
                 barFillEl.style.width = percent + '%';
 
-                // Sync SVG circular progress ring (circumference of r=100 is ~628.318)
-                if (circleFillEl) {
-                    circleFillEl.style.strokeDashoffset = 628.318 - progress * 628.318;
+                // Sync the SVG SMIL animations timeline directly to the loading progress
+                if (logoSvg) {
+                    try {
+                        // The SVG preloader animations have a native duration of 5.0 seconds
+                        logoSvg.setCurrentTime(progress * 5.0);
+                    } catch (e) {
+                        console.error('Failed to sync SVG animations:', e);
+                    }
                 }
 
                 if (progress < 1) {
