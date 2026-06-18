@@ -331,8 +331,17 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
+                        entry.target.classList.remove('exit-top', 'exit-bottom');
                     } else {
                         entry.target.classList.remove('visible');
+                        // Determine if element left via the top or bottom of viewport to apply corresponding exit offset
+                        if (entry.boundingClientRect.top < 0) {
+                            entry.target.classList.add('exit-top');
+                            entry.target.classList.remove('exit-bottom');
+                        } else {
+                            entry.target.classList.add('exit-bottom');
+                            entry.target.classList.remove('exit-top');
+                        }
                     }
                 });
             }, {

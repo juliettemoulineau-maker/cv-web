@@ -416,6 +416,19 @@ div.contact-badge {
     transform: translateZ(0) scale(1.01);
 }
 
+/* Custom exit directions to prevent infinite layout shift jumping */
+.timeline-item.exit-bottom,
+.formation-card.exit-bottom,
+.interest-block.exit-bottom {
+    transform: translateY(20px);
+}
+
+.timeline-item.exit-top,
+.formation-card.exit-top,
+.interest-block.exit-top {
+    transform: translateY(-20px);
+}
+
 .dark-theme .formation-card {
     background-color: transparent;
     border-color: var(--white);
