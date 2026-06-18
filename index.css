@@ -670,7 +670,7 @@ div.contact-badge {
     transform: scale(1.01);
 }
 
-/* Centres d'Intérêt Section (Footer Graphic Blocks) */
+/* Centres d'Intérêt Section (Footer Badge Blocks) */
 .interests-section {
     margin-top: 6rem;
     margin-bottom: 6rem;
@@ -682,24 +682,25 @@ div.contact-badge {
 }
 
 .interests-grid-modern {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-top: 2rem;
 }
 
 .interest-block {
     position: relative;
-    height: 250px;
-    background-color: var(--card-bg);
-    border: 2px solid var(--card-border);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 2.5rem;
-    overflow: hidden;
-    transition: background-color 0.3s ease,
-                border-color 0.3s ease,
+    background-color: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.6rem;
+    transition: background-color var(--dur) var(--ease),
+                border-color var(--dur) var(--ease),
+                color var(--dur) var(--ease),
                 opacity 0.4s var(--ease),
                 transform 0.4s var(--ease);
     opacity: 0;
@@ -717,25 +718,21 @@ div.contact-badge {
 .interest-block.visible:hover {
     background-color: var(--orange-signature);
     border-color: var(--orange-signature);
-    transform: translateY(-8px);
+    transform: translateY(-2px);
+}
+
+.dark-theme .interest-block {
+    background-color: transparent;
+    border-color: var(--white);
 }
 
 .interest-bg-text {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    font-size: 5rem;
-    font-weight: 900;
-    color: rgba(255, 99, 0, 0.08);
-    transition: color var(--dur) var(--ease),
-                transform var(--dur) var(--ease);
-    line-height: 1;
-    pointer-events: none;
+    display: none;
 }
 
 .interest-name {
-    font-size: 2.2rem;
-    font-weight: 900;
+    font-size: 0.95rem;
+    font-weight: 700;
     color: var(--text-color);
     letter-spacing: 0.05em;
     z-index: 2;
@@ -743,19 +740,12 @@ div.contact-badge {
     pointer-events: none;
 }
 
-.interest-block:hover {
-    background-color: var(--orange-signature);
-    border-color: var(--orange-signature);
-    transform: translateY(-8px);
-}
-
-.interest-block:hover .interest-name {
+.dark-theme .interest-block .interest-name {
     color: var(--white);
 }
 
-.interest-block:hover .interest-bg-text {
-    color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.15) translateY(4px);
+.interest-block.visible:hover .interest-name {
+    color: var(--white);
 }
 
 /* Footer styling */
@@ -852,15 +842,7 @@ div.contact-badge {
         gap: 4rem;
     }
     
-    .interests-grid-modern {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
     
-    .interest-block {
-        height: 180px;
-        padding: 2rem;
-    }
 
     .hero-content-wrapper {
         flex-direction: column;
