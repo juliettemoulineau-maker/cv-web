@@ -385,12 +385,17 @@
                         path: 'logo.json'
                     });
 
+                    // Set initial state to the final fully-rendered frame once loaded
+                    headerLogoAnim.addEventListener('DOMLoaded', () => {
+                        headerLogoAnim.goToAndStop(headerLogoAnim.totalFrames - 1, true);
+                    });
+
                     logoContainer.addEventListener('mouseenter', () => {
-                        headerLogoAnim.play();
+                        headerLogoAnim.goToAndPlay(0, true);
                     });
 
                     logoContainer.addEventListener('mouseleave', () => {
-                        headerLogoAnim.stop();
+                        headerLogoAnim.goToAndStop(headerLogoAnim.totalFrames - 1, true);
                     });
                 } catch (e) {
                     console.error('Failed to load header Lottie animation:', e);
@@ -551,7 +556,7 @@
                 if (!target) return;
 
                 // Expand and invert outline circle when hovering links, buttons, cards, and tags
-                const interactive = target.closest('a, button, .formation-card, .timeline-item, .skills-tag-list li, .contact-badge, .theme-toggle-modern, .interest-block');
+                const interactive = target.closest('a, button, .formation-card, .timeline-item, .skills-tag-list li, .contact-badge, .theme-toggle-modern, .interest-block, .header-logo');
                 
                 if (interactive) {
                     dot.classList.add('cursor-hover');
