@@ -378,7 +378,7 @@ div.contact-badge {
 
 .dark-theme .formation-card {
     background-color: transparent;
-    border: 2px solid var(--white);
+    border-color: var(--white);
 }
 
 .formation-years {
