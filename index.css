@@ -960,91 +960,43 @@ div.contact-badge {
         cursor: none !important;
     }
 
-    .cursor-dot,
-    .cursor-trail {
+    .custom-pointer {
         position: fixed;
         top: 0;
         left: 0;
+        width: 18px;
+        height: 18px;
         pointer-events: none;
-        will-change: translate, opacity, transform;
-        opacity: 0; /* Hidden by default until mouse moves */
+        z-index: 1000000;
+        color: var(--text-color); /* Noir en mode Light, blanc en mode Dark via theme variables */
+        opacity: 0; /* Caché au départ, s'affiche dès que la souris bouge */
+        will-change: transform, opacity;
         transition: opacity 0.3s ease;
     }
 
-    .cursor-dot {
-        width: 6px;
-        height: 6px;
-        background-color: var(--orange-signature);
-        border-radius: 50%;
-        z-index: 9999;
-        translate: -50% -50%;
-        scale: 1;
-        transition: opacity 0.3s ease, scale 0.15s ease;
-    }
-
-    .cursor-trail {
-        width: 24px;
-        height: 24px;
-        border: 1px solid var(--cursor-border);
-        background-color: transparent;
-        border-radius: 50%;
-        z-index: 9998;
-        translate: -50% -50%;
-        transform: scale(1);
-        transition: opacity 0.3s ease, 
-                    transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), 
-                    border-color 0.15s ease;
-    }
-
-    /* Ephemeral click wave ripple */
-    .cursor-wave {
+    .cursor-canvas {
         position: fixed;
         top: 0;
         left: 0;
-        width: 24px;
-        height: 24px;
-        border: 1.5px solid var(--orange-signature);
-        border-radius: 50%;
+        width: 100%;
+        height: 100%;
         pointer-events: none;
-        z-index: 9997;
-        translate: -50% -50%;
-        animation: cursor-wave-anim 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
-    }
-
-    @keyframes cursor-wave-anim {
-        0% {
-            transform: scale(1);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(2.5);
-            opacity: 0;
-        }
+        z-index: 999999;
+        opacity: 0;
+        will-change: opacity;
+        transition: opacity 0.3s ease;
     }
 
     /* Shown state */
-    html.custom-cursor-active .cursor-dot,
-    html.custom-cursor-active .cursor-trail {
+    html.custom-cursor-active .custom-pointer,
+    html.custom-cursor-active .cursor-canvas {
         opacity: 1;
     }
 
     /* Hidden when leaving viewport */
-    html.custom-cursor-active.cursor-hidden .cursor-dot,
-    html.custom-cursor-active.cursor-hidden .cursor-trail {
+    html.custom-cursor-active.cursor-hidden .custom-pointer,
+    html.custom-cursor-active.cursor-hidden .cursor-canvas {
         opacity: 0;
-    }
-
-    /* Click feedback: contracts instantly (0s transition) and turns orange signature */
-    html.custom-cursor-active .cursor-trail.cursor-clicked {
-        transform: scale(0.5);
-        border-color: var(--orange-signature) !important;
-        transition: transform 0s, border-color 0s;
-    }
-
-    /* Hovering state */
-    html.custom-cursor-active .cursor-trail.cursor-hover {
-        border-color: var(--orange-signature) !important;
-        scale: 1.35;
     }
 }
 
@@ -1057,8 +1009,8 @@ body.loading {
     height: 100vh;
 }
 
-body.loading .cursor-dot,
-body.loading .cursor-trail {
+body.loading .custom-pointer,
+body.loading .cursor-canvas {
     opacity: 0 !important;
     visibility: hidden !important;
 }

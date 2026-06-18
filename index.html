@@ -493,8 +493,10 @@
     </script>
 
     <!-- Creative Custom Cursor Elements -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-trail"></div>
+    <svg class="custom-pointer" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M0,0 L16,12 L9,13 L5,20 Z" fill="currentColor" />
+    </svg>
+    <canvas class="cursor-canvas"></canvas>
 
     <!-- Script for Custom Cursor Logic -->
     <script>
@@ -508,77 +510,129 @@
                 return;
             }
 
-            const dot = document.querySelector('.cursor-dot');
-            const trail = document.querySelector('.cursor-trail');
+            const pointer = document.querySelector('.custom-pointer');
+            const canvas = document.querySelector('.cursor-canvas');
 
-            if (!dot || !trail) return;
+            if (!pointer || !canvas) return;
 
+            const ctx = canvas.getContext('2d');
+
+            // Handle canvas scaling for screen DPI density
+            let width = 0;
+            let height = 0;
+            const dpr = window.devicePixelRatio || 1;
+
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.scale(dpr, dpr);
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Particle store
+            const particles = [];
+
+            // Mouse coordinates tracking
             let mouseX = 0;
             let mouseY = 0;
-            let circleX = 0;
-            let circleY = 0;
+            let lastMouseX = 0;
+            let lastMouseY = 0;
             let hasMoved = false;
 
-            // Interpolation factor (0.15 gives a smooth, organic trailing effect)
-            const speed = 0.15;
-
-            // Track mouse movements
             window.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
 
-                // Dot tracks mouse instantly for 100% responsiveness
-                dot.style.translate = `${mouseX}px ${mouseY}px`;
+                // Move pointer instantly for 100% responsiveness
+                pointer.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
 
                 if (!hasMoved) {
                     hasMoved = true;
-                    // Reveal the custom cursor and hide the default one only when mouse moves
                     document.documentElement.classList.add('custom-cursor-active');
-                    circleX = mouseX;
-                    circleY = mouseY;
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+                    return;
                 }
+
+                // Calculate motion distance to interpolate spawns and prevent trail gaps
+                const dist = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
+                const steps = Math.min(Math.floor(dist / 3), 12); // limit steps to prevent CPU overload
+
+                for (let i = 0; i < steps; i++) {
+                    const ratio = i / steps;
+                    const px = lastMouseX + (mouseX - lastMouseX) * ratio;
+                    const py = lastMouseY + (mouseY - lastMouseY) * ratio;
+
+                    // Add subtle velocity inheritance from mouse movement
+                    const vx = (mouseX - lastMouseX) * 0.05 + (Math.random() - 0.5) * 0.5;
+                    const vy = (mouseY - lastMouseY) * 0.05 + (Math.random() - 0.5) * 0.5;
+
+                    // Spawn orange sparkle
+                    particles.push({
+                        x: px,
+                        y: py,
+                        vx: vx,
+                        vy: vy,
+                        radius: Math.random() * 1.5 + 1.2,
+                        color: '#FF4500',
+                        opacity: 0.9,
+                        life: 1.0,
+                        duration: 400, // 400ms life
+                        type: 'sparkle'
+                    });
+
+                    // Spawn cyan halo particle (slightly offset)
+                    if (Math.random() > 0.4) {
+                        particles.push({
+                            x: px + (Math.random() - 0.5) * 4,
+                            y: py + (Math.random() - 0.5) * 4,
+                            vx: vx * 0.2,
+                            vy: vy * 0.2,
+                            radius: Math.random() * 4 + 8, // diffuse halo size
+                            color: '#00FFFF',
+                            opacity: 0.12,
+                            life: 1.0,
+                            duration: 350,
+                            type: 'halo'
+                        });
+                    }
+                }
+
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
             });
 
-            // Smooth animation loop using requestAnimationFrame
-            function animateCursor() {
-                if (hasMoved) {
-                    // Linear interpolation (lerp) formula for smooth trailing
-                    circleX += (mouseX - circleX) * speed;
-                    circleY += (mouseY - circleY) * speed;
-
-                    // Apply coordinates via modern CSS translate (avoids conflicts with CSS scale transforms)
-                    trail.style.translate = `${circleX}px ${circleY}px`;
-                }
-                requestAnimationFrame(animateCursor);
-            }
-            requestAnimationFrame(animateCursor);
-
-            // Click down: contracts trail circle instantly
+            // Shockwave particles explosion on mousedown (click)
             window.addEventListener('mousedown', () => {
-                dot.classList.add('cursor-clicked');
-                trail.classList.add('cursor-clicked');
+                if (!hasMoved) return;
+
+                // Spawn 18 radial particles dispersing outwards
+                const numParticles = 18;
+                for (let i = 0; i < numParticles; i++) {
+                    const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+                    const speed = Math.random() * 4 + 2.5;
+
+                    particles.push({
+                        x: mouseX,
+                        y: mouseY,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        radius: Math.random() * 2 + 1.5,
+                        color: Math.random() > 0.5 ? '#FF4500' : '#00FFFF',
+                        opacity: 1.0,
+                        life: 1.0,
+                        duration: 200, // rapid 0.2s dispersion
+                        type: 'explosion'
+                    });
+                }
             });
 
-            // Relâchement: resumes normal size smoothly
-            window.addEventListener('mouseup', () => {
-                dot.classList.remove('cursor-clicked');
-                trail.classList.remove('cursor-clicked');
-            });
-
-            // Shockwave wave animation dynamically spawned at click point and cleaned up
-            window.addEventListener('click', (e) => {
-                const wave = document.createElement('div');
-                wave.classList.add('cursor-wave');
-                wave.style.translate = `${e.clientX}px ${e.clientY}px`;
-                document.body.appendChild(wave);
-
-                // Auto-cleanup after 0.3s animation completes to prevent DOM bloat
-                setTimeout(() => {
-                    wave.remove();
-                }, 300);
-            });
-
-            // Hide custom cursor when mouse leaves browser viewport
+            // Viewport boundaries tracking
             document.addEventListener('mouseleave', () => {
                 document.documentElement.classList.add('cursor-hidden');
             });
@@ -586,6 +640,59 @@
             document.addEventListener('mouseenter', () => {
                 document.documentElement.classList.remove('cursor-hidden');
             });
+
+            // Animation frame loop using delta time
+            let lastTime = performance.now();
+
+            function animateCursor(now) {
+                const dt = now - lastTime;
+                lastTime = now;
+
+                ctx.clearRect(0, 0, width, height);
+
+                // Use additive blending for standard premium glow aesthetics
+                ctx.globalCompositeOperation = 'screen';
+
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+
+                    p.life -= dt / p.duration;
+
+                    if (p.life <= 0) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    // Physics update with slight drag/friction
+                    p.vx *= 0.96;
+                    p.vy *= 0.96;
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Draw particle based on type
+                    ctx.beginPath();
+                    if (p.type === 'halo') {
+                        // Halo expands and fades out
+                        const size = p.radius * (1 + (1 - p.life) * 0.4);
+                        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.globalAlpha = p.life * p.opacity;
+                    } else {
+                        // Sparkle and explosion particles shrink and fade out
+                        const size = p.radius * p.life;
+                        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.globalAlpha = p.life * p.opacity;
+                    }
+                    ctx.fill();
+                }
+
+                ctx.globalAlpha = 1.0;
+                ctx.globalCompositeOperation = 'source-over'; // restore default blending
+
+                requestAnimationFrame(animateCursor);
+            }
+            requestAnimationFrame(animateCursor);
 
             // Hover styling triggered via event delegation on mouseover (high performance)
             window.addEventListener('mouseover', (e) => {
@@ -596,11 +703,9 @@
                 const interactive = target.closest('a, button, .formation-card, .timeline-item, .skills-tag-list li, .contact-badge, .theme-toggle-modern, .interest-block, .header-logo');
                 
                 if (interactive) {
-                    dot.classList.add('cursor-hover');
-                    trail.classList.add('cursor-hover');
+                    pointer.classList.add('cursor-hover');
                 } else {
-                    dot.classList.remove('cursor-hover');
-                    trail.classList.remove('cursor-hover');
+                    pointer.classList.remove('cursor-hover');
                 }
             });
         });
