@@ -25,6 +25,7 @@ html {
     --lang-track: #EEEEEE;
     --badge-bg: rgba(255, 99, 0, 0.09);
     --cursor-border: #000000;
+    --pointer-color: #000000;
 }
 
 .dark-theme {
@@ -40,6 +41,7 @@ html {
     --lang-track: #333333;
     --badge-bg: rgba(255, 99, 0, 0.15);
     --cursor-border: #ffffff;
+    --pointer-color: #ffffff;
 }
 
 /* Selection Colors matching DA */
@@ -968,7 +970,7 @@ div.contact-badge {
         height: 18px;
         pointer-events: none;
         z-index: 1000000;
-        color: var(--text-color); /* Noir en mode Light, blanc en mode Dark via theme variables */
+        color: var(--pointer-color); /* Noir en mode Light, blanc en mode Dark via theme variables */
         opacity: 0; /* Caché au départ, s'affiche dès que la souris bouge */
         will-change: transform, opacity;
         transition: opacity 0.3s ease;

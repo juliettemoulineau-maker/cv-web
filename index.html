@@ -540,8 +540,10 @@
             // Mouse coordinates tracking
             let mouseX = 0;
             let mouseY = 0;
-            let lastMouseX = 0;
-            let lastMouseY = 0;
+            let trailX = 0;
+            let trailY = 0;
+            let lastTrailX = 0;
+            let lastTrailY = 0;
             let hasMoved = false;
 
             window.addEventListener('mousemove', (e) => {
@@ -554,79 +556,33 @@
                 if (!hasMoved) {
                     hasMoved = true;
                     document.documentElement.classList.add('custom-cursor-active');
-                    lastMouseX = mouseX;
-                    lastMouseY = mouseY;
-                    return;
+                    trailX = mouseX;
+                    trailY = mouseY;
+                    lastTrailX = mouseX;
+                    lastTrailY = mouseY;
                 }
-
-                // Calculate motion distance to interpolate spawns and prevent trail gaps
-                const dist = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
-                const steps = Math.min(Math.floor(dist / 3), 12); // limit steps to prevent CPU overload
-
-                for (let i = 0; i < steps; i++) {
-                    const ratio = i / steps;
-                    const px = lastMouseX + (mouseX - lastMouseX) * ratio;
-                    const py = lastMouseY + (mouseY - lastMouseY) * ratio;
-
-                    // Add subtle velocity inheritance from mouse movement
-                    const vx = (mouseX - lastMouseX) * 0.05 + (Math.random() - 0.5) * 0.5;
-                    const vy = (mouseY - lastMouseY) * 0.05 + (Math.random() - 0.5) * 0.5;
-
-                    // Spawn orange sparkle
-                    particles.push({
-                        x: px,
-                        y: py,
-                        vx: vx,
-                        vy: vy,
-                        radius: Math.random() * 1.5 + 1.2,
-                        color: '#FF4500',
-                        opacity: 0.9,
-                        life: 1.0,
-                        duration: 400, // 400ms life
-                        type: 'sparkle'
-                    });
-
-                    // Spawn cyan halo particle (slightly offset)
-                    if (Math.random() > 0.4) {
-                        particles.push({
-                            x: px + (Math.random() - 0.5) * 4,
-                            y: py + (Math.random() - 0.5) * 4,
-                            vx: vx * 0.2,
-                            vy: vy * 0.2,
-                            radius: Math.random() * 4 + 8, // diffuse halo size
-                            color: '#00FFFF',
-                            opacity: 0.12,
-                            life: 1.0,
-                            duration: 350,
-                            type: 'halo'
-                        });
-                    }
-                }
-
-                lastMouseX = mouseX;
-                lastMouseY = mouseY;
             });
 
             // Shockwave particles explosion on mousedown (click)
             window.addEventListener('mousedown', () => {
                 if (!hasMoved) return;
 
-                // Spawn 18 radial particles dispersing outwards
-                const numParticles = 18;
+                // Spawn 16 radial particles (Orange and White) dispersing outwards
+                const numParticles = 16;
                 for (let i = 0; i < numParticles; i++) {
-                    const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
-                    const speed = Math.random() * 4 + 2.5;
+                    const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+                    const speed = Math.random() * 5 + 3.0; // High speed dispersion
 
                     particles.push({
                         x: mouseX,
                         y: mouseY,
                         vx: Math.cos(angle) * speed,
                         vy: Math.sin(angle) * speed,
-                        radius: Math.random() * 2 + 1.5,
-                        color: Math.random() > 0.5 ? '#FF4500' : '#00FFFF',
+                        radius: Math.random() * 2 + 1.2,
+                        color: Math.random() > 0.5 ? '#FF6300' : '#FFFFFF', // Strict DA palette (Orange/White)
                         opacity: 1.0,
                         life: 1.0,
-                        duration: 200, // rapid 0.2s dispersion
+                        duration: 100, // Dry and snappy 0.1s flash
                         type: 'explosion'
                     });
                 }
@@ -650,9 +606,53 @@
 
                 ctx.clearRect(0, 0, width, height);
 
-                // Use additive blending for standard premium glow aesthetics
+                // Additive blending for standard premium glow aesthetics
                 ctx.globalCompositeOperation = 'screen';
 
+                if (hasMoved) {
+                    // Linear interpolation (LERP) formula for smooth trail motion
+                    trailX += (mouseX - trailX) * 0.18;
+                    trailY += (mouseY - trailY) * 0.18;
+
+                    // Spawn trail particles inside the render loop (avoids mousemove flooding, ensuring solid 60FPS)
+                    const dist = Math.hypot(trailX - lastTrailX, trailY - lastTrailY);
+                    if (dist > 0.5) {
+                        // Spawn orange sparkle
+                        particles.push({
+                            x: trailX,
+                            y: trailY,
+                            vx: (Math.random() - 0.5) * 0.6,
+                            vy: (Math.random() - 0.5) * 0.6,
+                            radius: Math.random() * 1.5 + 1.2,
+                            color: '#FF6300', // DA Orange signature
+                            opacity: 0.9,
+                            life: 1.0,
+                            duration: 250, // Short 250ms trail life for crispness
+                            type: 'sparkle'
+                        });
+
+                        // Spawn diffuse orange halo particle
+                        if (Math.random() > 0.6) {
+                            particles.push({
+                                x: trailX + (Math.random() - 0.5) * 3,
+                                y: trailY + (Math.random() - 0.5) * 3,
+                                vx: (Math.random() - 0.5) * 0.2,
+                                vy: (Math.random() - 0.5) * 0.2,
+                                radius: Math.random() * 3 + 6,
+                                color: '#FF6300',
+                                opacity: 0.15,
+                                life: 1.0,
+                                duration: 220,
+                                type: 'halo'
+                            });
+                        }
+                    }
+
+                    lastTrailX = trailX;
+                    lastTrailY = trailY;
+                }
+
+                // Update and render particles
                 for (let i = particles.length - 1; i >= 0; i--) {
                     const p = particles[i];
 
@@ -663,22 +663,20 @@
                         continue;
                     }
 
-                    // Physics update with slight drag/friction
-                    p.vx *= 0.96;
-                    p.vy *= 0.96;
+                    // Physics update with drag friction
+                    p.vx *= 0.95;
+                    p.vy *= 0.95;
                     p.x += p.vx;
                     p.y += p.vy;
 
-                    // Draw particle based on type
+                    // Draw particle
                     ctx.beginPath();
                     if (p.type === 'halo') {
-                        // Halo expands and fades out
                         const size = p.radius * (1 + (1 - p.life) * 0.4);
                         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
                         ctx.fillStyle = p.color;
                         ctx.globalAlpha = p.life * p.opacity;
                     } else {
-                        // Sparkle and explosion particles shrink and fade out
                         const size = p.radius * p.life;
                         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
                         ctx.fillStyle = p.color;
