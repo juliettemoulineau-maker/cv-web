@@ -121,9 +121,12 @@ body {
     cursor: pointer;
 }
 
-.header-logo svg {
-    width: 100% !important;
-    height: 100% !important;
+#header-logo-lottie {
+    width: 80px;
+    height: 80px;
+}
+
+#header-logo-lottie svg {
     display: block;
 }
 

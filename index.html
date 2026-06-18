@@ -36,7 +36,9 @@
         
         <!-- Header / Info Section -->
         <header class="main-header">
-            <div class="header-logo" id="header-logo-lottie" aria-label="Juliette Moulineau Logo"></div>
+            <div class="header-logo">
+                <div id="header-logo-lottie"></div>
+            </div>
             <div class="header-contact-modern">
                 <a href="tel:0683633006" class="contact-badge" title="Téléphone">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
@@ -374,32 +376,35 @@
     <!-- Header Logo Animation Control -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const logoContainer = document.getElementById('header-logo-lottie');
-            if (logoContainer && typeof lottie !== 'undefined') {
-                try {
-                    const headerLogoAnim = lottie.loadAnimation({
-                        container: logoContainer,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: false,
-                        path: 'logo.json'
-                    });
+            const lottieContainer = document.getElementById('header-logo-lottie');
+            const logoWrapper = lottieContainer ? lottieContainer.parentElement : null;
+            if (!lottieContainer || !logoWrapper || typeof lottie === 'undefined') return;
 
-                    // Set initial state to the final fully-rendered frame once loaded
-                    headerLogoAnim.addEventListener('DOMLoaded', () => {
-                        headerLogoAnim.goToAndStop(headerLogoAnim.totalFrames - 1, true);
-                    });
+            try {
+                const headerLogoAnim = lottie.loadAnimation({
+                    container: lottieContainer,
+                    renderer: 'svg',
+                    loop: false,
+                    autoplay: false,
+                    path: 'logo.json'
+                });
 
-                    logoContainer.addEventListener('mouseenter', () => {
-                        headerLogoAnim.goToAndPlay(0, true);
-                    });
+                // Show the fully-rendered logo (last frame) immediately on load
+                headerLogoAnim.addEventListener('DOMLoaded', () => {
+                    headerLogoAnim.goToAndStop(headerLogoAnim.totalFrames - 1, true);
+                });
 
-                    logoContainer.addEventListener('mouseleave', () => {
-                        headerLogoAnim.goToAndStop(headerLogoAnim.totalFrames - 1, true);
-                    });
-                } catch (e) {
-                    console.error('Failed to load header Lottie animation:', e);
-                }
+                // On hover: replay animation from the start
+                logoWrapper.addEventListener('mouseenter', () => {
+                    headerLogoAnim.goToAndPlay(0, true);
+                });
+
+                // On leave: snap back to the fully-rendered last frame
+                logoWrapper.addEventListener('mouseleave', () => {
+                    headerLogoAnim.goToAndStop(headerLogoAnim.totalFrames - 1, true);
+                });
+            } catch (e) {
+                console.error('Failed to load header Lottie animation:', e);
             }
         });
     </script>
