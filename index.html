@@ -350,5 +350,103 @@
             }
         });
     </script>
+
+    <!-- Creative Custom Cursor Elements -->
+    <div class="custom-cursor-dot"></div>
+    <div class="custom-cursor-outline"></div>
+
+    <!-- Script for Custom Cursor Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Detect touch/mobile devices to avoid hiding native cursor and drawing custom cursors
+            const isTouchDevice = 'ontouchstart' in window || 
+                                  navigator.maxTouchPoints > 0 || 
+                                  window.matchMedia('(pointer: coarse)').matches;
+            
+            if (isTouchDevice) {
+                return;
+            }
+
+            const dot = document.querySelector('.custom-cursor-dot');
+            const outline = document.querySelector('.custom-cursor-outline');
+
+            if (!dot || !outline) return;
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let circleX = 0;
+            let circleY = 0;
+            let hasMoved = false;
+
+            // Interpolation factor (0.15 gives a smooth, organic trailing effect)
+            const speed = 0.15;
+
+            // Track mouse movements
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                if (!hasMoved) {
+                    hasMoved = true;
+                    // Reveal the custom cursor and hide the default one only when mouse moves
+                    document.documentElement.classList.add('custom-cursor-active');
+                    circleX = mouseX;
+                    circleY = mouseY;
+                }
+            });
+
+            // Smooth animation loop using requestAnimationFrame
+            function animateCursor() {
+                if (hasMoved) {
+                    // Linear interpolation (lerp) formula
+                    circleX += (mouseX - circleX) * speed;
+                    circleY += (mouseY - circleY) * speed;
+
+                    // Update positions (centering is handled via CSS 'translate: -50% -50%')
+                    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+                    outline.style.transform = `translate3d(${circleX}px, ${circleY}px, 0)`;
+                }
+                requestAnimationFrame(animateCursor);
+            }
+            requestAnimationFrame(animateCursor);
+
+            // Click visual feedback (scale down/squeeze)
+            window.addEventListener('mousedown', () => {
+                dot.classList.add('cursor-clicked');
+                outline.classList.add('cursor-clicked');
+            });
+
+            window.addEventListener('mouseup', () => {
+                dot.classList.remove('cursor-clicked');
+                outline.classList.remove('cursor-clicked');
+            });
+
+            // Hide custom cursor when mouse leaves browser viewport
+            document.addEventListener('mouseleave', () => {
+                document.documentElement.classList.add('cursor-hidden');
+            });
+
+            document.addEventListener('mouseenter', () => {
+                document.documentElement.classList.remove('cursor-hidden');
+            });
+
+            // Hover styling triggered via event delegation on mouseover
+            window.addEventListener('mouseover', (e) => {
+                const target = e.target;
+                if (!target) return;
+
+                // Expand and invert outline circle when hovering links, buttons, cards, and tags
+                const interactive = target.closest('a, button, .formation-card, .timeline-item, .skills-tag-list li, .contact-badge, .theme-toggle-modern, .interest-block');
+                
+                if (interactive) {
+                    dot.classList.add('cursor-hover');
+                    outline.classList.add('cursor-hover');
+                } else {
+                    dot.classList.remove('cursor-hover');
+                    outline.classList.remove('cursor-hover');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
