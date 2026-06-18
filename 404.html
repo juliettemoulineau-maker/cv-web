@@ -236,7 +236,7 @@
 
     <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
+    <div class="cursor-trail"></div>
 
     <!-- Lottie Web Player library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" integrity="sha512-jEnuDt6CDL+CxqBhYzhgFM3cJg3yK74Oa65g6EOMC0AHI6gtQD55aMj15I76a2r7E0OPkpBYWJ/gE241wF9v1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -283,23 +283,16 @@
             
             if (!isTouchDevice) {
                 const dot = document.querySelector('.cursor-dot');
-                const circle = document.querySelector('.cursor-circle');
+                const trail = document.querySelector('.cursor-trail');
                 
-                if (dot && circle) {
+                if (dot && trail) {
                     let mouseX = 0;
                     let mouseY = 0;
                     let circleX = 0;
                     let circleY = 0;
-                    let circleWidth = 30;
-                    let circleHeight = 30;
-                    let circleRadius = 15;
                     let hasMoved = false;
 
                     const speed = 0.15;
-
-                    let hoveredEl = null;
-                    let hoveredRect = null;
-                    let hoveredRadius = 15;
 
                     window.addEventListener('mousemove', (e) => {
                         mouseX = e.clientX;
@@ -318,45 +311,38 @@
 
                     function animateCursor() {
                         if (hasMoved) {
-                            let targetX, targetY, targetWidth, targetHeight, targetRadius;
+                            // Linear interpolation (lerp) for trailing
+                            circleX += (mouseX - circleX) * speed;
+                            circleY += (mouseY - circleY) * speed;
 
-                            if (hoveredEl && hoveredRect) {
-                                targetX = hoveredRect.left + hoveredRect.width / 2;
-                                targetY = hoveredRect.top + hoveredRect.height / 2;
-                                targetWidth = hoveredRect.width + 12;
-                                targetHeight = hoveredRect.height + 12;
-                                targetRadius = hoveredRadius;
-                            } else {
-                                targetX = mouseX;
-                                targetY = mouseY;
-                                targetWidth = 30;
-                                targetHeight = 30;
-                                targetRadius = 15;
-                            }
-
-                            circleX += (targetX - circleX) * speed;
-                            circleY += (targetY - circleY) * speed;
-                            circleWidth += (targetWidth - circleWidth) * speed;
-                            circleHeight += (targetHeight - circleHeight) * speed;
-                            circleRadius += (targetRadius - circleRadius) * speed;
-
-                            circle.style.translate = `${circleX}px ${circleY}px`;
-                            circle.style.width = `${circleWidth}px`;
-                            circle.style.height = `${circleHeight}px`;
-                            circle.style.borderRadius = `${circleRadius}px`;
+                            trail.style.translate = `${circleX}px ${circleY}px`;
                         }
                         requestAnimationFrame(animateCursor);
                     }
                     requestAnimationFrame(animateCursor);
 
+                    // Click down: contracts trail instantly
                     window.addEventListener('mousedown', () => {
                         dot.classList.add('cursor-clicked');
-                        circle.classList.add('cursor-clicked');
+                        trail.classList.add('cursor-clicked');
                     });
 
+                    // Relâchement: resumes normal size smoothly
                     window.addEventListener('mouseup', () => {
                         dot.classList.remove('cursor-clicked');
-                        circle.classList.remove('cursor-clicked');
+                        trail.classList.remove('cursor-clicked');
+                    });
+
+                    // Dynamic wave ripple on click
+                    window.addEventListener('click', (e) => {
+                        const wave = document.createElement('div');
+                        wave.classList.add('cursor-wave');
+                        wave.style.translate = `${e.clientX}px ${e.clientY}px`;
+                        document.body.appendChild(wave);
+
+                        setTimeout(() => {
+                            wave.remove();
+                        }, 300);
                     });
 
                     document.addEventListener('mouseleave', () => {
@@ -367,6 +353,7 @@
                         document.documentElement.classList.remove('cursor-hidden');
                     });
 
+                    // Hover styling triggered via event delegation on mouseover (high performance)
                     window.addEventListener('mouseover', (e) => {
                         const target = e.target;
                         if (!target) return;
@@ -374,39 +361,13 @@
                         const interactive = target.closest('a, button, .theme-toggle-modern, .header-logo, #canvas-sea');
                         
                         if (interactive) {
-                            if (hoveredEl !== interactive) {
-                                hoveredEl = interactive;
-                                hoveredRect = interactive.getBoundingClientRect();
-                                
-                                const rawRadius = window.getComputedStyle(interactive).borderRadius;
-                                const num = parseFloat(rawRadius);
-                                if (rawRadius.includes('%')) {
-                                    hoveredRadius = (hoveredRect.width * num) / 100;
-                                } else if (!isNaN(num)) {
-                                    hoveredRadius = num + 6;
-                                } else {
-                                    hoveredRadius = 8;
-                                }
-
-                                dot.classList.add('cursor-hover');
-                                circle.classList.add('cursor-hover');
-                            }
+                            dot.classList.add('cursor-hover');
+                            trail.classList.add('cursor-hover');
                         } else {
-                            if (hoveredEl !== null) {
-                                hoveredEl = null;
-                                hoveredRect = null;
-                                hoveredRadius = 15;
-                                dot.classList.remove('cursor-hover');
-                                circle.classList.remove('cursor-hover');
-                            }
+                            dot.classList.remove('cursor-hover');
+                            trail.classList.remove('cursor-hover');
                         }
                     });
-
-                    window.addEventListener('scroll', () => {
-                        if (hoveredEl) {
-                            hoveredRect = hoveredEl.getBoundingClientRect();
-                        }
-                    }, { passive: true });
                 }
             }
         });

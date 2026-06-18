@@ -494,7 +494,7 @@
 
     <!-- Creative Custom Cursor Elements -->
     <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
+    <div class="cursor-trail"></div>
 
     <!-- Script for Custom Cursor Logic -->
     <script>
@@ -509,26 +509,18 @@
             }
 
             const dot = document.querySelector('.cursor-dot');
-            const circle = document.querySelector('.cursor-circle');
+            const trail = document.querySelector('.cursor-trail');
 
-            if (!dot || !circle) return;
+            if (!dot || !trail) return;
 
             let mouseX = 0;
             let mouseY = 0;
             let circleX = 0;
             let circleY = 0;
-            let circleWidth = 30;
-            let circleHeight = 30;
-            let circleRadius = 15; // Starts as 50% circle (15px radius for 30px width/height)
             let hasMoved = false;
 
             // Interpolation factor (0.15 gives a smooth, organic trailing effect)
             const speed = 0.15;
-
-            // Track current hovered interactive element to apply the magnetic snap framing
-            let hoveredEl = null;
-            let hoveredRect = null;
-            let hoveredRadius = 15;
 
             // Track mouse movements
             window.addEventListener('mousemove', (e) => {
@@ -550,50 +542,40 @@
             // Smooth animation loop using requestAnimationFrame
             function animateCursor() {
                 if (hasMoved) {
-                    let targetX, targetY, targetWidth, targetHeight, targetRadius;
-
-                    if (hoveredEl && hoveredRect) {
-                        // Snaps circle to the center of the hovered interactive element
-                        targetX = hoveredRect.left + hoveredRect.width / 2;
-                        targetY = hoveredRect.top + hoveredRect.height / 2;
-                        targetWidth = hoveredRect.width + 12; // padding around element
-                        targetHeight = hoveredRect.height + 12;
-                        targetRadius = hoveredRadius;
-                    } else {
-                        // Circles trails mouse pointer
-                        targetX = mouseX;
-                        targetY = mouseY;
-                        targetWidth = 30;
-                        targetHeight = 30;
-                        targetRadius = 15;
-                    }
-
-                    // Linear interpolation (lerp) formulas for position and sizing morphing
-                    circleX += (targetX - circleX) * speed;
-                    circleY += (targetY - circleY) * speed;
-                    circleWidth += (targetWidth - circleWidth) * speed;
-                    circleHeight += (targetHeight - circleHeight) * speed;
-                    circleRadius += (targetRadius - circleRadius) * speed;
+                    // Linear interpolation (lerp) formula for smooth trailing
+                    circleX += (mouseX - circleX) * speed;
+                    circleY += (mouseY - circleY) * speed;
 
                     // Apply coordinates via modern CSS translate (avoids conflicts with CSS scale transforms)
-                    circle.style.translate = `${circleX}px ${circleY}px`;
-                    circle.style.width = `${circleWidth}px`;
-                    circle.style.height = `${circleHeight}px`;
-                    circle.style.borderRadius = `${circleRadius}px`;
+                    trail.style.translate = `${circleX}px ${circleY}px`;
                 }
                 requestAnimationFrame(animateCursor);
             }
             requestAnimationFrame(animateCursor);
 
-            // Click visual feedback (scale down/squeeze) via clean CSS transforms
+            // Click down: contracts trail circle instantly
             window.addEventListener('mousedown', () => {
                 dot.classList.add('cursor-clicked');
-                circle.classList.add('cursor-clicked');
+                trail.classList.add('cursor-clicked');
             });
 
+            // Relâchement: resumes normal size smoothly
             window.addEventListener('mouseup', () => {
                 dot.classList.remove('cursor-clicked');
-                circle.classList.remove('cursor-clicked');
+                trail.classList.remove('cursor-clicked');
+            });
+
+            // Shockwave wave animation dynamically spawned at click point and cleaned up
+            window.addEventListener('click', (e) => {
+                const wave = document.createElement('div');
+                wave.classList.add('cursor-wave');
+                wave.style.translate = `${e.clientX}px ${e.clientY}px`;
+                document.body.appendChild(wave);
+
+                // Auto-cleanup after 0.3s animation completes to prevent DOM bloat
+                setTimeout(() => {
+                    wave.remove();
+                }, 300);
             });
 
             // Hide custom cursor when mouse leaves browser viewport
@@ -605,50 +587,22 @@
                 document.documentElement.classList.remove('cursor-hidden');
             });
 
-            // Hover styling & snapping targets triggered via event delegation on mouseover (high performance)
+            // Hover styling triggered via event delegation on mouseover (high performance)
             window.addEventListener('mouseover', (e) => {
                 const target = e.target;
                 if (!target) return;
 
-                // Detect buttons, links, custom cards, tags, and logo
+                // Detect buttons, links, cards, tags, and logo
                 const interactive = target.closest('a, button, .formation-card, .timeline-item, .skills-tag-list li, .contact-badge, .theme-toggle-modern, .interest-block, .header-logo');
                 
                 if (interactive) {
-                    if (hoveredEl !== interactive) {
-                        hoveredEl = interactive;
-                        hoveredRect = interactive.getBoundingClientRect();
-                        
-                        // Dynamically compute the target border radius
-                        const rawRadius = window.getComputedStyle(interactive).borderRadius;
-                        const num = parseFloat(rawRadius);
-                        if (rawRadius.includes('%')) {
-                            hoveredRadius = (hoveredRect.width * num) / 100;
-                        } else if (!isNaN(num)) {
-                            hoveredRadius = num + 6; // pad radius slightly to match spacing
-                        } else {
-                            hoveredRadius = 8;
-                        }
-
-                        dot.classList.add('cursor-hover');
-                        circle.classList.add('cursor-hover');
-                    }
+                    dot.classList.add('cursor-hover');
+                    trail.classList.add('cursor-hover');
                 } else {
-                    if (hoveredEl !== null) {
-                        hoveredEl = null;
-                        hoveredRect = null;
-                        hoveredRadius = 15;
-                        dot.classList.remove('cursor-hover');
-                        circle.classList.remove('cursor-hover');
-                    }
+                    dot.classList.remove('cursor-hover');
+                    trail.classList.remove('cursor-hover');
                 }
             });
-
-            // Keep snapshot rect updated if layout scrolls during hovering
-            window.addEventListener('scroll', () => {
-                if (hoveredEl) {
-                    hoveredRect = hoveredEl.getBoundingClientRect();
-                }
-            }, { passive: true });
         });
     </script>
 </body>

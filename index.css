@@ -954,19 +954,19 @@ div.contact-badge {
    ========================================================================== */
 
 @media (hover: hover) and (pointer: fine) {
-    /* Hide the native cursor only when JavaScript successfully sets up the custom cursor class */
-    html.custom-cursor-active,
-    html.custom-cursor-active * {
+    /* Hide the native cursor globally on the body when JavaScript successfully sets up the custom cursor */
+    html.custom-cursor-active body,
+    html.custom-cursor-active body * {
         cursor: none !important;
     }
 
     .cursor-dot,
-    .cursor-circle {
+    .cursor-trail {
         position: fixed;
         top: 0;
         left: 0;
         pointer-events: none;
-        will-change: translate, width, height, border-radius, opacity, transform;
+        will-change: translate, opacity, transform;
         opacity: 0; /* Hidden by default until mouse moves */
         transition: opacity 0.3s ease;
     }
@@ -982,9 +982,9 @@ div.contact-badge {
         transition: opacity 0.3s ease, scale 0.15s ease;
     }
 
-    .cursor-circle {
-        width: 30px;
-        height: 30px;
+    .cursor-trail {
+        width: 24px;
+        height: 24px;
         border: 1px solid var(--cursor-border);
         background-color: transparent;
         border-radius: 50%;
@@ -992,43 +992,59 @@ div.contact-badge {
         translate: -50% -50%;
         transform: scale(1);
         transition: opacity 0.3s ease, 
-                    transform 0.15s ease, 
-                    border-color 0.15s ease, 
-                    background-color 0.15s ease;
+                    transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), 
+                    border-color 0.15s ease;
+    }
+
+    /* Ephemeral click wave ripple */
+    .cursor-wave {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        border: 1.5px solid var(--orange-signature);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9997;
+        translate: -50% -50%;
+        animation: cursor-wave-anim 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+
+    @keyframes cursor-wave-anim {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(2.5);
+            opacity: 0;
+        }
     }
 
     /* Shown state */
     html.custom-cursor-active .cursor-dot,
-    html.custom-cursor-active .cursor-circle {
+    html.custom-cursor-active .cursor-trail {
         opacity: 1;
     }
 
     /* Hidden when leaving viewport */
     html.custom-cursor-active.cursor-hidden .cursor-dot,
-    html.custom-cursor-active.cursor-hidden .cursor-circle {
+    html.custom-cursor-active.cursor-hidden .cursor-trail {
         opacity: 0;
     }
 
-    /* Click feedback (squeeze effect with transition on release) */
-    html.custom-cursor-active .cursor-circle.cursor-clicked {
-        transform: scale(0.7);
+    /* Click feedback: contracts instantly (0s transition) and turns orange signature */
+    html.custom-cursor-active .cursor-trail.cursor-clicked {
+        transform: scale(0.5);
         border-color: var(--orange-signature) !important;
-        transition: transform 0.08s ease, border-color 0.08s ease; /* Snappy click-down */
-    }
-
-    html.custom-cursor-active .cursor-dot.cursor-clicked {
-        scale: 1.2;
+        transition: transform 0s, border-color 0s;
     }
 
     /* Hovering state */
-    html.custom-cursor-active .cursor-circle.cursor-hover {
+    html.custom-cursor-active .cursor-trail.cursor-hover {
         border-color: var(--orange-signature) !important;
-        background-color: rgba(255, 99, 0, 0.05);
-    }
-
-    html.custom-cursor-active .cursor-dot.cursor-hover {
-        scale: 0;
-        opacity: 0;
+        scale: 1.35;
     }
 }
 
@@ -1042,7 +1058,7 @@ body.loading {
 }
 
 body.loading .cursor-dot,
-body.loading .cursor-circle {
+body.loading .cursor-trail {
     opacity: 0 !important;
     visibility: hidden !important;
 }
