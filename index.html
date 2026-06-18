@@ -493,15 +493,14 @@
             if (!preloader || !countEl || !barFillEl) return;
 
             let startTime = null;
-            const duration = 1800; // Consistent duration of 1.8s for smooth counting
+            const duration = 2000; // Consistent duration of 2.0s to match the logo's native duration
 
             if (logoSvg) {
                 try {
-                    // Pause the SVG SMIL animations to control them frame-by-frame
-                    logoSvg.pauseAnimations();
+                    // Reset SVG SMIL animations timeline to align with the loader start
                     logoSvg.setCurrentTime(0);
                 } catch (e) {
-                    console.error('Failed to pause SVG animations:', e);
+                    console.error('Failed to reset SVG animations:', e);
                 }
             }
 
@@ -520,15 +519,6 @@
                 // Sync SVG circular progress ring (circumference of r=100 is ~628.318)
                 if (circleFillEl) {
                     circleFillEl.style.strokeDashoffset = 628.318 - progress * 628.318;
-                }
-
-                // Sync inline SVG animation frame with current progress (duration 2s)
-                if (logoSvg) {
-                    try {
-                        logoSvg.setCurrentTime(progress * 2);
-                    } catch (e) {
-                        // fallback
-                    }
                 }
 
                 if (progress < 1) {
