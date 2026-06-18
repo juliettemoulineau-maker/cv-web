@@ -493,9 +493,7 @@
     </script>
 
     <!-- Creative Custom Cursor Elements -->
-    <svg class="custom-pointer" viewBox="0 0 24 24" width="24" height="24">
-        <path d="M0,0 L16,12 L9,13 L5,20 Z" fill="currentColor" />
-    </svg>
+    <div class="custom-pointer"></div>
     <canvas class="cursor-canvas"></canvas>
 
     <!-- Script for Custom Cursor Logic -->
@@ -540,52 +538,109 @@
             // Mouse coordinates tracking
             let mouseX = 0;
             let mouseY = 0;
-            let trailX = 0;
-            let trailY = 0;
-            let lastTrailX = 0;
-            let lastTrailY = 0;
+            let lastMouseX = 0;
+            let lastMouseY = 0;
             let hasMoved = false;
 
             window.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
 
-                // Move pointer instantly for 100% responsiveness
-                pointer.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+                // Move round pointer instantly for 100% responsiveness (centered via CSS translate -50% -50%)
+                pointer.style.translate = `${mouseX}px ${mouseY}px`;
 
                 if (!hasMoved) {
                     hasMoved = true;
                     document.documentElement.classList.add('custom-cursor-active');
-                    trailX = mouseX;
-                    trailY = mouseY;
-                    lastTrailX = mouseX;
-                    lastTrailY = mouseY;
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+                    return;
                 }
+
+                // Calculate motion distance to interpolate dense spawns (step every 2px)
+                const dist = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
+                const steps = Math.min(Math.floor(dist / 2), 25); // high density trail mapping
+
+                for (let i = 0; i < steps; i++) {
+                    const ratio = i / steps;
+                    const px = lastMouseX + (mouseX - lastMouseX) * ratio;
+                    const py = lastMouseY + (mouseY - lastMouseY) * ratio;
+
+                    // Spawn 2 particles per step for extra thick/dense trail appearance
+                    for (let k = 0; k < 2; k++) {
+                        const vx = (mouseX - lastMouseX) * 0.05 + (Math.random() - 0.5) * 0.8;
+                        const vy = (mouseY - lastMouseY) * 0.05 + (Math.random() - 0.5) * 0.8;
+
+                        particles.push({
+                            x: px + (Math.random() - 0.5) * 4,
+                            y: py + (Math.random() - 0.5) * 4,
+                            vx: vx,
+                            vy: vy,
+                            radius: Math.random() * 2.0 + 1.2, // slightly larger particles
+                            color: '#FF4500', // Vibrant Orange DA signature
+                            opacity: 0.9,
+                            life: 1.0,
+                            duration: 500, // Longer 500ms particle lifespan for long trail
+                            type: 'sparkle'
+                        });
+                    }
+
+                    // Spawn soft orange halo particle
+                    if (Math.random() > 0.45) {
+                        particles.push({
+                            x: px + (Math.random() - 0.5) * 6,
+                            y: py + (Math.random() - 0.5) * 6,
+                            vx: (Math.random() - 0.5) * 0.2,
+                            vy: (Math.random() - 0.5) * 0.2,
+                            radius: Math.random() * 4 + 8,
+                            color: '#FF4500',
+                            opacity: 0.15,
+                            life: 1.0,
+                            duration: 450,
+                            type: 'halo'
+                        });
+                    }
+                }
+
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
             });
 
             // Shockwave particles explosion on mousedown (click)
             window.addEventListener('mousedown', () => {
                 if (!hasMoved) return;
 
-                // Spawn 16 radial particles (Orange and White) dispersing outwards
-                const numParticles = 16;
+                // Instant pointer round collapse
+                pointer.classList.add('cursor-clicked');
+
+                // Determine secondary click color based on active light/dark theme
+                const isDark = document.body.classList.contains('dark-theme');
+                const secondaryColor = isDark ? '#FFFFFF' : '#000000'; // White on Dark mode, Black on Light mode
+
+                // Spawn 20 radial particles (Orange and White/Black) dispersing outwards in a concentric shockwave
+                const numParticles = 20;
                 for (let i = 0; i < numParticles; i++) {
-                    const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
-                    const speed = Math.random() * 5 + 3.0; // High speed dispersion
+                    const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.2;
+                    const speed = Math.random() * 6 + 4.0; // High speed dry explosion
 
                     particles.push({
                         x: mouseX,
                         y: mouseY,
                         vx: Math.cos(angle) * speed,
                         vy: Math.sin(angle) * speed,
-                        radius: Math.random() * 2 + 1.2,
-                        color: Math.random() > 0.5 ? '#FF6300' : '#FFFFFF', // Strict DA palette (Orange/White)
+                        radius: Math.random() * 2.5 + 1.5,
+                        color: Math.random() > 0.5 ? '#FF4500' : secondaryColor,
                         opacity: 1.0,
                         life: 1.0,
-                        duration: 100, // Dry and snappy 0.1s flash
+                        duration: 150, // snappy 0.15s shockwave duration
                         type: 'explosion'
                     });
                 }
+            });
+
+            // Relâchement: resumes normal size smoothly via CSS transitions
+            window.addEventListener('mouseup', () => {
+                pointer.classList.remove('cursor-clicked');
             });
 
             // Viewport boundaries tracking
@@ -608,49 +663,6 @@
 
                 // Additive blending for standard premium glow aesthetics
                 ctx.globalCompositeOperation = 'screen';
-
-                if (hasMoved) {
-                    // Linear interpolation (LERP) formula for smooth trail motion
-                    trailX += (mouseX - trailX) * 0.18;
-                    trailY += (mouseY - trailY) * 0.18;
-
-                    // Spawn trail particles inside the render loop (avoids mousemove flooding, ensuring solid 60FPS)
-                    const dist = Math.hypot(trailX - lastTrailX, trailY - lastTrailY);
-                    if (dist > 0.5) {
-                        // Spawn orange sparkle
-                        particles.push({
-                            x: trailX,
-                            y: trailY,
-                            vx: (Math.random() - 0.5) * 0.6,
-                            vy: (Math.random() - 0.5) * 0.6,
-                            radius: Math.random() * 1.5 + 1.2,
-                            color: '#FF6300', // DA Orange signature
-                            opacity: 0.9,
-                            life: 1.0,
-                            duration: 250, // Short 250ms trail life for crispness
-                            type: 'sparkle'
-                        });
-
-                        // Spawn diffuse orange halo particle
-                        if (Math.random() > 0.6) {
-                            particles.push({
-                                x: trailX + (Math.random() - 0.5) * 3,
-                                y: trailY + (Math.random() - 0.5) * 3,
-                                vx: (Math.random() - 0.5) * 0.2,
-                                vy: (Math.random() - 0.5) * 0.2,
-                                radius: Math.random() * 3 + 6,
-                                color: '#FF6300',
-                                opacity: 0.15,
-                                life: 1.0,
-                                duration: 220,
-                                type: 'halo'
-                            });
-                        }
-                    }
-
-                    lastTrailX = trailX;
-                    lastTrailY = trailY;
-                }
 
                 // Update and render particles
                 for (let i = particles.length - 1; i >= 0; i--) {

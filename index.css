@@ -966,14 +966,23 @@ div.contact-badge {
         position: fixed;
         top: 0;
         left: 0;
-        width: 18px;
-        height: 18px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--pointer-color);
         pointer-events: none;
         z-index: 1000000;
-        color: var(--pointer-color); /* Noir en mode Light, blanc en mode Dark via theme variables */
-        opacity: 0; /* Caché au départ, s'affiche dès que la souris bouge */
-        will-change: transform, opacity;
-        transition: opacity 0.3s ease;
+        translate: -50% -50%;
+        opacity: 0;
+        transform: scale(1);
+        will-change: translate, opacity, transform;
+        transition: opacity 0.3s ease, transform 0.15s ease;
+    }
+
+    /* Instant contraction/collapse on mousedown */
+    html.custom-cursor-active .custom-pointer.cursor-clicked {
+        transform: scale(0.3);
+        transition: transform 0s;
     }
 
     .cursor-canvas {
