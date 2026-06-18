@@ -50,6 +50,33 @@ html {
     color: var(--white);
 }
 
+/* Custom Scrollbar matching DA */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--card-border);
+    border-radius: 10px;
+    border: 2px solid var(--bg-color);
+    transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--orange-signature);
+}
+
+/* Firefox scrollbar support */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--card-border) var(--bg-color);
+}
+
 /* Base Reset */
 * {
     box-sizing: border-box;
