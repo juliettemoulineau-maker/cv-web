@@ -435,24 +435,37 @@
             if (!preloader || !countEl || !barFillEl) return;
 
             let animation = null;
-            
-            // Initialize Lottie animation using the provided logo.json
+            let startTime = null;
+            const duration = 1800; // Consistent duration of 1.8s for smooth counting
+
+            // Initialize Lottie animation without autoplay or looping
             if (typeof lottie !== 'undefined') {
                 try {
                     animation = lottie.loadAnimation({
                         container: document.getElementById('preloader-lottie'),
                         renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
+                        loop: false,
+                        autoplay: false,
                         path: 'logo.json'
+                    });
+
+                    // Wait until Lottie data is loaded and ready in DOM
+                    animation.addEventListener('DOMLoaded', () => {
+                        animation.goToAndStop(0, true);
+                        startProgress();
                     });
                 } catch (e) {
                     console.error('Failed to load Lottie animation:', e);
+                    startProgress(); // Fallback if initialization fails
                 }
+            } else {
+                startProgress(); // Fallback if Lottie library fails to load
             }
 
-            const duration = 1800; // Consistent duration of 1.8s for smooth counting
-            const startTime = performance.now();
+            function startProgress() {
+                startTime = performance.now();
+                requestAnimationFrame(updateProgress);
+            }
 
             function updateProgress(timestamp) {
                 const elapsed = timestamp - startTime;
@@ -462,15 +475,18 @@
                 countEl.textContent = percent.toString().padStart(2, '0');
                 barFillEl.style.width = percent + '%';
 
+                // Sync Lottie animation frame with current progress
+                if (animation && animation.totalFrames) {
+                    const targetFrame = progress * (animation.totalFrames - 1);
+                    animation.goToAndStop(targetFrame, true);
+                }
+
                 if (progress < 1) {
                     requestAnimationFrame(updateProgress);
                 } else {
                     completePreloader();
                 }
             }
-
-            // Start the counting request animation frame loop
-            requestAnimationFrame(updateProgress);
 
             function completePreloader() {
                 // Add class to trigger shutter slide & text fade out CSS animations
