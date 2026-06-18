@@ -21,14 +21,33 @@
         <div class="preloader-shutter preloader-shutter-left"></div>
         <div class="preloader-shutter preloader-shutter-right"></div>
         <div class="preloader-inner">
-            <div id="preloader-lottie"></div>
-            <div class="preloader-percentage-container">
-                <span id="preloader-count">00</span><span class="preloader-percent">%</span>
+            <!-- Glassmorphic Viewfinder Card -->
+            <div class="preloader-card">
+                <!-- Tech corner brackets -->
+                <div class="preloader-corners-decor"></div>
+                
+                <!-- Center Logo & Concentric Orbits -->
+                <div class="preloader-logo-wrapper">
+                    <div class="preloader-orbit-ring preloader-orbit-outer"></div>
+                    <div class="preloader-orbit-ring preloader-orbit-inner"></div>
+                    
+                    <!-- SVG Circular Progress Dial -->
+                    <svg class="preloader-progress-circle" width="210" height="210" viewBox="0 0 210 210">
+                        <circle class="progress-circle-bg" cx="105" cy="105" r="100" />
+                        <circle class="progress-circle-bar" id="preloader-circle-fill" cx="105" cy="105" r="100" />
+                    </svg>
+                    
+                    <div id="preloader-lottie"></div>
+                </div>
+
+                <div class="preloader-percentage-container">
+                    <span id="preloader-count">00</span><span class="preloader-percent">%</span>
+                </div>
+                <div class="preloader-bar-track">
+                    <div id="preloader-bar-fill"></div>
+                </div>
+                <div class="preloader-subtitle">JULIETTE MOULINEAU</div>
             </div>
-            <div class="preloader-bar-track">
-                <div id="preloader-bar-fill"></div>
-            </div>
-            <div class="preloader-subtitle">JULIETTE MOULINEAU</div>
         </div>
     </div>
 
@@ -469,6 +488,7 @@
             const preloader = document.getElementById('preloader');
             const countEl = document.getElementById('preloader-count');
             const barFillEl = document.getElementById('preloader-bar-fill');
+            const circleFillEl = document.getElementById('preloader-circle-fill');
             
             if (!preloader || !countEl || !barFillEl) return;
 
@@ -512,6 +532,11 @@
 
                 countEl.textContent = percent.toString().padStart(2, '0');
                 barFillEl.style.width = percent + '%';
+
+                // Sync SVG circular progress ring (circumference of r=100 is ~628.318)
+                if (circleFillEl) {
+                    circleFillEl.style.strokeDashoffset = 628.318 - progress * 628.318;
+                }
 
                 // Sync Lottie animation frame with current progress
                 if (animation && animation.totalFrames) {

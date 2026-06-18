@@ -913,42 +913,205 @@ div.contact-badge {
 }
 
 @media (max-width: 768px) {
+    .layout-wrapper {
+        padding: 1.5rem 1rem;
+    }
+
     .main-header {
+        position: relative;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1.2rem;
         align-items: center;
+        padding-bottom: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    #theme-toggle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 28px;
+    }
+
+    #theme-toggle .toggle-thumb {
+        width: 20px;
+        height: 20px;
+    }
+
+    .dark-theme #theme-toggle .toggle-thumb {
+        transform: translateX(22px);
+    }
+
+    #theme-toggle .toggle-icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    #theme-toggle .sun-icon {
+        left: 5px;
+        top: 6px;
+    }
+
+    #theme-toggle .moon-icon {
+        right: 5px;
+        top: 6px;
+    }
+
+    .header-logo, #header-logo-lottie {
+        width: 85px;
+        height: 85px;
     }
     
     .header-contact-modern {
-        gap: 0.6rem;
+        gap: 0.4rem;
+        padding: 0;
+    }
+
+    .contact-badge {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .contact-badge svg {
+        width: 12px;
+        height: 12px;
     }
 
     .header-actions {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .linkedin-pill {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 0.65rem;
+        padding: 0.35rem 0.8rem;
     }
     
+    .hero-section {
+        min-height: auto;
+        margin-bottom: 3rem;
+        padding-top: 1rem;
+    }
+
     .hero-title {
-        font-size: clamp(2.2rem, 10vw, 4rem);
+        font-size: clamp(2.5rem, 12vw, 3.5rem);
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        align-items: center;
+        margin-top: 1rem;
+        justify-content: flex-start;
     }
     
+    .subtitle-separator {
+        margin: 0 0.3rem;
+    }
+
+    .hero-bio {
+        padding-left: 1rem;
+        border-width: 2px;
+    }
+
+    .hero-bio p {
+        font-size: 1.05rem;
+    }
+
     .cta-button {
         width: 100%;
         justify-content: center;
     }
     
+    .main-grid {
+        gap: 3rem;
+        margin-bottom: 4rem;
+    }
+
+    .side-panel {
+        gap: 3rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .formation-card {
+        padding: 1.5rem;
+    }
+
+    .formation-title {
+        font-size: 1.2rem;
+    }
+
+    .skills-wrapper {
+        gap: 2rem;
+    }
+
+    .certification-voltaire-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1rem;
+        gap: 1rem;
+    }
+
+    .voltaire-badge {
+        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+    }
+
     .timeline-container {
         padding-left: 1.5rem;
+        gap: 2.5rem;
     }
     
     .timeline-dot {
         left: calc(-1.5rem - 6px);
     }
     
+    .experience-role {
+        font-size: 1.35rem;
+    }
+
+    .experience-company {
+        font-size: 1.05rem;
+    }
+
+    .interests-section {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+
+    .interests-frieze {
+        margin-top: 1.5rem;
+        gap: 0.5rem;
+    }
+
+    .interest-block {
+        font-size: 0.8rem;
+    }
+
+    .interest-block:not(:last-child)::after {
+        margin-left: 0.8rem;
+        margin-right: 0.3rem;
+        font-size: 0.6rem;
+    }
+    
     .site-footer {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+        font-size: 0.85rem;
+        padding-top: 1.5rem;
+        margin-top: 3rem;
     }
 }
 
@@ -1055,6 +1218,26 @@ body.loading .cursor-canvas {
     background-color: var(--bg-color);
     transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
     z-index: 1;
+    overflow: hidden;
+    --shutter-grid: rgba(255, 99, 0, 0.05); /* Light mode orange grid */
+    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1), background-color 0.3s ease;
+}
+
+.dark-theme .preloader-shutter {
+    --shutter-grid: rgba(255, 99, 0, 0.09); /* Dark mode orange grid */
+}
+
+/* Coordinate architectural grid */
+.preloader-shutter::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: 50px 50px;
+    background-image: 
+        linear-gradient(to right, var(--shutter-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--shutter-grid) 1px, transparent 1px);
+    opacity: 0.55;
+    pointer-events: none;
 }
 
 .preloader-shutter-left {
@@ -1078,10 +1261,148 @@ body.loading .cursor-canvas {
                 transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* Tech-viewfinder glassmorphic card container */
+.preloader-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 4.5vw, 3rem) clamp(2.5rem, 5.5vw, 4.2rem);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 99, 0, 0.18);
+    border-radius: 28px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark-theme .preloader-card {
+    background: rgba(18, 18, 18, 0.65);
+    border-color: rgba(255, 99, 0, 0.28);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* Tech corners positioning */
+.preloader-corners-decor {
+    position: absolute;
+    inset: 12px;
+    pointer-events: none;
+}
+
+.preloader-corners-decor::before,
+.preloader-corners-decor::after,
+.preloader-card::before,
+.preloader-card::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--orange-signature);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Top-Left */
+.preloader-card::before {
+    top: 12px;
+    left: 12px;
+    border-width: 2.5px 0 0 2.5px;
+}
+
+/* Bottom-Right */
+.preloader-card::after {
+    bottom: 12px;
+    right: 12px;
+    border-width: 0 2.5px 2.5px 0;
+}
+
+/* Top-Right */
+.preloader-corners-decor::before {
+    top: 0;
+    right: 0;
+    border-width: 2.5px 2.5px 0 0;
+}
+
+/* Bottom-Left */
+.preloader-corners-decor::after {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 2.5px 2.5px;
+}
+
+/* Logo and concentric orbits wrapper */
+.preloader-logo-wrapper {
+    position: relative;
+    width: 210px;
+    height: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Circular orbits revolving in opposite directions */
+.preloader-orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.preloader-orbit-outer {
+    width: 195px;
+    height: 195px;
+    border: 1px dashed var(--orange-signature);
+    opacity: 0.3;
+    animation: preloader-spin 25s linear infinite;
+}
+
+.preloader-orbit-inner {
+    width: 175px;
+    height: 175px;
+    border: 1.5px dotted var(--text-color);
+    opacity: 0.2;
+    animation: preloader-spin-reverse 18s linear infinite;
+}
+
+/* Circular progress SVG meter */
+.preloader-progress-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    width: 210px;
+    height: 210px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.progress-circle-bg {
+    fill: none;
+    stroke: var(--lang-track);
+    stroke-width: 1.5px;
+    transition: stroke 0.3s ease;
+}
+
+.progress-circle-bar {
+    fill: none;
+    stroke: var(--orange-signature);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-dasharray: 628.318; /* Circumference of r=100 */
+    stroke-dashoffset: 628.318;
+    transition: stroke-dashoffset 0.1s linear, stroke 0.3s ease;
+}
+
 #preloader-lottie {
-    width: clamp(140px, 15vw, 180px);
-    height: clamp(140px, 15vw, 180px);
-    margin-bottom: 1rem;
+    width: 155px;
+    height: 155px;
+    margin-bottom: 0 !important;
+    position: relative;
+    z-index: 3;
 }
 
 .preloader-percentage-container {
@@ -1094,6 +1415,7 @@ body.loading .cursor-canvas {
     margin-bottom: 0.6rem;
     display: flex;
     align-items: baseline;
+    transition: color 0.3s ease;
 }
 
 .preloader-percent {
@@ -1110,6 +1432,7 @@ body.loading .cursor-canvas {
     border-radius: 5px;
     overflow: hidden;
     margin-bottom: 0.8rem;
+    transition: background-color 0.3s ease;
 }
 
 #preloader-bar-fill {
@@ -1132,7 +1455,7 @@ body.loading .cursor-canvas {
 /* Preloader Finished/Exit States */
 .preloader-finished .preloader-inner {
     opacity: 0;
-    transform: scale(0.9) translateY(-15px);
+    transform: scale(0.8) translateY(-15px);
 }
 
 .preloader-finished .preloader-shutter-left {
@@ -1143,6 +1466,26 @@ body.loading .cursor-canvas {
 .preloader-finished .preloader-shutter-right {
     transform: translateX(100%);
     transition-delay: 0.3s;
+}
+
+/* Concentric Rotation Animations */
+@keyframes preloader-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes preloader-spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* Mobile responsive scaling */
+@media (max-width: 500px) {
+    .preloader-card {
+        padding: 2.2rem 1.8rem;
+        transform: scale(0.85);
+        transform-origin: center;
+    }
 }
 
 /* Staggered page reveal animations */
