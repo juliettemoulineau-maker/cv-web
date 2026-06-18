@@ -40,6 +40,16 @@ html {
     --badge-bg: rgba(255, 99, 0, 0.15);
 }
 
+/* Selection Colors matching DA */
+::selection {
+    background-color: var(--orange-signature);
+    color: var(--white);
+}
+::-moz-selection {
+    background-color: var(--orange-signature);
+    color: var(--white);
+}
+
 /* Base Reset */
 * {
     box-sizing: border-box;
