@@ -1216,28 +1216,9 @@ body.loading .cursor-canvas {
     width: 50%;
     height: 100%;
     background-color: var(--bg-color);
-    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1), background-color 0.3s ease;
     z-index: 1;
     overflow: hidden;
-    --shutter-grid: rgba(255, 99, 0, 0.05); /* Light mode orange grid */
-    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1), background-color 0.3s ease;
-}
-
-.dark-theme .preloader-shutter {
-    --shutter-grid: rgba(255, 99, 0, 0.09); /* Dark mode orange grid */
-}
-
-/* Coordinate architectural grid */
-.preloader-shutter::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-size: 50px 50px;
-    background-image: 
-        linear-gradient(to right, var(--shutter-grid) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--shutter-grid) 1px, transparent 1px);
-    opacity: 0.55;
-    pointer-events: none;
 }
 
 .preloader-shutter-left {
@@ -1261,140 +1242,15 @@ body.loading .cursor-canvas {
                 transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Tech-viewfinder glassmorphic card container */
-.preloader-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(2rem, 4.5vw, 3rem) clamp(2.5rem, 5.5vw, 4.2rem);
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 99, 0, 0.18);
-    border-radius: 28px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dark-theme .preloader-card {
-    background: rgba(18, 18, 18, 0.65);
-    border-color: rgba(255, 99, 0, 0.28);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
-}
-
-/* Tech corners positioning */
-.preloader-corners-decor {
-    position: absolute;
-    inset: 12px;
-    pointer-events: none;
-}
-
-.preloader-corners-decor::before,
-.preloader-corners-decor::after,
-.preloader-card::before,
-.preloader-card::after {
-    content: "";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-color: var(--orange-signature);
-    border-style: solid;
-    pointer-events: none;
-    transition: border-color 0.3s ease;
-}
-
-/* Top-Left */
-.preloader-card::before {
-    top: 12px;
-    left: 12px;
-    border-width: 2.5px 0 0 2.5px;
-}
-
-/* Bottom-Right */
-.preloader-card::after {
-    bottom: 12px;
-    right: 12px;
-    border-width: 0 2.5px 2.5px 0;
-}
-
-/* Top-Right */
-.preloader-corners-decor::before {
-    top: 0;
-    right: 0;
-    border-width: 2.5px 2.5px 0 0;
-}
-
-/* Bottom-Left */
-.preloader-corners-decor::after {
-    bottom: 0;
-    left: 0;
-    border-width: 0 0 2.5px 2.5px;
-}
-
-/* Logo and concentric orbits wrapper */
+/* Logo wrapper styling */
 .preloader-logo-wrapper {
     position: relative;
-    width: 210px;
-    height: 210px;
+    width: 155px;
+    height: 155px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-}
-
-/* Circular orbits revolving in opposite directions */
-.preloader-orbit-ring {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.preloader-orbit-outer {
-    width: 195px;
-    height: 195px;
-    border: 1px dashed var(--orange-signature);
-    opacity: 0.3;
-    animation: preloader-spin 25s linear infinite;
-}
-
-.preloader-orbit-inner {
-    width: 175px;
-    height: 175px;
-    border: 1.5px dotted var(--text-color);
-    opacity: 0.2;
-    animation: preloader-spin-reverse 18s linear infinite;
-}
-
-/* Circular progress SVG meter */
-.preloader-progress-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-90deg);
-    width: 210px;
-    height: 210px;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.progress-circle-bg {
-    fill: none;
-    stroke: var(--lang-track);
-    stroke-width: 1.5px;
-    transition: stroke 0.3s ease;
-}
-
-.progress-circle-bar {
-    fill: none;
-    stroke: var(--orange-signature);
-    stroke-width: 3px;
-    stroke-linecap: round;
-    stroke-dasharray: 628.318; /* Circumference of r=100 */
-    stroke-dashoffset: 628.318;
-    transition: stroke-dashoffset 0.1s linear, stroke 0.3s ease;
 }
 
 #preloader-lottie {
@@ -1466,26 +1322,6 @@ body.loading .cursor-canvas {
 .preloader-finished .preloader-shutter-right {
     transform: translateX(100%);
     transition-delay: 0.3s;
-}
-
-/* Concentric Rotation Animations */
-@keyframes preloader-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes preloader-spin-reverse {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
-}
-
-/* Mobile responsive scaling */
-@media (max-width: 500px) {
-    .preloader-card {
-        padding: 2.2rem 1.8rem;
-        transform: scale(0.85);
-        transform-origin: center;
-    }
 }
 
 /* Staggered page reveal animations */
