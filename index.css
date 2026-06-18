@@ -376,6 +376,11 @@ div.contact-badge {
     transform: translateZ(0) scale(1.01);
 }
 
+.dark-theme .formation-card {
+    background-color: transparent;
+    border: 2px solid var(--white);
+}
+
 .formation-years {
     font-size: 0.9rem;
     font-weight: 700;
