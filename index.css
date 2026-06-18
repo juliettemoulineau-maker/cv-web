@@ -969,20 +969,27 @@ div.contact-badge {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: var(--pointer-color);
+        background-color: #FF4500;
+        box-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
         pointer-events: none;
         z-index: 1000000;
         translate: -50% -50%;
         opacity: 0;
         transform: scale(1);
         will-change: translate, opacity, transform;
-        transition: opacity 0.3s ease, transform 0.15s ease;
+        transition: opacity 0.3s ease, transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     /* Instant contraction/collapse on mousedown */
     html.custom-cursor-active .custom-pointer.cursor-clicked {
         transform: scale(0.3);
         transition: transform 0s;
+    }
+
+    /* Hover scale-up on interactive elements */
+    html.custom-cursor-active .custom-pointer.cursor-hover {
+        transform: scale(1.6);
+        box-shadow: 0 0 8px rgba(255, 69, 0, 0.8);
     }
 
     .cursor-canvas {

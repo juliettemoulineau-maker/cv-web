@@ -308,11 +308,13 @@
                     // Particle store
                     const particles = [];
 
-                    // Mouse coordinates tracking
+                    // Mouse and trail coordinates tracking
                     let mouseX = 0;
                     let mouseY = 0;
-                    let lastMouseX = 0;
-                    let lastMouseY = 0;
+                    let trailX = 0;
+                    let trailY = 0;
+                    let lastTrailX = 0;
+                    let lastTrailY = 0;
                     let hasMoved = false;
 
                     window.addEventListener('mousemove', (e) => {
@@ -325,58 +327,11 @@
                         if (!hasMoved) {
                             hasMoved = true;
                             document.documentElement.classList.add('custom-cursor-active');
-                            lastMouseX = mouseX;
-                            lastMouseY = mouseY;
-                            return;
+                            trailX = mouseX;
+                            trailY = mouseY;
+                            lastTrailX = mouseX;
+                            lastTrailY = mouseY;
                         }
-
-                        // Calculate motion distance to interpolate dense spawns (step every 2px)
-                        const dist = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
-                        const steps = Math.min(Math.floor(dist / 2), 25); // high density trail mapping
-
-                        for (let i = 0; i < steps; i++) {
-                            const ratio = i / steps;
-                            const px = lastMouseX + (mouseX - lastMouseX) * ratio;
-                            const py = lastMouseY + (mouseY - lastMouseY) * ratio;
-
-                            // Spawn 2 particles per step for extra thick/dense trail appearance
-                            for (let k = 0; k < 2; k++) {
-                                const vx = (mouseX - lastMouseX) * 0.05 + (Math.random() - 0.5) * 0.8;
-                                const vy = (mouseY - lastMouseY) * 0.05 + (Math.random() - 0.5) * 0.8;
-
-                                particles.push({
-                                    x: px + (Math.random() - 0.5) * 4,
-                                    y: py + (Math.random() - 0.5) * 4,
-                                    vx: vx,
-                                    vy: vy,
-                                    radius: Math.random() * 2.0 + 1.2, // slightly larger particles
-                                    color: '#FF4500', // Vibrant Orange DA signature
-                                    opacity: 0.9,
-                                    life: 1.0,
-                                    duration: 500, // Longer 500ms particle lifespan for long trail
-                                    type: 'sparkle'
-                                });
-                            }
-
-                            // Spawn soft orange halo particle
-                            if (Math.random() > 0.45) {
-                                particles.push({
-                                    x: px + (Math.random() - 0.5) * 6,
-                                    y: py + (Math.random() - 0.5) * 6,
-                                    vx: (Math.random() - 0.5) * 0.2,
-                                    vy: (Math.random() - 0.5) * 0.2,
-                                    radius: Math.random() * 4 + 8,
-                                    color: '#FF4500',
-                                    opacity: 0.15,
-                                    life: 1.0,
-                                    duration: 450,
-                                    type: 'halo'
-                                });
-                            }
-                        }
-
-                        lastMouseX = mouseX;
-                        lastMouseY = mouseY;
                     });
 
                     // Shockwave particles explosion on mousedown (click)
@@ -390,23 +345,51 @@
                         const isDark = document.body.classList.contains('dark-theme');
                         const secondaryColor = isDark ? '#FFFFFF' : '#000000'; // White on Dark mode, Black on Light mode
 
-                        // Spawn 20 radial particles (Orange and White/Black) dispersing outwards in a concentric shockwave
-                        const numParticles = 20;
+                        // 1. Spawn Shockwave Ring
+                        particles.push({
+                            x: mouseX,
+                            y: mouseY,
+                            radius: 4,
+                            maxRadius: 55, // large expanding ring
+                            color: '#FF4500',
+                            opacity: 0.85,
+                            life: 1.0,
+                            duration: 350, // snappy 0.35s expansion
+                            type: 'ring'
+                        });
+
+                        // 2. Spawn Soft Orange Glow Puff (Halo)
+                        particles.push({
+                            x: mouseX,
+                            y: mouseY,
+                            vx: 0,
+                            vy: 0,
+                            radius: 8,
+                            maxRadius: 28,
+                            color: '#FF4500',
+                            opacity: 0.45,
+                            life: 1.0,
+                            duration: 300,
+                            type: 'halo_puff'
+                        });
+
+                        // 3. Spawn 30 Radial Spark Streaks
+                        const numParticles = 30;
                         for (let i = 0; i < numParticles; i++) {
-                            const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.2;
-                            const speed = Math.random() * 6 + 4.0; // High speed dry explosion
+                            const angle = (i / numParticles) * Math.PI * 2 + (Math.random() - 0.5) * 0.15;
+                            const speed = Math.random() * 7 + 4.5; // High speed dispersion
 
                             particles.push({
                                 x: mouseX,
                                 y: mouseY,
                                 vx: Math.cos(angle) * speed,
                                 vy: Math.sin(angle) * speed,
-                                radius: Math.random() * 2.5 + 1.5,
-                                color: Math.random() > 0.5 ? '#FF4500' : secondaryColor,
+                                radius: Math.random() * 2.0 + 1.2,
+                                color: Math.random() > 0.55 ? '#FF4500' : secondaryColor,
                                 opacity: 1.0,
                                 life: 1.0,
-                                duration: 150, // snappy 0.15s shockwave duration
-                                type: 'explosion'
+                                duration: 300 + Math.random() * 100, // 300-400ms duration for sparks to decelerate and die
+                                type: 'streak'
                             });
                         }
                     });
@@ -437,6 +420,78 @@
                         // Additive blending for standard premium glow aesthetics
                         ctx.globalCompositeOperation = 'screen';
 
+                        // LERP trail position and spawn particles continuously inside the loop
+                        if (hasMoved) {
+                            trailX += (mouseX - trailX) * 0.15;
+                            trailY += (mouseY - trailY) * 0.15;
+
+                            const dist = Math.hypot(trailX - lastTrailX, trailY - lastTrailY);
+
+                            if (dist > 0.1) {
+                                // High density mapping proportional to catch-up velocity
+                                const steps = Math.min(Math.floor(dist / 1.5), 15);
+                                for (let i = 0; i < steps; i++) {
+                                    const ratio = i / steps;
+                                    const px = lastTrailX + (trailX - lastTrailX) * ratio;
+                                    const py = lastTrailY + (trailY - lastTrailY) * ratio;
+
+                                    // Spawn 2 particles per step for extra thick/dense trail appearance
+                                    for (let k = 0; k < 2; k++) {
+                                        const vx = (trailX - lastTrailX) * 0.05 + (Math.random() - 0.5) * 0.6;
+                                        const vy = (trailY - lastTrailY) * 0.05 + (Math.random() - 0.5) * 0.6;
+
+                                        particles.push({
+                                            x: px + (Math.random() - 0.5) * 3,
+                                            y: py + (Math.random() - 0.5) * 3,
+                                            vx: vx,
+                                            vy: vy,
+                                            radius: Math.random() * 2.0 + 1.2, // slightly larger particles
+                                            color: '#FF4500', // Vibrant Orange DA signature
+                                            opacity: 0.9,
+                                            life: 1.0,
+                                            duration: 500, // Longer 500ms particle lifespan for long trail
+                                            type: 'sparkle'
+                                        });
+                                    }
+
+                                    // Spawn soft orange halo particle
+                                    if (Math.random() > 0.45) {
+                                        particles.push({
+                                            x: px + (Math.random() - 0.5) * 5,
+                                            y: py + (Math.random() - 0.5) * 5,
+                                            vx: (Math.random() - 0.5) * 0.15,
+                                            vy: (Math.random() - 0.5) * 0.15,
+                                            radius: Math.random() * 3 + 6,
+                                            color: '#FF4500',
+                                            opacity: 0.12,
+                                            life: 1.0,
+                                            duration: 450,
+                                            type: 'halo'
+                                        });
+                                    }
+                                }
+                            } else {
+                                // Idle state: spawn subtle floating idle particles around the cursor
+                                if (Math.random() > 0.85) {
+                                    particles.push({
+                                        x: mouseX + (Math.random() - 0.5) * 10,
+                                        y: mouseY + (Math.random() - 0.5) * 10,
+                                        vx: (Math.random() - 0.5) * 0.4,
+                                        vy: (Math.random() - 0.5) * 0.4,
+                                        radius: Math.random() * 1.2 + 0.6,
+                                        color: '#FF4500',
+                                        opacity: 0.7,
+                                        life: 1.0,
+                                        duration: 700 + Math.random() * 300, // slower fade
+                                        type: 'sparkle'
+                                    });
+                                }
+                            }
+
+                            lastTrailX = trailX;
+                            lastTrailY = trailY;
+                        }
+
                         // Update and render particles
                         for (let i = particles.length - 1; i >= 0; i--) {
                             const p = particles[i];
@@ -448,26 +503,66 @@
                                 continue;
                             }
 
-                            // Physics update with drag friction
-                            p.vx *= 0.95;
-                            p.vy *= 0.95;
-                            p.x += p.vx;
-                            p.y += p.vy;
-
-                            // Draw particle
-                            ctx.beginPath();
-                            if (p.type === 'halo') {
-                                const size = p.radius * (1 + (1 - p.life) * 0.4);
-                                ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                            if (p.type === 'ring') {
+                                // Shockwave ring expansion
+                                ctx.beginPath();
+                                const currentRadius = p.radius + (p.maxRadius - p.radius) * (1 - p.life);
+                                ctx.arc(p.x, p.y, currentRadius, 0, Math.PI * 2);
+                                ctx.strokeStyle = p.color;
+                                ctx.lineWidth = 2.5 * p.life;
+                                ctx.globalAlpha = p.life * p.opacity;
+                                ctx.stroke();
+                            } 
+                            else if (p.type === 'halo_puff') {
+                                ctx.beginPath();
+                                const currentRadius = p.radius + (p.maxRadius - p.radius) * (1 - p.life);
+                                ctx.arc(p.x, p.y, currentRadius, 0, Math.PI * 2);
                                 ctx.fillStyle = p.color;
                                 ctx.globalAlpha = p.life * p.opacity;
-                            } else {
-                                const size = p.radius * p.life;
-                                ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-                                ctx.fillStyle = p.color;
-                                ctx.globalAlpha = p.life * p.opacity;
+                                ctx.fill();
                             }
-                            ctx.fill();
+                            else if (p.type === 'streak') {
+                                // Snappy sparks: line stretch matching velocity vector
+                                p.vx *= 0.90;
+                                p.vy *= 0.90;
+                                p.x += p.vx;
+                                p.y += p.vy;
+
+                                const speed = Math.hypot(p.vx, p.vy);
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                
+                                const length = Math.max(2, speed * 1.5) * p.life;
+                                const angle = Math.atan2(p.vy, p.vx);
+                                ctx.lineTo(p.x - Math.cos(angle) * length, p.y - Math.sin(angle) * length);
+                                
+                                ctx.strokeStyle = p.color;
+                                ctx.lineWidth = p.radius * p.life;
+                                ctx.globalAlpha = p.life * p.opacity;
+                                ctx.stroke();
+                            }
+                            else {
+                                // Physics update with drag friction for sparkles & halos
+                                p.vx *= 0.95;
+                                p.vy *= 0.95;
+                                p.x += p.vx;
+                                p.y += p.vy;
+
+                                // Draw particle
+                                ctx.beginPath();
+                                if (p.type === 'halo') {
+                                    const size = p.radius * (1 + (1 - p.life) * 0.4);
+                                    ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                                    ctx.fillStyle = p.color;
+                                    ctx.globalAlpha = p.life * p.opacity;
+                                } else {
+                                    const size = p.radius * p.life;
+                                    ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                                    ctx.fillStyle = p.color;
+                                    ctx.globalAlpha = p.life * p.opacity;
+                                }
+                                ctx.fill();
+                            }
                         }
 
                         ctx.globalAlpha = 1.0;
