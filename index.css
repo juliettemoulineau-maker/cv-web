@@ -24,6 +24,7 @@ html {
     --voltaire-desc: #555555;
     --lang-track: #EEEEEE;
     --badge-bg: rgba(255, 99, 0, 0.09);
+    --cursor-border: #000000;
 }
 
 .dark-theme {
@@ -38,6 +39,7 @@ html {
     --voltaire-desc: #AAAAAA;
     --lang-track: #333333;
     --badge-bg: rgba(255, 99, 0, 0.15);
+    --cursor-border: #ffffff;
 }
 
 /* Selection Colors matching DA */
@@ -958,78 +960,75 @@ div.contact-badge {
         cursor: none !important;
     }
 
-    .custom-cursor-dot,
-    .custom-cursor-outline {
+    .cursor-dot,
+    .cursor-circle {
         position: fixed;
         top: 0;
         left: 0;
-        border-radius: 50%;
         pointer-events: none;
-        z-index: 999999;
-        will-change: transform, opacity, scale;
+        will-change: translate, width, height, border-radius, opacity, transform;
         opacity: 0; /* Hidden by default until mouse moves */
-        transition: opacity 0.3s ease,
-                    width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-                    height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-                    background-color 0.3s ease,
-                    border-color 0.3s ease,
-                    scale 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+        transition: opacity 0.3s ease;
     }
 
-    .custom-cursor-dot {
-        width: 8px;
-        height: 8px;
+    .cursor-dot {
+        width: 6px;
+        height: 6px;
         background-color: var(--orange-signature);
+        border-radius: 50%;
+        z-index: 9999;
         translate: -50% -50%;
         scale: 1;
+        transition: opacity 0.3s ease, scale 0.15s ease;
     }
 
-    .custom-cursor-outline {
-        width: 36px;
-        height: 36px;
-        border: 2px solid var(--orange-signature);
+    .cursor-circle {
+        width: 30px;
+        height: 30px;
+        border: 1px solid var(--cursor-border);
         background-color: transparent;
+        border-radius: 50%;
+        z-index: 9998;
         translate: -50% -50%;
-        scale: 1;
+        transform: scale(1);
+        transition: opacity 0.3s ease, 
+                    transform 0.15s ease, 
+                    border-color 0.15s ease, 
+                    background-color 0.15s ease;
     }
 
     /* Shown state */
-    html.custom-cursor-active .custom-cursor-dot,
-    html.custom-cursor-active .custom-cursor-outline {
+    html.custom-cursor-active .cursor-dot,
+    html.custom-cursor-active .cursor-circle {
         opacity: 1;
     }
 
     /* Hidden when leaving viewport */
-    html.custom-cursor-active.cursor-hidden .custom-cursor-dot,
-    html.custom-cursor-active.cursor-hidden .custom-cursor-outline {
+    html.custom-cursor-active.cursor-hidden .cursor-dot,
+    html.custom-cursor-active.cursor-hidden .cursor-circle {
         opacity: 0;
     }
 
-    /* Hovering interactive items (expands and inverts background using mix-blend-mode) */
-    html.custom-cursor-active .custom-cursor-outline.cursor-hover {
-        width: 60px;
-        height: 60px;
-        background-color: var(--white);
-        border-color: var(--white);
-        mix-blend-mode: difference;
+    /* Click feedback (squeeze effect with transition on release) */
+    html.custom-cursor-active .cursor-circle.cursor-clicked {
+        transform: scale(0.7);
+        border-color: var(--orange-signature) !important;
+        transition: transform 0.08s ease, border-color 0.08s ease; /* Snappy click-down */
     }
 
-    /* Dot fades out on hover to let the text shine through the outline circle */
-    html.custom-cursor-active .custom-cursor-dot.cursor-hover {
+    html.custom-cursor-active .cursor-dot.cursor-clicked {
+        scale: 1.2;
+    }
+
+    /* Hovering state */
+    html.custom-cursor-active .cursor-circle.cursor-hover {
+        border-color: var(--orange-signature) !important;
+        background-color: rgba(255, 99, 0, 0.05);
+    }
+
+    html.custom-cursor-active .cursor-dot.cursor-hover {
         scale: 0;
         opacity: 0;
-    }
-
-    /* Click feedback (squeeze effect) */
-    html.custom-cursor-active .custom-cursor-outline.cursor-clicked {
-        scale: 0.75;
-        background-color: rgba(255, 99, 0, 0.2);
-        border-color: var(--orange-signature);
-        mix-blend-mode: normal;
-    }
-
-    html.custom-cursor-active .custom-cursor-dot.cursor-clicked {
-        scale: 1.5;
     }
 }
 
@@ -1042,8 +1041,8 @@ body.loading {
     height: 100vh;
 }
 
-body.loading .custom-cursor-dot,
-body.loading .custom-cursor-outline {
+body.loading .cursor-dot,
+body.loading .cursor-circle {
     opacity: 0 !important;
     visibility: hidden !important;
 }

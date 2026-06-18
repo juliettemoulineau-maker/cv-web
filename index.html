@@ -493,8 +493,8 @@
     </script>
 
     <!-- Creative Custom Cursor Elements -->
-    <div class="custom-cursor-dot"></div>
-    <div class="custom-cursor-outline"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
 
     <!-- Script for Custom Cursor Logic -->
     <script>
@@ -508,24 +508,35 @@
                 return;
             }
 
-            const dot = document.querySelector('.custom-cursor-dot');
-            const outline = document.querySelector('.custom-cursor-outline');
+            const dot = document.querySelector('.cursor-dot');
+            const circle = document.querySelector('.cursor-circle');
 
-            if (!dot || !outline) return;
+            if (!dot || !circle) return;
 
             let mouseX = 0;
             let mouseY = 0;
             let circleX = 0;
             let circleY = 0;
+            let circleWidth = 30;
+            let circleHeight = 30;
+            let circleRadius = 15; // Starts as 50% circle (15px radius for 30px width/height)
             let hasMoved = false;
 
             // Interpolation factor (0.15 gives a smooth, organic trailing effect)
             const speed = 0.15;
 
+            // Track current hovered interactive element to apply the magnetic snap framing
+            let hoveredEl = null;
+            let hoveredRect = null;
+            let hoveredRadius = 15;
+
             // Track mouse movements
             window.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
+
+                // Dot tracks mouse instantly for 100% responsiveness
+                dot.style.translate = `${mouseX}px ${mouseY}px`;
 
                 if (!hasMoved) {
                     hasMoved = true;
@@ -539,27 +550,50 @@
             // Smooth animation loop using requestAnimationFrame
             function animateCursor() {
                 if (hasMoved) {
-                    // Linear interpolation (lerp) formula
-                    circleX += (mouseX - circleX) * speed;
-                    circleY += (mouseY - circleY) * speed;
+                    let targetX, targetY, targetWidth, targetHeight, targetRadius;
 
-                    // Update positions (centering is handled via CSS 'translate: -50% -50%')
-                    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-                    outline.style.transform = `translate3d(${circleX}px, ${circleY}px, 0)`;
+                    if (hoveredEl && hoveredRect) {
+                        // Snaps circle to the center of the hovered interactive element
+                        targetX = hoveredRect.left + hoveredRect.width / 2;
+                        targetY = hoveredRect.top + hoveredRect.height / 2;
+                        targetWidth = hoveredRect.width + 12; // padding around element
+                        targetHeight = hoveredRect.height + 12;
+                        targetRadius = hoveredRadius;
+                    } else {
+                        // Circles trails mouse pointer
+                        targetX = mouseX;
+                        targetY = mouseY;
+                        targetWidth = 30;
+                        targetHeight = 30;
+                        targetRadius = 15;
+                    }
+
+                    // Linear interpolation (lerp) formulas for position and sizing morphing
+                    circleX += (targetX - circleX) * speed;
+                    circleY += (targetY - circleY) * speed;
+                    circleWidth += (targetWidth - circleWidth) * speed;
+                    circleHeight += (targetHeight - circleHeight) * speed;
+                    circleRadius += (targetRadius - circleRadius) * speed;
+
+                    // Apply coordinates via modern CSS translate (avoids conflicts with CSS scale transforms)
+                    circle.style.translate = `${circleX}px ${circleY}px`;
+                    circle.style.width = `${circleWidth}px`;
+                    circle.style.height = `${circleHeight}px`;
+                    circle.style.borderRadius = `${circleRadius}px`;
                 }
                 requestAnimationFrame(animateCursor);
             }
             requestAnimationFrame(animateCursor);
 
-            // Click visual feedback (scale down/squeeze)
+            // Click visual feedback (scale down/squeeze) via clean CSS transforms
             window.addEventListener('mousedown', () => {
                 dot.classList.add('cursor-clicked');
-                outline.classList.add('cursor-clicked');
+                circle.classList.add('cursor-clicked');
             });
 
             window.addEventListener('mouseup', () => {
                 dot.classList.remove('cursor-clicked');
-                outline.classList.remove('cursor-clicked');
+                circle.classList.remove('cursor-clicked');
             });
 
             // Hide custom cursor when mouse leaves browser viewport
@@ -571,22 +605,50 @@
                 document.documentElement.classList.remove('cursor-hidden');
             });
 
-            // Hover styling triggered via event delegation on mouseover
+            // Hover styling & snapping targets triggered via event delegation on mouseover (high performance)
             window.addEventListener('mouseover', (e) => {
                 const target = e.target;
                 if (!target) return;
 
-                // Expand and invert outline circle when hovering links, buttons, cards, and tags
+                // Detect buttons, links, custom cards, tags, and logo
                 const interactive = target.closest('a, button, .formation-card, .timeline-item, .skills-tag-list li, .contact-badge, .theme-toggle-modern, .interest-block, .header-logo');
                 
                 if (interactive) {
-                    dot.classList.add('cursor-hover');
-                    outline.classList.add('cursor-hover');
+                    if (hoveredEl !== interactive) {
+                        hoveredEl = interactive;
+                        hoveredRect = interactive.getBoundingClientRect();
+                        
+                        // Dynamically compute the target border radius
+                        const rawRadius = window.getComputedStyle(interactive).borderRadius;
+                        const num = parseFloat(rawRadius);
+                        if (rawRadius.includes('%')) {
+                            hoveredRadius = (hoveredRect.width * num) / 100;
+                        } else if (!isNaN(num)) {
+                            hoveredRadius = num + 6; // pad radius slightly to match spacing
+                        } else {
+                            hoveredRadius = 8;
+                        }
+
+                        dot.classList.add('cursor-hover');
+                        circle.classList.add('cursor-hover');
+                    }
                 } else {
-                    dot.classList.remove('cursor-hover');
-                    outline.classList.remove('cursor-hover');
+                    if (hoveredEl !== null) {
+                        hoveredEl = null;
+                        hoveredRect = null;
+                        hoveredRadius = 15;
+                        dot.classList.remove('cursor-hover');
+                        circle.classList.remove('cursor-hover');
+                    }
                 }
             });
+
+            // Keep snapshot rect updated if layout scrolls during hovering
+            window.addEventListener('scroll', () => {
+                if (hoveredEl) {
+                    hoveredRect = hoveredEl.getBoundingClientRect();
+                }
+            }, { passive: true });
         });
     </script>
 </body>

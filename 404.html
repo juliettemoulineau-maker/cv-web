@@ -235,8 +235,8 @@
     </div>
 
     <!-- Custom Cursor -->
-    <div class="custom-cursor-dot"></div>
-    <div class="custom-cursor-outline"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
 
     <!-- Lottie Web Player library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" integrity="sha512-jEnuDt6CDL+CxqBhYzhgFM3cJg3yK74Oa65g6EOMC0AHI6gtQD55aMj15I76a2r7E0OPkpBYWJ/gE241wF9v1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -282,16 +282,32 @@
                                   window.matchMedia('(pointer: coarse)').matches;
             
             if (!isTouchDevice) {
-                const dot = document.querySelector('.custom-cursor-dot');
-                const outline = document.querySelector('.custom-cursor-outline');
+                const dot = document.querySelector('.cursor-dot');
+                const circle = document.querySelector('.cursor-circle');
                 
-                if (dot && outline) {
-                    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+                if (dot && circle) {
+                    let mouseX = 0;
+                    let mouseY = 0;
+                    let circleX = 0;
+                    let circleY = 0;
+                    let circleWidth = 30;
+                    let circleHeight = 30;
+                    let circleRadius = 15;
                     let hasMoved = false;
+
+                    const speed = 0.15;
+
+                    let hoveredEl = null;
+                    let hoveredRect = null;
+                    let hoveredRadius = 15;
 
                     window.addEventListener('mousemove', (e) => {
                         mouseX = e.clientX;
                         mouseY = e.clientY;
+
+                        // Dot tracks instantly
+                        dot.style.translate = `${mouseX}px ${mouseY}px`;
+
                         if (!hasMoved) {
                             hasMoved = true;
                             document.documentElement.classList.add('custom-cursor-active');
@@ -302,10 +318,32 @@
 
                     function animateCursor() {
                         if (hasMoved) {
-                            circleX += (mouseX - circleX) * 0.15;
-                            circleY += (mouseY - circleY) * 0.15;
-                            dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-                            outline.style.transform = `translate3d(${circleX}px, ${circleY}px, 0)`;
+                            let targetX, targetY, targetWidth, targetHeight, targetRadius;
+
+                            if (hoveredEl && hoveredRect) {
+                                targetX = hoveredRect.left + hoveredRect.width / 2;
+                                targetY = hoveredRect.top + hoveredRect.height / 2;
+                                targetWidth = hoveredRect.width + 12;
+                                targetHeight = hoveredRect.height + 12;
+                                targetRadius = hoveredRadius;
+                            } else {
+                                targetX = mouseX;
+                                targetY = mouseY;
+                                targetWidth = 30;
+                                targetHeight = 30;
+                                targetRadius = 15;
+                            }
+
+                            circleX += (targetX - circleX) * speed;
+                            circleY += (targetY - circleY) * speed;
+                            circleWidth += (targetWidth - circleWidth) * speed;
+                            circleHeight += (targetHeight - circleHeight) * speed;
+                            circleRadius += (targetRadius - circleRadius) * speed;
+
+                            circle.style.translate = `${circleX}px ${circleY}px`;
+                            circle.style.width = `${circleWidth}px`;
+                            circle.style.height = `${circleHeight}px`;
+                            circle.style.borderRadius = `${circleRadius}px`;
                         }
                         requestAnimationFrame(animateCursor);
                     }
@@ -313,12 +351,12 @@
 
                     window.addEventListener('mousedown', () => {
                         dot.classList.add('cursor-clicked');
-                        outline.classList.add('cursor-clicked');
+                        circle.classList.add('cursor-clicked');
                     });
 
                     window.addEventListener('mouseup', () => {
                         dot.classList.remove('cursor-clicked');
-                        outline.classList.remove('cursor-clicked');
+                        circle.classList.remove('cursor-clicked');
                     });
 
                     document.addEventListener('mouseleave', () => {
@@ -332,16 +370,43 @@
                     window.addEventListener('mouseover', (e) => {
                         const target = e.target;
                         if (!target) return;
-                        const interactive = target.closest('a, button, #canvas-sea');
+                        
+                        const interactive = target.closest('a, button, .theme-toggle-modern, .header-logo, #canvas-sea');
+                        
                         if (interactive) {
-                            dot.classList.add('cursor-hover');
-                            outline.classList.add('cursor-hover');
+                            if (hoveredEl !== interactive) {
+                                hoveredEl = interactive;
+                                hoveredRect = interactive.getBoundingClientRect();
+                                
+                                const rawRadius = window.getComputedStyle(interactive).borderRadius;
+                                const num = parseFloat(rawRadius);
+                                if (rawRadius.includes('%')) {
+                                    hoveredRadius = (hoveredRect.width * num) / 100;
+                                } else if (!isNaN(num)) {
+                                    hoveredRadius = num + 6;
+                                } else {
+                                    hoveredRadius = 8;
+                                }
+
+                                dot.classList.add('cursor-hover');
+                                circle.classList.add('cursor-hover');
+                            }
                         } else {
-                            dot.classList.remove('cursor-hover');
-                            dot.style.opacity = '1';
-                            outline.classList.remove('cursor-hover');
+                            if (hoveredEl !== null) {
+                                hoveredEl = null;
+                                hoveredRect = null;
+                                hoveredRadius = 15;
+                                dot.classList.remove('cursor-hover');
+                                circle.classList.remove('cursor-hover');
+                            }
                         }
                     });
+
+                    window.addEventListener('scroll', () => {
+                        if (hoveredEl) {
+                            hoveredRect = hoveredEl.getBoundingClientRect();
+                        }
+                    }, { passive: true });
                 }
             }
         });
