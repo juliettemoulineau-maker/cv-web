@@ -681,70 +681,77 @@ div.contact-badge {
     width: 100%;
 }
 
-.interests-grid-modern {
+.interests-frieze {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+    width: 100%;
 }
 
 .interest-block {
     position: relative;
-    background-color: transparent;
-    border: 1px solid var(--card-border);
-    border-radius: 50px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 0.6rem 1.6rem;
-    transition: background-color var(--dur) var(--ease),
-                border-color var(--dur) var(--ease),
-                color var(--dur) var(--ease),
-                opacity 0.4s var(--ease),
-                transform 0.4s var(--ease);
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.5rem 0;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    letter-spacing: 0.08em;
+    color: var(--text-color);
+    cursor: default !important;
+    transition: opacity 0.3s var(--ease),
+                transform 0.3s var(--ease),
+                color 0.3s var(--ease);
     opacity: 0;
     transform: translateY(20px);
-    cursor: pointer;
-    pointer-events: none;
-}
-
-.interest-block.visible {
-    opacity: 1;
-    transform: translateY(0);
     pointer-events: auto !important;
 }
 
-.interest-block.visible:hover {
-    background-color: var(--orange-signature);
-    border-color: var(--orange-signature);
-    transform: translateY(-2px);
+.interest-block * {
+    cursor: default !important;
+}
+
+.interest-block.visible {
+    opacity: 0.8;
+    transform: translateY(0);
+}
+
+/* Alternate typographic weights for editorial contrast */
+.interest-block:nth-child(odd) {
+    font-weight: 900;
+}
+
+.interest-block:nth-child(even) {
+    font-weight: 300;
+    font-style: italic;
+}
+
+/* Editorial Separators */
+.interest-block:not(:last-child)::after {
+    content: "◆";
+    margin-left: clamp(1rem, 3vw, 2.5rem);
+    margin-right: clamp(1rem, 3vw, 2.5rem);
+    color: var(--orange-signature);
+    font-weight: 900;
+    font-style: normal;
+    display: inline-block;
+    transform: scale(0.9);
+}
+
+/* Contemplative Hover Effect: fade others, highlight/scale hovered item */
+.interests-frieze:hover .interest-block {
+    opacity: 0.5;
+}
+
+.interests-frieze:hover .interest-block:hover {
+    opacity: 1;
+    transform: scale(1.05);
 }
 
 .dark-theme .interest-block {
-    background-color: transparent;
-    border-color: var(--white);
-}
-
-.interest-bg-text {
-    display: none;
-}
-
-.interest-name {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text-color);
-    letter-spacing: 0.05em;
-    z-index: 2;
-    transition: color var(--dur) var(--ease);
-    pointer-events: none;
-}
-
-.dark-theme .interest-block .interest-name {
-    color: var(--white);
-}
-
-.interest-block.visible:hover .interest-name {
     color: var(--white);
 }
 
