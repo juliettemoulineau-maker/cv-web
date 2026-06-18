@@ -441,6 +441,9 @@
     <!-- Lottie Web Player library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" integrity="sha512-jEnuDt6CDL+CxqBhYzhgFM3cJg3yK74Oa65g6EOMC0AHI6gtQD55aMj15I76a2r7E0OPkpBYWJ/gE241wF9v1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- Inline Lottie logo animation data (prevents browser CORS errors on local files) -->
+    <script src="logo.js"></script>
+
     <!-- Header Logo Hover Animation Control (SMIL) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -496,15 +499,15 @@
             let startTime = null;
             const duration = 1800; // Consistent duration of 1.8s for smooth counting
 
-            // Initialize Lottie animation without autoplay or looping
-            if (typeof lottie !== 'undefined') {
+            // Initialize Lottie animation without autoplay, using local animationData (no CORS issues)
+            if (typeof lottie !== 'undefined' && typeof logoData !== 'undefined') {
                 try {
                     animation = lottie.loadAnimation({
                         container: document.getElementById('preloader-lottie'),
                         renderer: 'svg',
                         loop: false,
                         autoplay: false,
-                        path: 'logo.json'
+                        animationData: logoData
                     });
 
                     // Wait until Lottie data is loaded and ready in DOM
