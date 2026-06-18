@@ -8,10 +8,29 @@
 </head>
 <body>
     <script>
+        document.documentElement.classList.add('js-enabled');
+        document.body.classList.add('loading');
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
         }
     </script>
+
+    <!-- Creative Lottie Preloader -->
+    <div id="preloader" aria-hidden="false">
+        <div class="preloader-shutter preloader-shutter-left"></div>
+        <div class="preloader-shutter preloader-shutter-right"></div>
+        <div class="preloader-inner">
+            <div id="preloader-lottie"></div>
+            <div class="preloader-percentage-container">
+                <span id="preloader-count">00</span><span class="preloader-percent">%</span>
+            </div>
+            <div class="preloader-bar-track">
+                <div id="preloader-bar-fill"></div>
+            </div>
+            <div class="preloader-subtitle">JULIETTE MOULINEAU</div>
+        </div>
+    </div>
+
     <!-- Main Wrapper -->
     <div class="layout-wrapper">
         
@@ -347,6 +366,76 @@
                     threshold: 0.3
                 });
                 langObserver.observe(languesSection);
+            }
+        });
+    </script>
+
+    <!-- Lottie Web Player library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" integrity="sha512-jEnuDt6CDL+CxqBhYzhgFM3cJg3yK74Oa65g6EOMC0AHI6gtQD55aMj15I76a2r7E0OPkpBYWJ/gE241wF9v1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Preloader Initialization and Control -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            const countEl = document.getElementById('preloader-count');
+            const barFillEl = document.getElementById('preloader-bar-fill');
+            
+            if (!preloader || !countEl || !barFillEl) return;
+
+            let animation = null;
+            
+            // Initialize Lottie animation using the provided logo.json
+            if (typeof lottie !== 'undefined') {
+                try {
+                    animation = lottie.loadAnimation({
+                        container: document.getElementById('preloader-lottie'),
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        path: 'logo.json'
+                    });
+                } catch (e) {
+                    console.error('Failed to load Lottie animation:', e);
+                }
+            }
+
+            const duration = 1800; // Consistent duration of 1.8s for smooth counting
+            const startTime = performance.now();
+
+            function updateProgress(timestamp) {
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const percent = Math.floor(progress * 100);
+
+                countEl.textContent = percent.toString().padStart(2, '0');
+                barFillEl.style.width = percent + '%';
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateProgress);
+                } else {
+                    completePreloader();
+                }
+            }
+
+            // Start the counting request animation frame loop
+            requestAnimationFrame(updateProgress);
+
+            function completePreloader() {
+                // Add class to trigger shutter slide & text fade out CSS animations
+                preloader.classList.add('preloader-finished');
+                preloader.setAttribute('aria-hidden', 'true');
+                
+                // Allow page scroll and reveal custom cursor
+                document.body.classList.remove('loading');
+                document.body.classList.add('loaded');
+
+                // Cleanup preloader markup and destroy animation to free resources
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    if (animation) {
+                        animation.destroy();
+                    }
+                }, 1200); // Waits for the 800ms shutter transition + 300ms delay + buffer
             }
         });
     </script>
