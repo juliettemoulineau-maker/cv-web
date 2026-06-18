@@ -493,11 +493,7 @@
             if (!preloader || !countEl || !barFillEl) return;
 
             let startTime = null;
-            const progressDuration = 2200; // Snappy progress count (0 to 100 in 2.2s)
-            const logoDuration = 5000;     // Slower premium logo reveal (5.0s)
-            
-            // Note: duration is now mapped to logoDuration to check overall preloader loading completion
-            const duration = logoDuration; 
+            const duration = 5000; // Consistent duration of 5.0s to match the logo's native duration
 
             if (logoSvg) {
                 try {
@@ -514,20 +510,18 @@
 
             function updateProgress(timestamp) {
                 const elapsed = timestamp - startTime;
-                
-                // Snappy 0-100 count & bar fill
-                const progressVal = Math.min(elapsed / progressDuration, 1);
-                const percent = Math.floor(progressVal * 100);
+                const progress = Math.min(elapsed / duration, 1);
+                const percent = Math.floor(progress * 100);
+
                 countEl.textContent = percent.toString().padStart(2, '0');
                 barFillEl.style.width = percent + '%';
 
-                // Sync SVG circular progress ring (synchronized to the slower logo duration)
-                const logoProgress = Math.min(elapsed / logoDuration, 1);
+                // Sync SVG circular progress ring (circumference of r=100 is ~628.318)
                 if (circleFillEl) {
-                    circleFillEl.style.strokeDashoffset = 628.318 - logoProgress * 628.318;
+                    circleFillEl.style.strokeDashoffset = 628.318 - progress * 628.318;
                 }
 
-                if (logoProgress < 1) {
+                if (progress < 1) {
                     requestAnimationFrame(updateProgress);
                 } else {
                     completePreloader();
