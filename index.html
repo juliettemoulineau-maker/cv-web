@@ -478,6 +478,7 @@
             if (!preloader || !countEl || !barFillEl) return;
 
             let progress = 0;
+            let startTime = null;
             let pageLoaded = document.readyState === 'complete';
 
             if (!pageLoaded) {
@@ -496,24 +497,32 @@
             }
 
             // Start progress immediately since the SVG is inlined in DOM
+            startTime = performance.now();
             requestAnimationFrame(updateProgress);
 
-            function updateProgress() {
+            function updateProgress(timestamp) {
+                const elapsed = timestamp - startTime;
+                
+                // Base progress over 5.0 seconds (5000ms)
+                let timeProgress = Math.min(elapsed / 5000, 1.0);
+
                 if (!pageLoaded) {
-                    // Page is still loading: progress smoothly up to 90%
-                    if (progress < 0.90) {
-                        progress += 0.0035; // Takes ~4 seconds to reach 90%
-                    } else {
-                        // Asymptotically approach 98% to prevent reaching 100% before window load
-                        progress += (0.98 - progress) * 0.02;
-                    }
+                    // Page still loading: limit progress to 95%
+                    progress = Math.min(timeProgress, 0.95);
                 } else {
-                    // Page is loaded: transition smoothly to 100%
-                    progress += 0.015; // Smooth completion over ~1 second
+                    // Page is loaded:
+                    if (timeProgress < 1.0 && progress < 0.95) {
+                        // If we are still within the first 5 seconds, follow the time progress
+                        progress = timeProgress;
+                    } else {
+                        // If we held at 95% (or timeProgress reached 1.0 but progress is lagging),
+                        // increment progress smoothly to 1.0
+                        progress += 0.01; // Takes ~50 frames (~800ms) to go from 0.95 to 1.0
+                    }
                 }
 
-                if (progress > 1) {
-                    progress = 1;
+                if (progress > 1.0) {
+                    progress = 1.0;
                 }
 
                 const percent = Math.floor(progress * 100);
@@ -530,7 +539,7 @@
                     }
                 }
 
-                if (progress < 1) {
+                if (progress < 1.0) {
                     requestAnimationFrame(updateProgress);
                 } else {
                     completePreloader();
