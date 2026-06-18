@@ -807,13 +807,14 @@ div.contact-badge {
 /* Footer styling */
 .site-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding-top: 2rem;
     border-top: 2px solid var(--orange-signature);
     margin-top: 4rem;
     font-size: 0.95rem;
     font-weight: 600;
+    text-align: center;
 }
 
 .footer-linkedin-link {
