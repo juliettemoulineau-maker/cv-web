@@ -36,9 +36,7 @@
         
         <!-- Header / Info Section -->
         <header class="main-header">
-            <div class="header-logo">
-                <img src="logo.png" alt="Juliette Moulineau Logo" class="logo-img" width="80" height="80" loading="eager" fetchpriority="high">
-            </div>
+            <div class="header-logo" id="header-logo-lottie" aria-label="Juliette Moulineau Logo"></div>
             <div class="header-contact-modern">
                 <a href="tel:0683633006" class="contact-badge" title="Téléphone">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
@@ -372,6 +370,34 @@
 
     <!-- Lottie Web Player library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" integrity="sha512-jEnuDt6CDL+CxqBhYzhgFM3cJg3yK74Oa65g6EOMC0AHI6gtQD55aMj15I76a2r7E0OPkpBYWJ/gE241wF9v1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Header Logo Animation Control -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoContainer = document.getElementById('header-logo-lottie');
+            if (logoContainer && typeof lottie !== 'undefined') {
+                try {
+                    const headerLogoAnim = lottie.loadAnimation({
+                        container: logoContainer,
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: false,
+                        path: 'logo.json'
+                    });
+
+                    logoContainer.addEventListener('mouseenter', () => {
+                        headerLogoAnim.play();
+                    });
+
+                    logoContainer.addEventListener('mouseleave', () => {
+                        headerLogoAnim.stop();
+                    });
+                } catch (e) {
+                    console.error('Failed to load header Lottie animation:', e);
+                }
+            }
+        });
+    </script>
 
     <!-- Preloader Initialization and Control -->
     <script>
