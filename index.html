@@ -471,19 +471,25 @@
             const preloader = document.getElementById('preloader');
             const countEl = document.getElementById('preloader-count');
             const barFillEl = document.getElementById('preloader-bar-fill');
-            const circleFillEl = document.getElementById('preloader-circle-fill');
             const logoSvg = document.querySelector('#preloader-lottie svg');
             
             if (!preloader || !countEl || !barFillEl) return;
 
+            const TARGET_DURATION = 2200; // 2.2 seconds nominal duration (faster preloader loading)
+            const OUTRO_DURATION = 500;   // 0.5 seconds to go from 95% to 100% if we were holding
+            
             let progress = 0;
             let startTime = null;
             let pageLoaded = document.readyState === 'complete';
+            let loadTime = null;
 
             if (!pageLoaded) {
                 window.addEventListener('load', () => {
                     pageLoaded = true;
+                    loadTime = performance.now();
                 });
+            } else {
+                loadTime = performance.now();
             }
 
             if (logoSvg) {
@@ -500,23 +506,22 @@
             requestAnimationFrame(updateProgress);
 
             function updateProgress(timestamp) {
+                if (!startTime) startTime = timestamp;
                 const elapsed = timestamp - startTime;
                 
-                // Base progress over 3.0 seconds (3000ms)
-                let timeProgress = Math.min(elapsed / 3000, 1.0);
-
                 if (!pageLoaded) {
-                    // Page still loading: limit progress to 95%
-                    progress = Math.min(timeProgress, 0.95);
+                    // Limit progress to 95% while page is loading
+                    progress = Math.min(elapsed / TARGET_DURATION, 0.95);
                 } else {
                     // Page is loaded:
-                    if (timeProgress < 1.0 && progress < 0.95) {
-                        // If we are still within the first 3 seconds, follow the time progress
-                        progress = timeProgress;
+                    if (elapsed < TARGET_DURATION) {
+                        // Follow the linear progress over TARGET_DURATION
+                        progress = Math.min(elapsed / TARGET_DURATION, 1.0);
                     } else {
-                        // If we held at 95% (or timeProgress reached 1.0 but progress is lagging),
-                        // increment progress smoothly to 1.0
-                        progress += 0.01; // Takes ~50 frames (~800ms) to go from 0.95 to 1.0
+                        // Transition from 95% to 100% smoothly over OUTRO_DURATION (frame-rate independent)
+                        const elapsedSinceLoad = timestamp - Math.max(startTime + TARGET_DURATION, loadTime);
+                        const outroProgress = Math.min(elapsedSinceLoad / OUTRO_DURATION, 1.0);
+                        progress = 0.95 + outroProgress * 0.05;
                     }
                 }
 
@@ -531,8 +536,18 @@
                 // Sync the SVG SMIL animations timeline directly to the loading progress
                 if (logoSvg) {
                     try {
+                        // Apply an ease-in-out curve to the logo playback so it starts slowly,
+                        // draws the circle smoothly, and finishes scaling the letters in a slower,
+                        // more premium and deliberate motion.
+                        let logoProgress = progress;
+                        if (logoProgress < 0.5) {
+                            logoProgress = 2 * logoProgress * logoProgress;
+                        } else {
+                            logoProgress = 1 - Math.pow(-2 * logoProgress + 2, 2) / 2;
+                        }
+                        
                         // The SVG preloader animations have a native duration of 3.0 seconds
-                        logoSvg.setCurrentTime(progress * 3.0);
+                        logoSvg.setCurrentTime(logoProgress * 3.0);
                     } catch (e) {
                         console.error('Failed to sync SVG animations:', e);
                     }
