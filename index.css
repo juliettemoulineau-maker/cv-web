@@ -923,43 +923,11 @@ div.contact-badge {
 
     .main-header {
         position: relative;
-        flex-direction: column;
-        gap: 1.2rem;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
         padding-bottom: 1.5rem;
         margin-bottom: 2rem;
-    }
-
-    #theme-toggle {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 50px;
-        height: 28px;
-    }
-
-    #theme-toggle .toggle-thumb {
-        width: 20px;
-        height: 20px;
-    }
-
-    .dark-theme #theme-toggle .toggle-thumb {
-        transform: translateX(22px);
-    }
-
-    #theme-toggle .toggle-icon {
-        width: 12px;
-        height: 12px;
-    }
-
-    #theme-toggle .sun-icon {
-        left: 5px;
-        top: 6px;
-    }
-
-    #theme-toggle .moon-icon {
-        right: 5px;
-        top: 6px;
     }
 
     .header-logo, #header-logo-lottie {
@@ -983,17 +951,27 @@ div.contact-badge {
     }
 
     .header-actions {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.8rem;
+        display: contents;
+    }
+
+    #theme-toggle {
+        grid-column: 1;
+        justify-self: start;
+        flex-shrink: 0 !important;
+    }
+
+    .header-logo {
+        grid-column: 2;
+        justify-self: center;
+    }
+
+    .mobile-burger-btn {
+        grid-column: 3;
+        justify-self: end;
     }
 
     .linkedin-pill {
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-size: 0.65rem;
-        padding: 0.35rem 0.8rem;
+        display: none;
     }
     
     .hero-section {
@@ -1533,8 +1511,8 @@ html.js-enabled body.loaded .hero-section {
         height: 60px;
         background: var(--bg-color);
         border-bottom: 1px solid rgba(128,128,128,0.1);
-        display: flex;
-        justify-content: space-between;
+        display: grid !important;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
         padding: 0 1.5rem;
         margin: 0 !important;
@@ -1543,12 +1521,14 @@ html.js-enabled body.loaded .hero-section {
     }
     
     /* Masquer le contenu de bureau dans le header */
-    .header-contact-modern, .header-actions {
+    .header-contact-modern {
         display: none !important;
     }
 
     /* Conserver le logo original intact, l'adapter à la taille mobile */
     .header-logo {
+        grid-column: 2;
+        justify-self: center;
         position: relative;
         z-index: 10001;
         width: 40px !important; /* Taille pour mobile */
@@ -1576,48 +1556,17 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Afficher le Theme Toggle exactement comme sur Desktop */
     #theme-toggle {
-        display: flex !important;
-        position: relative !important;
-        left: auto !important;
-        top: auto !important;
-        transform: none !important;
-        margin: 0 auto !important; /* Pour centrer si besoin, mais géré par le flex parent */
-        
-        /* Application stricte des dimensions et blocage de la déformation (Recommandations User) */
-        width: 60px !important;
-        height: 32px !important;
-        border-radius: 50px !important;
+        grid-column: 1;
+        justify-self: start;
         flex-shrink: 0 !important;
-        align-self: center !important;
-        border: 2px solid var(--text-color) !important;
-        background: var(--card-bg) !important;
-    }
-    
-    /* Annulation des écrasements de la media query 768px pour restaurer l'apparence originale */
-    #theme-toggle .toggle-thumb {
-        width: 24px !important;
-        height: 24px !important;
-    }
-    .dark-theme #theme-toggle .toggle-thumb {
-        transform: translateX(28px) !important;
-    }
-    #theme-toggle .toggle-icon {
-        width: 14px !important;
-        height: 14px !important;
-    }
-    #theme-toggle .sun-icon {
-        left: 7px !important;
-        top: 7px !important;
-    }
-    #theme-toggle .moon-icon {
-        right: 7px !important;
-        top: 7px !important;
+        /* Aucune autre règle pour ne pas déformer le bouton Desktop */
     }
 
     /* Nouveau Burger Bouton (JS) */
     .mobile-burger-btn {
+        grid-column: 3;
+        justify-self: end;
         display: flex !important;
         align-items: center;
         justify-content: center;
