@@ -1020,8 +1020,15 @@ div.contact-badge {
         font-size: 1.05rem;
     }
 
+    .hero-actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
     .cta-button {
         width: max-content;
+        margin: 0;
         padding: 0.7rem 1.2rem;
         display: flex;
         flex-direction: row;
