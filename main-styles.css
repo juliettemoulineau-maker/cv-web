@@ -1756,10 +1756,10 @@ html.js-enabled body.loaded .hero-section {
     .call-btn {
         background: var(--orange-signature) !important; /* Orange d'origine du site */
         color: #ffffff !important;
-        padding: 0.8rem 2rem;
+        padding: 0.6rem 1.5rem;
         border-radius: 50px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         box-shadow: 0 4px 15px rgba(255, 99, 0, 0.4);
         border: none;
         text-align: center;
@@ -1767,7 +1767,7 @@ html.js-enabled body.loaded .hero-section {
         letter-spacing: 1px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         width: 100%;
-        max-width: 260px;
+        max-width: 220px;
         box-sizing: border-box;
     }
     .call-btn:hover {
