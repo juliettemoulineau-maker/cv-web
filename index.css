@@ -1502,15 +1502,23 @@ html.js-enabled body.loaded .hero-section {
         font-size: clamp(2.5rem, 12vw, 4rem);
     }
     .hero-subtitle {
-        font-size: clamp(0.95rem, 4vw, 1.2rem);
+        font-size: clamp(0.85rem, 3.5vw, 1rem);
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.4rem 0.5rem;
+        gap: 0.6rem;
+    }
+    .hero-subtitle span:not(.subtitle-separator) {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        background-color: var(--badge-bg);
+        border: 1px solid var(--orange-signature);
+        border-radius: 20px;
+        color: var(--text-color);
+        font-weight: 500;
     }
     .subtitle-separator {
-        display: inline-block;
-        font-size: 0.7em;
+        display: none;
     }
     .section-title {
         font-size: clamp(1.8rem, 6vw, 2.2rem);
