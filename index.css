@@ -1566,36 +1566,65 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Icône Menu Burger Discrète */
-    .main-header::after {
-        content: "";
-        display: block;
+    /* Afficher la zone des actions (Thème + Burger) */
+    .header-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+        background: transparent !important;
+        border: none !important;
+        position: static !important;
+        padding: 0 !important;
+        width: auto !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    /* Masquer LinkedIn sur mobile (il est dans le menu déroulant) */
+    .linkedin-pill {
+        display: none !important;
+    }
+
+    /* Afficher le Theme Toggle */
+    #theme-toggle {
+        display: flex !important;
+        position: relative !important;
+        top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+    }
+
+    /* Nouveau Burger Bouton (JS) */
+    .mobile-burger-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--text-color);
         width: 44px;
         height: 44px;
         cursor: pointer;
-        /* Icône SVG 3 lignes fines */
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='12' x2='20' y2='12'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
-        background-size: 24px 24px;
-        background-position: center;
-        background-repeat: no-repeat;
-        border: none;
-        position: relative;
         z-index: 10001;
+        padding: 0;
+    }
+    .mobile-burger-btn svg {
         transition: transform 0.3s ease;
     }
-    .dark-theme .main-header::after {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='12' x2='20' y2='12'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
+
+    /* Supprimer l'ancien faux burger CSS */
+    .main-header::after {
+        display: none !important;
     }
 
-    /* Transformer le burger en croix quand l'overlay est ouvert */
-    .main-header:focus-within::after,
-    .main-header:hover::after {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
-        transform: rotate(90deg);
+    /* Animation Croix selon la classe body.menu-open */
+    body.menu-open .mobile-burger-btn .burger-icon {
+        display: none !important;
     }
-    .dark-theme .main-header:focus-within::after,
-    .dark-theme .main-header:hover::after {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+    body.menu-open .mobile-burger-btn .close-icon {
+        display: block !important;
     }
 
     /* ----------------------------------------------------
@@ -1618,9 +1647,8 @@ html.js-enabled body.loaded .hero-section {
         transition: opacity 0.4s ease, visibility 0.4s;
     }
     
-    .main-header:hover ~ .mobile-only-menu,
-    .main-header:focus-within ~ .mobile-only-menu,
-    .mobile-only-menu:hover {
+    /* Ouverture gérée par la classe body.menu-open via JS */
+    body.menu-open .mobile-only-menu {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
@@ -1645,14 +1673,13 @@ html.js-enabled body.loaded .hero-section {
         transition: opacity 0.4s ease, transform 0.4s ease;
     }
     
-    .main-header:hover ~ .mobile-only-menu .mobile-nav-link,
-    .mobile-only-menu:hover .mobile-nav-link {
+    body.menu-open .mobile-only-menu .mobile-nav-link {
         opacity: 1;
         transform: translateY(0);
     }
-    .main-header:hover ~ .mobile-only-menu .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
-    .main-header:hover ~ .mobile-only-menu .mobile-nav-link:nth-child(2) { transition-delay: 0.15s; }
-    .main-header:hover ~ .mobile-only-menu .mobile-nav-link:nth-child(3) { transition-delay: 0.2s; }
+    body.menu-open .mobile-only-menu .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+    body.menu-open .mobile-only-menu .mobile-nav-link:nth-child(2) { transition-delay: 0.15s; }
+    body.menu-open .mobile-only-menu .mobile-nav-link:nth-child(3) { transition-delay: 0.2s; }
 
     .mobile-menu-contact {
         display: flex;
@@ -1666,8 +1693,7 @@ html.js-enabled body.loaded .hero-section {
         transform: translateY(20px);
         transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
     }
-    .main-header:hover ~ .mobile-only-menu .mobile-menu-contact,
-    .mobile-only-menu:hover .mobile-menu-contact {
+    body.menu-open .mobile-only-menu .mobile-menu-contact {
         opacity: 1;
         transform: translateY(0);
     }
