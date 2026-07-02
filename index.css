@@ -1587,7 +1587,7 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Afficher le Theme Toggle, centré dans le header */
+    /* Afficher le Theme Toggle, centré dans le header et non déformé */
     #theme-toggle {
         display: flex !important;
         position: absolute !important;
@@ -1595,6 +1595,33 @@ html.js-enabled body.loaded .hero-section {
         top: 50% !important;
         transform: translate(-50%, -50%) !important;
         margin: 0 !important;
+        /* Rétablissement strict des dimensions du Desktop */
+        width: 60px !important;
+        height: 32px !important;
+        border-radius: 50px !important;
+        flex-shrink: 0 !important;
+        align-self: center !important;
+    }
+    
+    /* Annulation des écrasements de la media query 768px pour restaurer l'apparence originale */
+    #theme-toggle .toggle-thumb {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .dark-theme #theme-toggle .toggle-thumb {
+        transform: translateX(28px) !important;
+    }
+    #theme-toggle .toggle-icon {
+        width: 14px !important;
+        height: 14px !important;
+    }
+    #theme-toggle .sun-icon {
+        left: 7px !important;
+        top: 7px !important;
+    }
+    #theme-toggle .moon-icon {
+        right: 7px !important;
+        top: 7px !important;
     }
 
     /* Nouveau Burger Bouton (JS) */
@@ -1726,13 +1753,13 @@ html.js-enabled body.loaded .hero-section {
 
     .call-btn {
         margin-top: 1rem;
-        background: #FF7F00 !important; /* Orange vif */
+        background: var(--orange-signature) !important; /* Orange d'origine du site */
         color: #ffffff !important;
         padding: 1.2rem 3.5rem;
         border-radius: 50px;
         font-weight: 700;
         font-size: 1.3rem;
-        box-shadow: 0 4px 15px rgba(255, 127, 0, 0.4);
+        box-shadow: 0 4px 15px rgba(255, 99, 0, 0.4);
         border: none;
         text-align: center;
         text-transform: uppercase;
@@ -1741,7 +1768,7 @@ html.js-enabled body.loaded .hero-section {
     }
     .call-btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(255, 127, 0, 0.6);
+        box-shadow: 0 6px 20px rgba(255, 99, 0, 0.6);
         color: #ffffff !important;
         opacity: 1;
     }
