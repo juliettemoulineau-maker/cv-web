@@ -1587,12 +1587,13 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Afficher le Theme Toggle */
+    /* Afficher le Theme Toggle, centré dans le header */
     #theme-toggle {
         display: flex !important;
-        position: relative !important;
-        top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
-        transform: none !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
         margin: 0 !important;
     }
 
@@ -1681,28 +1682,42 @@ html.js-enabled body.loaded .hero-section {
     body.menu-open .mobile-only-menu .mobile-nav-link:nth-child(2) { transition-delay: 0.15s; }
     body.menu-open .mobile-only-menu .mobile-nav-link:nth-child(3) { transition-delay: 0.2s; }
 
-    .mobile-menu-contact {
+    .mobile-menu-contact-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.5rem;
-        width: 80%;
-        border-top: 1px solid rgba(128,128,128,0.2);
-        padding-top: 2rem;
+        width: 100%;
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
+        border-top: 1px solid rgba(128,128,128,0.2);
+        padding-top: 2rem;
     }
-    body.menu-open .mobile-only-menu .mobile-menu-contact {
+    body.menu-open .mobile-only-menu .mobile-menu-contact-wrapper {
         opacity: 1;
         transform: translateY(0);
     }
 
+    .mobile-contact-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        letter-spacing: 1px;
+    }
+
+    .mobile-menu-contact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+    }
+
     .mobile-contact-link {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         color: var(--text-muted);
         text-decoration: none;
-        padding: 0.5rem;
         transition: color 0.3s ease;
     }
     .mobile-contact-link:hover {
@@ -1711,16 +1726,24 @@ html.js-enabled body.loaded .hero-section {
 
     .call-btn {
         margin-top: 1rem;
-        background: var(--text-color);
-        color: var(--bg-color);
-        padding: 1rem 3rem;
+        background: #FF7F00 !important; /* Orange vif */
+        color: #ffffff !important;
+        padding: 1.2rem 3.5rem;
         border-radius: 50px;
-        font-weight: 500;
-        font-size: 1.2rem;
+        font-weight: 700;
+        font-size: 1.3rem;
+        box-shadow: 0 4px 15px rgba(255, 127, 0, 0.4);
+        border: none;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .call-btn:hover {
-        color: var(--bg-color);
-        opacity: 0.9;
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 127, 0, 0.6);
+        color: #ffffff !important;
+        opacity: 1;
     }
 
     /* Ergonomie Tactile Mobile globale */
