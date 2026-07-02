@@ -1852,21 +1852,33 @@ html.js-enabled body.loaded .hero-section {
     }
 
     /* Boutons CONTACTEZ-MOI au toucher */
-    .cta-button:active,
-    a.contact-badge:active,
-    .call-btn:active {
+    a.contact-badge:active {
         background-color: #000000 !important;
         color: #FFFFFF !important;
         border-color: #000000 !important;
         transform: scale(0.95) !important;
     }
     
-    .dark-theme .cta-button:active,
-    .dark-theme a.contact-badge:active,
-    .dark-theme .call-btn:active {
+    .dark-theme a.contact-badge:active {
         background-color: #FFFFFF !important;
         color: #000000 !important;
         border-color: #FFFFFF !important;
+    }
+
+    /* Boutons principaux au toucher sur mobile */
+    .cta-button:active,
+    .call-btn:active {
+        background-color: var(--orange-signature) !important;
+        color: var(--white) !important;
+        transform: scale(1.05) !important;
+        box-shadow: 0 6px 20px rgba(255, 99, 0, 0.6) !important;
+    }
+    
+    .dark-theme .cta-button:active,
+    .dark-theme .call-btn:active {
+        background-color: var(--orange-signature) !important;
+        color: var(--white) !important;
+        box-shadow: 0 6px 20px rgba(255, 99, 0, 0.6) !important;
     }
 
     /* 3. NETTOYAGE UI TACTILE */
