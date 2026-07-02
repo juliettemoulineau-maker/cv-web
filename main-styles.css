@@ -340,7 +340,8 @@ div.contact-badge {
     letter-spacing: 0.05em;
     border-radius: 50px;
     transition: background-color var(--dur) var(--ease),
-                transform var(--dur) var(--ease);
+                transform var(--dur) var(--ease),
+                box-shadow var(--dur) var(--ease);
     cursor: pointer;
 }
 
@@ -354,14 +355,10 @@ div.contact-badge {
 }
 
 .cta-button:hover {
-    background-color: #000000;
-    color: #FFFFFF;
-    transform: translateY(-3px);
-}
-
-.dark-theme .cta-button:hover {
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: var(--orange-signature);
+    color: var(--white);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 99, 0, 0.6);
 }
 
 .cta-button:hover svg {
