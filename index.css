@@ -1486,6 +1486,7 @@ html.js-enabled body.loaded .hero-section {
     /* Unités relatives pour fluidité globale */
     .layout-wrapper {
         padding: 1.5rem 1rem;
+        padding-top: 80px; /* Compensate for fixed header */
     }
     
     /* Listes/Grilles sur 1 seule colonne */
@@ -1524,212 +1525,252 @@ html.js-enabled body.loaded .hero-section {
     }
     
     /* ----------------------------------------------------
-       HEADER MINIMALISTE & MENU SUPERPOSÉ (OVERLAY)
-       Aucune modification HTML : 100% CSS
+       HEADER LUXE & MATÉRIEL (100% CSS)
        ---------------------------------------------------- */
     .main-header {
-        position: relative;
+        position: fixed !important;
+        top: 0; left: 0; width: 100%;
+        height: 65px;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(25px) saturate(200%);
+        -webkit-backdrop-filter: blur(25px) saturate(200%);
+        border-bottom: 1px solid rgba(140, 140, 140, 0.3);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 1rem;
-        margin-bottom: 2rem;
-        z-index: 1000;
-        border-bottom: none; /* Retrait de la bordure pour plus de minimalisme */
+        padding: 0 1rem;
+        margin: 0 !important;
+        z-index: 10000;
+        transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    .dark-theme .main-header {
+        background: rgba(18, 18, 18, 0.75);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .main-header:hover,
+    .main-header:focus-within {
+        background: rgba(255, 255, 255, 0.98);
+        border-bottom-color: transparent;
+    }
+    .dark-theme .main-header:hover,
+    .dark-theme .main-header:focus-within {
+        background: rgba(18, 18, 18, 0.98);
     }
 
+    /* LOGO PREMIUM (Compass + Typo) */
+    .header-logo #header-logo-lottie {
+        display: none !important;
+    }
     .header-logo {
         position: relative;
-        z-index: 9999; /* Toujours visible au-dessus de l'overlay */
+        z-index: 10001;
+        width: auto !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
     }
-
-    /* Background Overlay Full-Screen */
-    .main-header::before {
+    .header-logo::before {
         content: "";
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(245,245,250,0.98) 100%);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        z-index: 9997;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolygon points='16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
     }
-    .dark-theme .main-header::before {
-        background: linear-gradient(145deg, rgba(18,18,18,0.95) 0%, rgba(25,25,30,0.98) 100%);
+    .header-logo::after {
+        content: "JULIETTE";
+        font-family: "Didot", "Bodoni MT", "Times New Roman", serif;
+        font-size: 1.1rem;
+        font-weight: 400;
+        letter-spacing: 3px;
+        background: linear-gradient(135deg, #a8a8a8 0%, #d4d4d4 50%, #8c8c8c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        margin-top: 2px;
     }
 
-    /* Icône de Menu Stylisée (3 points minimalistes) -> Bouton Fermeture */
+    /* GROUPE ICÔNES UI À DROITE */
+    .header-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        position: static !important;
+        width: auto !important;
+        background: transparent !important;
+        border: none !important;
+        gap: 4px !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: none !important;
+        z-index: 10001;
+    }
+
+    /* Nettoyage des éléments d'origine */
+    .linkedin-pill span,
+    #theme-toggle svg, 
+    #theme-toggle .toggle-thumb {
+        display: none !important;
+    }
+
+    /* Configuration commune des icônes UI (44x44 pour le tactile, icône 20x20) */
+    .header-actions::before,
+    .linkedin-pill,
+    #theme-toggle,
     .main-header::after {
-        content: "● ● ●";
-        font-size: 0.5rem;
-        letter-spacing: 3px;
-        color: var(--text-color);
-        display: flex;
+        content: "";
+        display: flex !important;
         align-items: center;
         justify-content: center;
-        width: 46px;
-        height: 46px; /* Ergonomie tactile > 44px */
+        width: 44px !important;
+        height: 44px !important;
         cursor: pointer;
-        position: relative;
-        z-index: 9999;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid rgba(128,128,128,0.2);
-        border-radius: 50%;
-        background: var(--bg-color);
-    }
-
-    /* Animation Ouverture / Hover */
-    .main-header:hover::before,
-    .main-header:active::before,
-    .main-header:focus-within::before {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .main-header:hover::after,
-    .main-header:active::after,
-    .main-header:focus-within::after {
-        content: "✕";
-        font-size: 1.5rem;
-        letter-spacing: 0;
-        background: var(--text-color);
-        color: var(--bg-color);
-        border-color: transparent;
-        transform: rotate(180deg);
-    }
-
-    /* Positionnement du contenu du menu superposé */
-    .header-contact-modern,
-    .header-actions {
-        position: fixed;
-        left: 0;
-        width: 100%;
-        z-index: 9998;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        display: flex !important; /* Toujours en flex pour préparer la transition */
-        flex-direction: column;
-        align-items: center;
-        transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        background-size: 20px 20px !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        transition: all 0.4s ease;
+        padding: 0 !important;
+        margin: 0 !important;
         border: none !important;
-        background: transparent !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        color: transparent !important;
     }
 
-    .header-contact-modern {
-        top: 20%;
-        transform: translateY(30px);
-        gap: 0.5rem;
+    /* ICÔNE DE RECHERCHE -> Input au clic */
+    .header-actions::before {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
     }
-
-    .header-actions {
-        top: 60%;
-        transform: translateY(30px);
-        gap: 1.5rem;
-    }
-
-    /* Déploiement en douceur */
-    .main-header:hover .header-contact-modern,
-    .main-header:active .header-contact-modern,
-    .main-header:focus-within .header-contact-modern {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateY(0);
-        transition-delay: 0.1s;
-    }
-
-    .main-header:hover .header-actions,
-    .main-header:active .header-actions,
-    .main-header:focus-within .header-actions {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateY(0);
-        transition-delay: 0.2s; /* Effet cascade */
-    }
-
-    /* Faux champ de recherche - Intégration harmonieuse */
-    .header-contact-modern::before {
-        content: "Recherche...";
-        display: flex;
-        align-items: center;
-        width: 85%;
-        max-width: 320px;
-        height: 48px;
-        padding: 0 1.5rem;
-        margin-bottom: 1.5rem;
-        background: rgba(128, 128, 128, 0.05);
-        border: 1px solid rgba(128, 128, 128, 0.15);
-        border-radius: 50px;
-        color: var(--text-muted);
-        font-size: 1.05rem;
+    .header-actions:hover::before,
+    .header-actions:active::before {
+        width: 120px !important;
+        background-image: none !important;
+        border-bottom: 1px solid #8c8c8c !important;
+        content: "Search..." !important;
+        color: #8c8c8c !important;
+        font-family: sans-serif;
+        font-size: 11px;
         font-weight: 300;
-        pointer-events: none;
+        letter-spacing: 1px;
+        justify-content: flex-start;
+        padding-left: 5px !important;
     }
 
-    /* Fausses icônes d'action rapide - Bas de menu */
-    .header-actions::after {
-        content: "Mon Compte \00a0\00a0 • \00a0\00a0 Panier \00a0\00a0 • \00a0\00a0 FAQ";
-        display: block;
-        margin-top: 2.5rem;
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: var(--text-muted);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        pointer-events: none;
-    }
-
-    /* Typographie épurée et espacements pour les liens */
-    .contact-badge {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        font-size: 1.5rem !important; /* Grande taille élégante */
-        font-weight: 300 !important;
-        padding: 0.5rem !important;
-        color: var(--text-color) !important;
-        width: auto !important;
-        opacity: 0.85;
-    }
-    
-    .contact-badge svg {
-        display: none !important; /* Retrait des icônes pour un look ultra-pur */
-    }
-    
-    .contact-badge:hover {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-
+    /* ICÔNE DE PROFIL (Avatar Luxe) */
     .linkedin-pill {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E") !important;
         position: relative !important;
-        background: var(--text-color) !important;
-        color: var(--bg-color) !important;
-        font-size: 1.2rem;
-        font-weight: 500;
-        padding: 1rem 3rem;
-        border-radius: 50px;
-        width: auto !important;
         top: auto !important;
         right: auto !important;
     }
 
+    /* ICÔNE DE PANIER avec Badge Numérique */
     #theme-toggle {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'/%3E%3Ccircle cx='20' cy='21' r='1'/%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'/%3E%3C/svg%3E") !important;
         position: relative !important;
         top: auto !important;
         left: auto !important;
-        transform: scale(1.2); /* Plus grand sur mobile pour la préhension tactile */
+        transform: none !important;
+    }
+    #theme-toggle::after {
+        content: "1";
+        position: absolute;
+        top: 6px;
+        right: 4px;
+        background: #8c8c8c;
+        color: var(--bg-color);
+        font-size: 9px;
+        font-family: sans-serif;
+        width: 14px;
+        height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1.5px solid var(--bg-color);
+        font-weight: bold;
     }
 
-    /* Ergonomie Tactile Mobile globale */
-    a, button, .timeline-item {
-        min-height: 44px;
-        min-width: 44px;
+    /* MENU BURGER (3 lignes nettes) */
+    .main-header::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.2' stroke-linecap='square' stroke-linejoin='miter'%3E%3Cline x1='4' y1='12' x2='20' y2='12'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E") !important;
+        z-index: 10001;
     }
+    
+    /* Animation Croix Fermeture */
+    .main-header:hover::after,
+    .main-header:focus-within::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.2' stroke-linecap='square' stroke-linejoin='miter'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E") !important;
+        transform: rotate(90deg);
+    }
+
+    /* MENU SUPERPOSÉ ÉLÉGANT (Overlay Dashboard) */
+    .header-contact-modern {
+        position: fixed;
+        top: 0; left: 0; right: 0; height: 100vh;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(25px);
+        z-index: 9999;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
+        border: none !important;
+        margin: 0 !important;
+        padding-top: 60px !important; /* Leave space for header */
+    }
+    .dark-theme .header-contact-modern {
+        background: rgba(18,18,18,0.98);
+    }
+
+    /* Ouverture du menu au survol/clic sur le header */
+    .main-header:hover .header-contact-modern,
+    .main-header:focus-within .header-contact-modern {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    /* Liens Typographie Premium */
+    .contact-badge {
+        font-family: "Didot", "Bodoni MT", "Times New Roman", serif !important;
+        font-size: 1.6rem !important;
+        font-weight: 300 !important;
+        letter-spacing: 2px !important;
+        color: #8c8c8c !important;
+        text-transform: uppercase !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        width: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .contact-badge svg {
+        display: none !important;
+    }
+    .main-header:hover .contact-badge {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .main-header:hover .contact-badge:nth-child(1) { transition-delay: 0.1s; }
+    .main-header:hover .contact-badge:nth-child(2) { transition-delay: 0.2s; }
+    .main-header:hover .contact-badge:nth-child(3) { transition-delay: 0.3s; }
+    .main-header:hover .contact-badge:nth-child(4) { transition-delay: 0.4s; }
 
     /* Images et médias fluides */
     img, video, iframe, canvas {
