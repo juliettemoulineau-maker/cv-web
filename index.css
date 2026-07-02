@@ -973,6 +973,8 @@ div.contact-badge {
         pointer-events: auto;
         margin: 0 !important;
         flex-shrink: 0 !important;
+        min-height: unset !important;
+        min-width: unset !important;
     }
 
     .mobile-burger-btn {
@@ -1580,6 +1582,8 @@ html.js-enabled body.loaded .hero-section {
         pointer-events: auto;
         margin: 0 !important;
         flex-shrink: 0 !important;
+        min-height: unset !important;
+        min-width: unset !important;
         /* Aucune autre règle pour ne pas déformer le bouton Desktop */
     }
 
