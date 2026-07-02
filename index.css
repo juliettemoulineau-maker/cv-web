@@ -1566,20 +1566,9 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Afficher la zone des actions (Thème + Burger) */
+    /* Utiliser display: contents pour que le bouton Thème et Burger deviennent enfants directs du header */
     .header-actions {
-        display: flex !important;
-        align-items: center !important;
-        gap: 15px !important;
-        background: transparent !important;
-        border: none !important;
-        position: static !important;
-        padding: 0 !important;
-        width: auto !important;
-        transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
+        display: contents !important;
     }
 
     /* Masquer LinkedIn sur mobile (il est dans le menu déroulant) */
@@ -1587,20 +1576,23 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Afficher le Theme Toggle, centré dans le header et non déformé */
+    /* Afficher le Theme Toggle exactement comme sur Desktop */
     #theme-toggle {
         display: flex !important;
-        position: absolute !important;
-        left: 50% !important;
-        top: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        margin: 0 !important;
-        /* Rétablissement strict des dimensions du Desktop */
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        margin: 0 auto !important; /* Pour centrer si besoin, mais géré par le flex parent */
+        
+        /* Application stricte des dimensions et blocage de la déformation (Recommandations User) */
         width: 60px !important;
         height: 32px !important;
         border-radius: 50px !important;
         flex-shrink: 0 !important;
         align-self: center !important;
+        border: 2px solid var(--text-color) !important;
+        background: var(--card-bg) !important;
     }
     
     /* Annulation des écrasements de la media query 768px pour restaurer l'apparence originale */
