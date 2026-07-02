@@ -91,10 +91,26 @@ html {
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.6s ease, color 0.3s ease;
     font-family: var(--font);
     overflow-x: hidden;
     line-height: 1.5;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: var(--bg-color);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    transition: background-color 0.15s ease;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Layout Wrapper */
@@ -1769,5 +1785,92 @@ html.js-enabled body.loaded .hero-section {
     img, video, iframe, canvas {
         max-width: 100%;
         height: auto;
+    }
+}
+
+/* ==========================================================================
+   CORRECTIF MOBILE (Sticky Hover & Effet Actif sur Tactile)
+   ========================================================================== */
+@media (max-width: 767px) {
+    /* 1. NEUTRALISATION DU :HOVER PERSISTANT */
+       
+    /* Bouton Light/Dark */
+    .theme-toggle-modern:hover,
+    .theme-toggle-modern:focus,
+    .theme-toggle-modern:focus-visible {
+        border-color: var(--text-color) !important;
+    }
+    .theme-toggle-modern:hover .toggle-thumb,
+    .theme-toggle-modern:focus .toggle-thumb {
+        background-color: var(--text-color) !important;
+    }
+
+    /* Bouton principal CONTACTEZ-MOI (.cta-button) */
+    .cta-button:hover,
+    .cta-button:focus {
+        background-color: var(--orange-signature) !important;
+        color: var(--white) !important;
+        transform: none !important;
+    }
+    .dark-theme .cta-button:hover,
+    .dark-theme .cta-button:focus {
+        background-color: var(--orange-signature) !important;
+        color: var(--white) !important;
+    }
+
+    /* Badge "CONTACTEZ-MOI" (.contact-badge) */
+    a.contact-badge:hover,
+    a.contact-badge:focus {
+        background-color: var(--card-bg) !important;
+        color: var(--text-color) !important;
+        border-color: var(--card-border) !important;
+        transform: none !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03) !important;
+    }
+    .dark-theme a.contact-badge:hover,
+    .dark-theme a.contact-badge:focus {
+        background-color: var(--card-bg) !important;
+        color: var(--text-color) !important;
+        border-color: var(--card-border) !important;
+    }
+
+    /* 2. ACTIVATION AU POINT DE CONTACT (:ACTIVE) */
+       
+    /* Bouton Light/Dark au toucher */
+    .theme-toggle-modern:active {
+        border-color: var(--orange-signature) !important;
+    }
+    .theme-toggle-modern:active .toggle-thumb {
+        background-color: var(--orange-signature) !important;
+    }
+
+    /* Boutons CONTACTEZ-MOI au toucher */
+    .cta-button:active,
+    a.contact-badge:active {
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
+        border-color: #000000 !important;
+        transform: scale(0.95) !important;
+    }
+    
+    .dark-theme .cta-button:active,
+    .dark-theme a.contact-badge:active {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border-color: #FFFFFF !important;
+    }
+
+    /* 3. NETTOYAGE UI TACTILE */
+       
+    .theme-toggle-modern, 
+    .cta-button, 
+    a.contact-badge {
+        -webkit-tap-highlight-color: transparent !important;
+        outline: none !important;
+    }
+
+    .custom-pointer, 
+    .cursor-canvas {
+        display: none !important;
     }
 }
