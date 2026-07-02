@@ -1753,7 +1753,11 @@ html.js-enabled body.loaded .hero-section {
     .call-btn {
         background: var(--orange-signature) !important; /* Orange d'origine du site */
         color: #ffffff !important;
-        padding: 0.6rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 42px;
+        padding: 0 1.5rem;
         border-radius: 50px;
         font-weight: 900;
         font-size: 0.9rem;
