@@ -1758,13 +1758,13 @@ html.js-enabled body.loaded .hero-section {
         color: #ffffff !important;
         padding: 0.6rem 1.5rem;
         border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.95rem;
+        font-weight: 900;
+        font-size: 0.9rem;
         box-shadow: 0 4px 15px rgba(255, 99, 0, 0.4);
         border: none;
         text-align: center;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.05em;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         width: 100%;
         max-width: 220px;
