@@ -1739,7 +1739,7 @@ html.js-enabled body.loaded .hero-section {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 2rem;
+        gap: 1.2rem;
         width: 100%;
     }
 
@@ -1754,19 +1754,21 @@ html.js-enabled body.loaded .hero-section {
     }
 
     .call-btn {
-        margin-top: 1rem;
         background: var(--orange-signature) !important; /* Orange d'origine du site */
         color: #ffffff !important;
-        padding: 1.2rem 3.5rem;
+        padding: 0.8rem 2rem;
         border-radius: 50px;
         font-weight: 700;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         box-shadow: 0 4px 15px rgba(255, 99, 0, 0.4);
         border: none;
         text-align: center;
         text-transform: uppercase;
         letter-spacing: 1px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        max-width: 260px;
+        box-sizing: border-box;
     }
     .call-btn:hover {
         transform: scale(1.05);
@@ -1818,6 +1820,14 @@ html.js-enabled body.loaded .hero-section {
         color: var(--white) !important;
     }
 
+    /* Bouton d'appel mobile (.call-btn) */
+    .call-btn:hover,
+    .call-btn:focus {
+        transform: none !important;
+        box-shadow: 0 4px 15px rgba(255, 99, 0, 0.4) !important;
+        color: #ffffff !important;
+    }
+
     /* Badge "CONTACTEZ-MOI" (.contact-badge) */
     a.contact-badge:hover,
     a.contact-badge:focus {
@@ -1846,7 +1856,8 @@ html.js-enabled body.loaded .hero-section {
 
     /* Boutons CONTACTEZ-MOI au toucher */
     .cta-button:active,
-    a.contact-badge:active {
+    a.contact-badge:active,
+    .call-btn:active {
         background-color: #000000 !important;
         color: #FFFFFF !important;
         border-color: #000000 !important;
@@ -1854,7 +1865,8 @@ html.js-enabled body.loaded .hero-section {
     }
     
     .dark-theme .cta-button:active,
-    .dark-theme a.contact-badge:active {
+    .dark-theme a.contact-badge:active,
+    .dark-theme .call-btn:active {
         background-color: #FFFFFF !important;
         color: #000000 !important;
         border-color: #FFFFFF !important;
@@ -1864,7 +1876,8 @@ html.js-enabled body.loaded .hero-section {
        
     .theme-toggle-modern, 
     .cta-button, 
-    a.contact-badge {
+    a.contact-badge,
+    .call-btn {
         -webkit-tap-highlight-color: transparent !important;
         outline: none !important;
     }
