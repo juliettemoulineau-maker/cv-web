@@ -1486,7 +1486,7 @@ html.js-enabled body.loaded .hero-section {
     /* Unités relatives pour fluidité globale */
     .layout-wrapper {
         padding: 1.5rem 1rem;
-        padding-top: 80px; /* Compensate for fixed header */
+        padding-top: 70px; /* Compensate for fixed header */
     }
     
     /* Listes/Grilles sur 1 seule colonne */
@@ -1525,252 +1525,183 @@ html.js-enabled body.loaded .hero-section {
     }
     
     /* ----------------------------------------------------
-       HEADER LUXE & MATÉRIEL (100% CSS)
+       HEADER MOBILE ÉPURÉ & PROFESSIONNEL
        ---------------------------------------------------- */
     .main-header {
         position: fixed !important;
         top: 0; left: 0; width: 100%;
-        height: 65px;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(25px) saturate(200%);
-        -webkit-backdrop-filter: blur(25px) saturate(200%);
-        border-bottom: 1px solid rgba(140, 140, 140, 0.3);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        height: 60px;
+        background: var(--bg-color);
+        border-bottom: 1px solid rgba(128,128,128,0.1);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 1rem;
+        padding: 0 1.5rem;
         margin: 0 !important;
         z-index: 10000;
-        transition: background 0.4s ease, border-color 0.4s ease;
-    }
-    .dark-theme .main-header {
-        background: rgba(18, 18, 18, 0.75);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
     
-    .main-header:hover,
-    .main-header:focus-within {
-        background: rgba(255, 255, 255, 0.98);
-        border-bottom-color: transparent;
-    }
-    .dark-theme .main-header:hover,
-    .dark-theme .main-header:focus-within {
-        background: rgba(18, 18, 18, 0.98);
-    }
-
-    /* LOGO PREMIUM (Compass + Typo) */
-    .header-logo #header-logo-lottie {
+    /* Masquer le contenu de bureau dans le header */
+    .header-contact-modern, .header-actions {
         display: none !important;
     }
+
+    /* Conserver le logo original intact, l'adapter à la taille mobile */
     .header-logo {
         position: relative;
         z-index: 10001;
-        width: auto !important;
-        height: 44px !important;
+        width: 40px !important; /* Taille pour mobile */
+        height: 40px !important;
         display: flex !important;
         align-items: center;
-        gap: 8px;
     }
-    .header-logo::before {
-        content: "";
-        display: block;
-        width: 20px;
-        height: 20px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolygon points='16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
+    .header-logo #header-logo-lottie {
+        display: block !important;
+        width: 100%;
+        height: 100%;
     }
-    .header-logo::after {
-        content: "JULIETTE";
-        font-family: "Didot", "Bodoni MT", "Times New Roman", serif;
-        font-size: 1.1rem;
-        font-weight: 400;
-        letter-spacing: 3px;
-        background: linear-gradient(135deg, #a8a8a8 0%, #d4d4d4 50%, #8c8c8c 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-transform: uppercase;
-        margin-top: 2px;
-    }
-
-    /* GROUPE ICÔNES UI À DROITE */
-    .header-actions {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        position: static !important;
-        width: auto !important;
-        background: transparent !important;
-        border: none !important;
-        gap: 4px !important;
-        padding: 0 !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-        transform: none !important;
-        z-index: 10001;
-    }
-
-    /* Nettoyage des éléments d'origine */
-    .linkedin-pill span,
-    #theme-toggle svg, 
-    #theme-toggle .toggle-thumb {
+    /* Supprimer les ajouts luxe sur le logo */
+    .header-logo::before, .header-logo::after {
         display: none !important;
     }
 
-    /* Configuration commune des icônes UI (44x44 pour le tactile, icône 20x20) */
-    .header-actions::before,
-    .linkedin-pill,
-    #theme-toggle,
+    /* Icône Menu Burger Discrète */
     .main-header::after {
         content: "";
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 44px !important;
-        height: 44px !important;
+        display: block;
+        width: 44px;
+        height: 44px;
         cursor: pointer;
-        background-size: 20px 20px !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        transition: all 0.4s ease;
-        padding: 0 !important;
-        margin: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
-        background-color: transparent !important;
-        color: transparent !important;
-    }
-
-    /* ICÔNE DE RECHERCHE -> Input au clic */
-    .header-actions::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
-    }
-    .header-actions:hover::before,
-    .header-actions:active::before {
-        width: 120px !important;
-        background-image: none !important;
-        border-bottom: 1px solid #8c8c8c !important;
-        content: "Search..." !important;
-        color: #8c8c8c !important;
-        font-family: sans-serif;
-        font-size: 11px;
-        font-weight: 300;
-        letter-spacing: 1px;
-        justify-content: flex-start;
-        padding-left: 5px !important;
-    }
-
-    /* ICÔNE DE PROFIL (Avatar Luxe) */
-    .linkedin-pill {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E") !important;
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
-    }
-
-    /* ICÔNE DE PANIER avec Badge Numérique */
-    #theme-toggle {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'/%3E%3Ccircle cx='20' cy='21' r='1'/%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'/%3E%3C/svg%3E") !important;
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-    }
-    #theme-toggle::after {
-        content: "1";
-        position: absolute;
-        top: 6px;
-        right: 4px;
-        background: #8c8c8c;
-        color: var(--bg-color);
-        font-size: 9px;
-        font-family: sans-serif;
-        width: 14px;
-        height: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        border: 1.5px solid var(--bg-color);
-        font-weight: bold;
-    }
-
-    /* MENU BURGER (3 lignes nettes) */
-    .main-header::after {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.2' stroke-linecap='square' stroke-linejoin='miter'%3E%3Cline x1='4' y1='12' x2='20' y2='12'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E") !important;
+        /* Icône SVG 3 lignes fines */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='12' x2='20' y2='12'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
+        background-size: 24px 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: none;
+        position: relative;
         z-index: 10001;
+        transition: transform 0.3s ease;
     }
-    
-    /* Animation Croix Fermeture */
-    .main-header:hover::after,
-    .main-header:focus-within::after {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8c8c' stroke-width='1.2' stroke-linecap='square' stroke-linejoin='miter'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E") !important;
+    .dark-theme .main-header::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='12' x2='20' y2='12'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
+    }
+
+    /* Transformer le burger en croix quand l'overlay est ouvert */
+    .main-header:focus-within::after,
+    .main-header:hover::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
         transform: rotate(90deg);
     }
+    .dark-theme .main-header:focus-within::after,
+    .dark-theme .main-header:hover::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+    }
 
-    /* MENU SUPERPOSÉ ÉLÉGANT (Overlay Dashboard) */
-    .header-contact-modern {
+    /* ----------------------------------------------------
+       OVERLAY MENU (Contenu Mobile Only)
+       ---------------------------------------------------- */
+    /* Afficher le menu mobile personnalisé */
+    .mobile-only-menu {
         position: fixed;
         top: 0; left: 0; right: 0; height: 100vh;
-        background: rgba(255,255,255,0.98);
-        backdrop-filter: blur(25px);
+        background: var(--bg-color);
         z-index: 9999;
-        display: flex !important;
+        display: flex !important; /* Force l'affichage masqué sur desktop */
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 3rem;
+        padding-top: 60px; /* Évite le header */
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
-        border: none !important;
-        margin: 0 !important;
-        padding-top: 60px !important; /* Leave space for header */
+        transition: opacity 0.4s ease, visibility 0.4s;
     }
-    .dark-theme .header-contact-modern {
-        background: rgba(18,18,18,0.98);
-    }
-
-    /* Ouverture du menu au survol/clic sur le header */
-    .main-header:hover .header-contact-modern,
-    .main-header:focus-within .header-contact-modern {
+    
+    .main-header:hover ~ .mobile-only-menu,
+    .main-header:focus-within ~ .mobile-only-menu,
+    .mobile-only-menu:hover {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
     }
 
-    /* Liens Typographie Premium */
-    .contact-badge {
-        font-family: "Didot", "Bodoni MT", "Times New Roman", serif !important;
-        font-size: 1.6rem !important;
-        font-weight: 300 !important;
-        letter-spacing: 2px !important;
-        color: #8c8c8c !important;
-        text-transform: uppercase !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
+    .mobile-menu-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        margin-bottom: 3rem;
+        width: 100%;
+    }
+
+    .mobile-nav-link {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: var(--text-color);
+        text-decoration: none;
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 0.4s ease, transform 0.4s ease;
-        width: auto !important;
-        padding: 0 !important;
-        margin: 0 !important;
     }
-    .contact-badge svg {
-        display: none !important;
-    }
-    .main-header:hover .contact-badge {
+    
+    .main-header:hover ~ .mobile-only-menu .mobile-nav-link,
+    .mobile-only-menu:hover .mobile-nav-link {
         opacity: 1;
         transform: translateY(0);
     }
-    .main-header:hover .contact-badge:nth-child(1) { transition-delay: 0.1s; }
-    .main-header:hover .contact-badge:nth-child(2) { transition-delay: 0.2s; }
-    .main-header:hover .contact-badge:nth-child(3) { transition-delay: 0.3s; }
-    .main-header:hover .contact-badge:nth-child(4) { transition-delay: 0.4s; }
+    .main-header:hover ~ .mobile-only-menu .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+    .main-header:hover ~ .mobile-only-menu .mobile-nav-link:nth-child(2) { transition-delay: 0.15s; }
+    .main-header:hover ~ .mobile-only-menu .mobile-nav-link:nth-child(3) { transition-delay: 0.2s; }
+
+    .mobile-menu-contact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        width: 80%;
+        border-top: 1px solid rgba(128,128,128,0.2);
+        padding-top: 2rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
+    }
+    .main-header:hover ~ .mobile-only-menu .mobile-menu-contact,
+    .mobile-only-menu:hover .mobile-menu-contact {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .mobile-contact-link {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        padding: 0.5rem;
+        transition: color 0.3s ease;
+    }
+    .mobile-contact-link:hover {
+        color: var(--orange-signature);
+    }
+
+    .call-btn {
+        margin-top: 1rem;
+        background: var(--text-color);
+        color: var(--bg-color);
+        padding: 1rem 3rem;
+        border-radius: 50px;
+        font-weight: 500;
+        font-size: 1.2rem;
+    }
+    .call-btn:hover {
+        color: var(--bg-color);
+        opacity: 0.9;
+    }
+
+    /* Ergonomie Tactile Mobile globale */
+    a, button, .timeline-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
 
     /* Images et médias fluides */
     img, video, iframe, canvas {
