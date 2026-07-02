@@ -950,29 +950,33 @@ div.contact-badge {
         height: 12px;
     }
 
-    .header-actions {
-        display: contents;
-    }
-
-    #theme-toggle {
-        grid-column: 1;
-        justify-self: start;
-        align-self: center !important;
-        margin: 0 !important;
-        flex-shrink: 0 !important;
-    }
-
     .header-logo {
         grid-column: 2;
+        grid-row: 1;
         justify-self: center;
         align-self: center !important;
         margin: 0 !important;
     }
 
+    .header-actions {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    #theme-toggle {
+        pointer-events: auto;
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
     .mobile-burger-btn {
-        grid-column: 3;
-        justify-self: end;
-        align-self: center !important;
+        pointer-events: auto;
         margin: 0 !important;
     }
 
@@ -1534,6 +1538,7 @@ html.js-enabled body.loaded .hero-section {
     /* Conserver le logo original intact, l'adapter à la taille mobile */
     .header-logo {
         grid-column: 2;
+        grid-row: 1;
         justify-self: center;
         align-self: center !important;
         margin: 0 !important;
@@ -1554,9 +1559,16 @@ html.js-enabled body.loaded .hero-section {
         display: none !important;
     }
 
-    /* Utiliser display: contents pour que le bouton Thème et Burger deviennent enfants directs du header */
+    /* Évite display: contents (buggy sur Safari). La div s'étend sur toute la grille. */
     .header-actions {
-        display: contents !important;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Laisse passer les clics au logo */
     }
 
     /* Masquer LinkedIn sur mobile (il est dans le menu déroulant) */
@@ -1565,9 +1577,7 @@ html.js-enabled body.loaded .hero-section {
     }
 
     #theme-toggle {
-        grid-column: 1;
-        justify-self: start;
-        align-self: center !important;
+        pointer-events: auto;
         margin: 0 !important;
         flex-shrink: 0 !important;
         /* Aucune autre règle pour ne pas déformer le bouton Desktop */
@@ -1575,9 +1585,7 @@ html.js-enabled body.loaded .hero-section {
 
     /* Nouveau Burger Bouton (JS) */
     .mobile-burger-btn {
-        grid-column: 3;
-        justify-self: end;
-        align-self: center !important;
+        pointer-events: auto;
         margin: 0 !important;
         display: flex !important;
         align-items: center;
