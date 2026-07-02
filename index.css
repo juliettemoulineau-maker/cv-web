@@ -422,14 +422,12 @@ div.contact-badge {
 
 /* Custom exit directions to prevent infinite layout shift jumping */
 .timeline-item.exit-bottom,
-.formation-card.exit-bottom,
-.interest-block.exit-bottom {
+.formation-card.exit-bottom {
     transform: translateY(20px);
 }
 
 .timeline-item.exit-top,
-.formation-card.exit-top,
-.interest-block.exit-top {
+.formation-card.exit-top {
     transform: translateY(-20px);
 }
 
@@ -727,10 +725,12 @@ div.contact-badge {
     transform: scale(1.01);
 }
 
-/* Centres d'Intérêt Section (Footer Badge Blocks) */
+/* Centres d'Intérêt Section (Premium Marquee) */
 .interests-section {
     margin-top: 6rem;
     margin-bottom: 6rem;
+    overflow: hidden;
+    width: 100%;
 }
 
 .text-center {
@@ -738,70 +738,74 @@ div.contact-badge {
     width: 100%;
 }
 
-.interests-frieze {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 2.5rem;
-    width: 100%;
-}
-
-.interest-block {
+.marquee-wrapper {
+    width: 100vw;
     position: relative;
-    display: inline-flex;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 2.5rem;
+    background-color: var(--card-bg);
+    border-top: 2px solid var(--orange-signature);
+    border-bottom: 2px solid var(--orange-signature);
+    padding: 1.5rem 0;
+    overflow: hidden;
+    cursor: default;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-marquee 25s linear infinite;
+    transition: transform 0.3s ease;
+}
+
+.marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.marquee-content {
+    display: flex;
     align-items: center;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0.3rem 0;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--text-color);
-    cursor: default !important;
-    transition: opacity 0.3s var(--ease),
-                transform 0.3s var(--ease);
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: auto !important;
+    justify-content: space-around;
 }
 
-.interest-block * {
-    cursor: default !important;
-}
-
-.interest-block.visible {
-    opacity: 0.85;
-    transform: translateY(0);
-}
-
-/* Editorial Separators */
-.interest-block:not(:last-child)::after {
-    content: "◆";
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-    color: var(--orange-signature);
+.marquee-item {
+    font-size: 1.8rem;
     font-weight: 900;
-    font-style: normal;
-    font-size: 0.75rem;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 1;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 2rem;
+    white-space: nowrap;
+    transition: transform 0.3s var(--ease), color 0.3s ease;
 }
 
-/* Contemplative Hover Effect: fade others, highlight/scale hovered item */
-.interests-frieze:hover .interest-block {
-    opacity: 0.5;
+.dark-theme .marquee-wrapper {
+    background-color: var(--bg-color);
 }
 
-.interests-frieze:hover .interest-block:hover {
+.marquee-wrapper:hover .marquee-item {
+    opacity: 0.4;
+}
+
+.marquee-wrapper:hover .marquee-item:hover {
     opacity: 1;
-    transform: scale(1.05);
+    color: var(--orange-signature);
+    -webkit-text-stroke: 0px transparent;
+    transform: scale(1.1) rotate(-2deg);
 }
 
-.dark-theme .interest-block {
-    color: var(--white);
+.marquee-separator {
+    display: flex;
+    align-items: center;
+    color: var(--orange-signature);
+    padding: 0 1rem;
+    font-size: 1.5rem;
+}
+
+@keyframes scroll-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 /* Footer styling */
@@ -1090,19 +1094,17 @@ div.contact-badge {
         margin-bottom: 4rem;
     }
 
-    .interests-frieze {
-        margin-top: 1.5rem;
-        gap: 0.5rem;
+    .marquee-wrapper {
+        padding: 1rem 0;
     }
 
-    .interest-block {
-        font-size: 0.8rem;
+    .marquee-item {
+        font-size: 1.4rem;
+        padding: 0 1rem;
     }
 
-    .interest-block:not(:last-child)::after {
-        margin-left: 0.8rem;
-        margin-right: 0.3rem;
-        font-size: 0.6rem;
+    .marquee-separator {
+        font-size: 1.2rem;
     }
     
     .site-footer {
@@ -1432,4 +1434,213 @@ html.js-enabled body.loaded .hero-section {
     }
 }
 
+/* ==========================================================================
+   NOUVEAUX BREAKPOINTS RESPONSIVE (AJOUT)
+   Respect total de l'existant + optimisation Mobile/Tablette
+   ========================================================================== */
 
+/* TABLETTE (Entre 768px et 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .layout-wrapper {
+        padding: 2rem;
+    }
+    
+    /* Passer les grilles sur 2 colonnes */
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+    
+    .formations-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .skills-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        align-items: start;
+    }
+    
+    .certification-voltaire-card {
+        grid-column: 1 / -1;
+    }
+
+    /* Images et médias fluides */
+    img, video, iframe {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Ergonomie tactile tablette */
+    a, button, .contact-badge {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* MOBILE (Moins de 768px) */
+@media (max-width: 767px) {
+    /* Unités relatives pour fluidité */
+    .layout-wrapper {
+        padding: 1.5rem 1rem;
+    }
+    
+    /* Listes/Grilles sur 1 seule colonne */
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .formations-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .skills-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    /* Adapter la taille des textes avec des unités relatives */
+    .hero-title {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+    .hero-subtitle {
+        font-size: clamp(1rem, 4.5vw, 1.2rem);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .subtitle-separator {
+        display: none;
+    }
+    .section-title {
+        font-size: clamp(1.8rem, 6vw, 2.2rem);
+    }
+    
+    /* ----------------------------------------------------
+       MENU BURGER (CSS Only - Hack via hover/active)
+       ---------------------------------------------------- */
+    .main-header {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+        z-index: 100;
+    }
+
+    /* Bouton Burger fictif */
+    .main-header::after {
+        content: "☰";
+        font-size: 1.5rem;
+        color: var(--text-color);
+        cursor: pointer;
+        border: 2px solid var(--orange-signature);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--card-bg);
+        transition: all 0.3s ease;
+    }
+
+    /* Changement du logo Burger au clic */
+    .main-header:hover::after,
+    .main-header:active::after,
+    .main-header:focus-within::after {
+        content: "✕";
+        color: var(--white);
+        background: var(--orange-signature);
+    }
+
+    /* Masquer le menu par défaut et le préparer en colonne */
+    .header-contact-modern,
+    .header-actions {
+        display: none !important;
+        width: 100%;
+        order: 3;
+    }
+
+    /* Afficher le menu au survol/clic */
+    .main-header:hover .header-contact-modern,
+    .main-header:active .header-contact-modern,
+    .main-header:focus-within .header-contact-modern {
+        display: flex !important;
+        flex-direction: column;
+        background: var(--card-bg);
+        border: 2px solid var(--orange-signature);
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+        padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+        margin-top: 1rem;
+        gap: 0.8rem;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .main-header:hover .header-actions,
+    .main-header:active .header-actions,
+    .main-header:focus-within .header-actions {
+        display: flex !important;
+        flex-direction: column;
+        background: var(--card-bg);
+        border: 2px solid var(--orange-signature);
+        border-top: none;
+        border-radius: 0 0 12px 12px;
+        padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    /* Ajustement des éléments du menu */
+    .header-contact-modern .contact-badge {
+        width: 100%;
+        justify-content: center;
+        margin: 0;
+    }
+    
+    .header-actions .linkedin-pill {
+        position: relative !important;
+        width: 100%;
+        text-align: center;
+        margin: 0 !important;
+        top: auto !important;
+        right: auto !important;
+    }
+
+    #theme-toggle {
+        position: relative !important;
+        margin: 0 auto;
+        top: auto !important;
+        left: auto !important;
+    }
+
+    /* Ergonomie Tactile Mobile (Min 44x44px) */
+    a, button, .contact-badge, .linkedin-pill, #theme-toggle {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .contact-badge {
+        padding: 0.8rem 1rem !important;
+    }
+
+    /* Images et médias fluides */
+    img, video, iframe, canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
